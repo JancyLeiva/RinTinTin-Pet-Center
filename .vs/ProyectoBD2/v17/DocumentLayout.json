@@ -1,0 +1,124 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Usuario\\Documents\\BD2\\Proyecto\\RinTinTin-Pet-Center\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{AEA1E40B-30DB-4590-98F2-F63B17C5F053}|ProyectoBD2.csproj|c:\\users\\usuario\\documents\\bd2\\proyecto\\rintintin-pet-center\\dataaccess\\dbaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AEA1E40B-30DB-4590-98F2-F63B17C5F053}|ProyectoBD2.csproj|solutionrelative:dataaccess\\dbaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AEA1E40B-30DB-4590-98F2-F63B17C5F053}|ProyectoBD2.csproj|c:\\users\\usuario\\documents\\bd2\\proyecto\\rintintin-pet-center\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AEA1E40B-30DB-4590-98F2-F63B17C5F053}|ProyectoBD2.csproj|solutionrelative:services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AEA1E40B-30DB-4590-98F2-F63B17C5F053}|ProyectoBD2.csproj|c:\\users\\usuario\\documents\\bd2\\proyecto\\rintintin-pet-center\\services\\sessionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AEA1E40B-30DB-4590-98F2-F63B17C5F053}|ProyectoBD2.csproj|solutionrelative:services\\sessionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AEA1E40B-30DB-4590-98F2-F63B17C5F053}|ProyectoBD2.csproj|c:\\users\\usuario\\documents\\bd2\\proyecto\\rintintin-pet-center\\windows\\loginwindow.axaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AEA1E40B-30DB-4590-98F2-F63B17C5F053}|ProyectoBD2.csproj|solutionrelative:windows\\loginwindow.axaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AEA1E40B-30DB-4590-98F2-F63B17C5F053}|ProyectoBD2.csproj|c:\\users\\usuario\\documents\\bd2\\proyecto\\rintintin-pet-center\\windows\\loginwindow.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}",
+      "RelativeMoniker": "D:0:0:{AEA1E40B-30DB-4590-98F2-F63B17C5F053}|ProyectoBD2.csproj|solutionrelative:windows\\loginwindow.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SessionService.cs",
+              "DocumentMoniker": "C:\\Users\\Usuario\\Documents\\BD2\\Proyecto\\RinTinTin-Pet-Center\\Services\\SessionService.cs",
+              "RelativeDocumentMoniker": "Services\\SessionService.cs",
+              "ToolTip": "C:\\Users\\Usuario\\Documents\\BD2\\Proyecto\\RinTinTin-Pet-Center\\Services\\SessionService.cs",
+              "RelativeToolTip": "Services\\SessionService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABSAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-15T23:52:18.148Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DBAccess.cs",
+              "DocumentMoniker": "C:\\Users\\Usuario\\Documents\\BD2\\Proyecto\\RinTinTin-Pet-Center\\DataAccess\\DBAccess.cs",
+              "RelativeDocumentMoniker": "DataAccess\\DBAccess.cs",
+              "ToolTip": "C:\\Users\\Usuario\\Documents\\BD2\\Proyecto\\RinTinTin-Pet-Center\\DataAccess\\DBAccess.cs",
+              "RelativeToolTip": "DataAccess\\DBAccess.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-15T23:04:22.883Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LoginWindow.axaml.cs",
+              "DocumentMoniker": "C:\\Users\\Usuario\\Documents\\BD2\\Proyecto\\RinTinTin-Pet-Center\\Windows\\LoginWindow.axaml.cs",
+              "RelativeDocumentMoniker": "Windows\\LoginWindow.axaml.cs",
+              "ToolTip": "C:\\Users\\Usuario\\Documents\\BD2\\Proyecto\\RinTinTin-Pet-Center\\Windows\\LoginWindow.axaml.cs",
+              "RelativeToolTip": "Windows\\LoginWindow.axaml.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAiwCsAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-15T23:11:26.626Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "C:\\Users\\Usuario\\Documents\\BD2\\Proyecto\\RinTinTin-Pet-Center\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "Services\\AuthService.cs",
+              "ToolTip": "C:\\Users\\Usuario\\Documents\\BD2\\Proyecto\\RinTinTin-Pet-Center\\Services\\AuthService.cs",
+              "RelativeToolTip": "Services\\AuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-15T22:59:17.138Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "LoginWindow.axaml",
+              "DocumentMoniker": "C:\\Users\\Usuario\\Documents\\BD2\\Proyecto\\RinTinTin-Pet-Center\\Windows\\LoginWindow.axaml",
+              "RelativeDocumentMoniker": "Windows\\LoginWindow.axaml",
+              "ToolTip": "C:\\Users\\Usuario\\Documents\\BD2\\Proyecto\\RinTinTin-Pet-Center\\Windows\\LoginWindow.axaml",
+              "RelativeToolTip": "Windows\\LoginWindow.axaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-04-15T22:46:21.603Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

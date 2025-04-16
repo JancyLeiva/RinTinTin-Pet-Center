@@ -4,6 +4,9 @@ using Avalonia.Interactivity;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
+using System.Data;
+using ProyectoBD2.DataAccess;
 using ProyectoBD2.Models;
 
 namespace ProyectoBD2;
