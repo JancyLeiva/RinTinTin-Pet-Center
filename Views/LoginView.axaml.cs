@@ -9,11 +9,11 @@ using System;
 
 namespace ProyectoBD2.Windows
 {
-    public partial class LoginWindow : Window
+    public partial class LoginView : Window
     {
         private TextBox? _usernameTextBox; private TextBox? _passwordTextBox;
 
-    public LoginWindow()
+    public LoginView()
         {
             InitializeComponent();
 
@@ -31,7 +31,7 @@ namespace ProyectoBD2.Windows
 
             if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(contrasena))
             {
-                await ShowMessage("Debe ingresar usuario y contraseña.");
+                await ShowMessage("Debe ingresar usuario y contraseï¿½a.");
                 return;
             }
 

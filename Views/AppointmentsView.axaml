@@ -1,0 +1,107 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:ProyectoBD2.Models"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ProyectoBD2.Views.AppointmentsView"
+             x:DataType="models:Appointment">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header with title -->
+        <TextBlock Text="Gestión de Citas" FontSize="24" FontWeight="Bold" Grid.Row="0" Margin="0,0,0,15"/>
+        
+        <!-- Filter and search bar -->
+        <Grid Grid.Row="0" Margin="0,40,0,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- Department filter -->
+            <ComboBox Grid.Column="0" x:Name="DepartmentComboBox" PlaceholderText="Seleccionar departamento" HorizontalAlignment="Stretch">
+                <ComboBoxItem>Veterinaria</ComboBoxItem>
+                <ComboBoxItem>Salón de Belleza</ComboBoxItem>
+                <ComboBoxItem>Todos</ComboBoxItem>
+            </ComboBox>
+            
+            <!-- Search bar -->
+            <TextBox Grid.Column="2" x:Name="SearchTextBox" Watermark="Buscar citas..." />
+        </Grid>
+        
+        <!-- Appointments DataGrid -->
+        <DataGrid Grid.Row="1"
+                  x:Name="AppointmentsDataGrid"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  GridLinesVisibility="All"
+                  BorderThickness="1"
+                  BorderBrush="Gray"
+                  Margin="0,10,0,10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding CitaID}" Width="60"/>
+                <DataGridTextColumn Header="Cliente" Binding="{Binding ClienteNombre}" Width="*"/>
+                <DataGridTextColumn Header="Mascota" Binding="{Binding MascotaNombre}" Width="*"/>
+                <DataGridTextColumn Header="Servicio" Binding="{Binding ServicioNombre}" Width="*"/>
+                <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" Width="100"/>
+                <DataGridTemplateColumn Header="Fecha Inicio" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="models:Appointment">
+                            <TextBlock Text="{Binding FechaInicio, StringFormat={}{0:dd/MM/yyyy HH:mm}}" 
+                                       VerticalAlignment="Center"
+                                       Margin="5,0"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Fecha Fin" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="models:Appointment">
+                            <TextBlock Text="{Binding FechaFin, StringFormat={}{0:dd/MM/yyyy HH:mm}}"
+                                       VerticalAlignment="Center"
+                                       Margin="5,0"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridCheckBoxColumn Header="Emergencia" Binding="{Binding EsEmergencia}" Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <!-- Action buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15" Margin="0,15,0,0">
+            <Button x:Name="AddAppointmentButton" 
+                    Content="Agregar Cita" 
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Width="150" 
+                    Height="40"
+                    Background="#0078D4"
+                    Foreground="White"/>
+            
+            <Button x:Name="EditAppointmentButton" 
+                    Content="Editar Cita"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Width="150" 
+                    Height="40"
+                    IsEnabled="{Binding ElementName=AppointmentsDataGrid, Path=SelectedItem, Converter={x:Static ObjectConverters.IsNotNull}}"
+                    Background="#218838"
+                    Foreground="White"/>
+            
+            <Button x:Name="DeleteAppointmentButton" 
+                    Content="Eliminar Cita"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Width="150" 
+                    Height="40"
+                    IsEnabled="{Binding ElementName=AppointmentsDataGrid, Path=SelectedItem, Converter={x:Static ObjectConverters.IsNotNull}}"
+                    Background="#DC3545"
+                    Foreground="White"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

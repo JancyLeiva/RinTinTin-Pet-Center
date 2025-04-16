@@ -7,5 +7,11 @@
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+        <Style Selector="Button.NavButton:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#3098EA"/>
+        </Style>
+        <Style Selector="Button.NavButton:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="#206EA9"/>
+        </Style>
     </Application.Styles>
 </Application>

@@ -1,0 +1,81 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="600"
+        Width="450" Height="600"
+        x:Class="ProyectoBD2.Windows.AppointmentDialog"
+        Title="Nueva Cita"
+        WindowStartupLocation="CenterOwner">
+    
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Información de la Cita" FontSize="20" FontWeight="Bold" Margin="0,0,0,20"/>
+        
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="15">
+                <!-- Cliente -->
+                <StackPanel>
+                    <TextBlock Text="Cliente" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <ComboBox x:Name="ClienteComboBox" HorizontalAlignment="Stretch" PlaceholderText="Seleccionar cliente"/>
+                </StackPanel>
+                
+                <!-- Mascota -->
+                <StackPanel>
+                    <TextBlock Text="Mascota" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <ComboBox x:Name="MascotaComboBox" HorizontalAlignment="Stretch" PlaceholderText="Seleccionar mascota"/>
+                </StackPanel>
+                
+                <!-- Servicio -->
+                <StackPanel>
+                    <TextBlock Text="Servicio" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <ComboBox x:Name="ServicioComboBox" HorizontalAlignment="Stretch" PlaceholderText="Seleccionar servicio"/>
+                </StackPanel>
+                
+                <!-- Estado -->
+                <StackPanel>
+                    <TextBlock Text="Estado" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <ComboBox x:Name="EstadoComboBox" HorizontalAlignment="Stretch">
+                        <ComboBoxItem>Pendiente</ComboBoxItem>
+                        <ComboBoxItem>Confirmada</ComboBoxItem>
+                        <ComboBoxItem>Completada</ComboBoxItem>
+                        <ComboBoxItem>Cancelada</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+                
+                <!-- Fecha y Hora Inicio -->
+                <StackPanel>
+                    <TextBlock Text="Fecha y Hora de Inicio" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <Grid ColumnDefinitions="*,15,*">
+                        <DatePicker Grid.Column="0" x:Name="FechaInicioPicker" HorizontalAlignment="Stretch"/>
+                        <TimePicker Grid.Column="2" x:Name="HoraInicioPicker" HorizontalAlignment="Stretch"/>
+                    </Grid>
+                </StackPanel>
+                
+                <!-- Fecha y Hora Fin -->
+                <StackPanel>
+                    <TextBlock Text="Fecha y Hora de Fin" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <Grid ColumnDefinitions="*,15,*">
+                        <DatePicker Grid.Column="0" x:Name="FechaFinPicker" HorizontalAlignment="Stretch"/>
+                        <TimePicker Grid.Column="2" x:Name="HoraFinPicker" HorizontalAlignment="Stretch"/>
+                    </Grid>
+                </StackPanel>
+                
+                <!-- Es Emergencia -->
+                <CheckBox x:Name="EsEmergenciaCheckBox" Content="Es Emergencia" />
+            </StackPanel>
+        </ScrollViewer>
+        
+        <!-- Buttons -->
+        <Grid Grid.Row="2" ColumnDefinitions="*,*" Margin="0,20,0,0" HorizontalAlignment="Center" >
+            <Button Grid.Column="0" x:Name="CancelButton" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Cancelar" Width="120" Margin="0,0,10,0"/>
+            <Button Grid.Column="1" x:Name="SaveButton" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Guardar" Width="120" Margin="10,0,0,0" 
+                    Background="#0078D4" Foreground="White"/>
+        </Grid>
+    </Grid>
+</Window>
