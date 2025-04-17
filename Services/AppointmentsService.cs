@@ -29,4 +29,18 @@ public static class AppointmentsService
             throw;
         }
     }
+
+    public static DataTable FindAreas()
+    {
+        try
+        {
+            return DBAccess.ExecuteSqlQueryToDataTable("SELECT * FROM dbPrj.vArea");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+    
 }

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using ProyectoBD2.Models;
 using System;
 using System.Data;
+using System.Linq;
 using ProyectoBD2.Services;
 
 namespace ProyectoBD2.Views
@@ -10,19 +11,32 @@ namespace ProyectoBD2.Views
     public partial class AppointmentsView : UserControl
     {
         private ObservableCollection<Appointment>? _appointments;
+        private ObservableCollection<string>? _areas;
 
         public AppointmentsView()
         {
             InitializeComponent();
             LoadAppointments();
+            LoadAreas();
 
             // Set up event handlers
-            // DepartmentComboBox.SelectionChanged += (s, e) => FilterAppointments();
-            // SearchTextBox.TextChanged += (s, e) => FilterAppointments();
+            DepartmentComboBox.SelectionChanged += (s, e) => FilterAppointments();
+            SearchTextBox.TextChanged += (s, e) => FilterAppointments();
 
             // AddAppointmentButton.Click += async (s, e) => await AddAppointment();
             // EditAppointmentButton.Click += async (s, e) => await EditAppointment();
             // DeleteAppointmentButton.Click += (s, e) => DeleteAppointment();
+        }
+
+        private void LoadAreas()
+        {
+            _areas = ["Todas"];
+            var data = AppointmentsService.FindAreas();
+            foreach (DataRow row in data.Rows)
+            {
+                _areas.Add((string)row["Area"]);
+            }
+            DepartmentComboBox.ItemsSource = _areas;
         }
 
         private void LoadAppointments()
@@ -34,9 +48,9 @@ namespace ProyectoBD2.Views
                 const string? date = "2025-04-19";
                 _appointments = [];
         
-                var appointmentsData = AppointmentsService.FindAll(serviceTypeId, queryMode, date);
+                var data = AppointmentsService.FindAll(serviceTypeId, queryMode, date);
 
-                foreach (DataRow row in appointmentsData.Rows)
+                foreach (DataRow row in data.Rows)
                 {
                     _appointments.Add(new Appointment
                     {
@@ -53,7 +67,7 @@ namespace ProyectoBD2.Views
                 }
         
                 AppointmentsDataGrid.ItemsSource = _appointments;
-                Console.WriteLine($"Loaded {appointmentsData.Rows.Count} appointments");
+                Console.WriteLine($"Loaded {data.Rows.Count} appointments");
             }
             catch (Exception ex)
             {
@@ -62,77 +76,24 @@ namespace ProyectoBD2.Views
             }
         }
 
-        // private void LoadSampleData()
-        // {
-        //     _appointments = new ObservableCollection<Appointment>
-        //     {
-        //         new Appointment { 
-        //             CitaID = 1, 
-        //             ClienteID = 1, 
-        //             ClienteNombre = "Juan Pérez", 
-        //             MascotaID = 1, 
-        //             MascotaNombre = "Rocky (Labrador)", 
-        //             Estado = "Confirmada", 
-        //             ServicioID = 1, 
-        //             ServicioNombre = "Consulta General",
-        //             FechaInicio = new DateTime(2024, 6, 15, 10, 0, 0),
-        //             FechaFin = new DateTime(2024, 6, 15, 10, 30, 0),
-        //             EsEmergencia = false
-        //         },
-        //         new Appointment { 
-        //             CitaID = 2, 
-        //             ClienteID = 2, 
-        //             ClienteNombre = "María López", 
-        //             MascotaID = 0, 
-        //             MascotaNombre = "N/A", 
-        //             Estado = "Pendiente", 
-        //             ServicioID = 3, 
-        //             ServicioNombre = "Corte de Pelo",
-        //             FechaInicio = new DateTime(2024, 6, 15, 11, 30, 0),
-        //             FechaFin = new DateTime(2024, 6, 15, 12, 15, 0),
-        //             EsEmergencia = false
-        //         },
-        //         new Appointment { 
-        //             CitaID = 3, 
-        //             ClienteID = 3, 
-        //             ClienteNombre = "Carlos Ruiz", 
-        //             MascotaID = 2, 
-        //             MascotaNombre = "Luna (Gato)", 
-        //             Estado = "Confirmada", 
-        //             ServicioID = 2, 
-        //             ServicioNombre = "Vacunación",
-        //             FechaInicio = new DateTime(2024, 6, 16, 9, 15, 0),
-        //             FechaFin = new DateTime(2024, 6, 16, 10, 15, 0),
-        //             EsEmergencia = true
-        //         }
-        //     };
-        //
-        //     AppointmentsDataGrid.ItemsSource = _appointments;
-        // }
+        private void FilterAppointments()
+        {
+            var searchText = SearchTextBox.Text?.ToLower() ?? "";
+            var selectedArea = DepartmentComboBox.SelectedItem as string ?? "Todas";
 
-        // private void FilterAppointments()
-        // {
-        //     // Get the search text
-        //     string searchText = SearchTextBox.Text?.ToLower() ?? "";
-        //     
-        //     // Get the selected department (this will need to be adjusted based on your new filtering criteria)
-        //     var selectedItem = DepartmentComboBox.SelectedItem as ComboBoxItem;
-        //     string department = selectedItem?.Content.ToString() ?? "Todos";
-        //     
-        //     // Create a filtered collection - adjust filtering based on new fields
-        //     var filteredAppointments = _appointments.Where(a =>
-        //         (department == "Todos" || 
-        //          (department == "Veterinaria" && a.ServicioNombre.Contains("Consulta") || a.ServicioNombre.Contains("Vacunación")) ||
-        //          (department == "Salón de Belleza" && (a.ServicioNombre.Contains("Corte") || a.ServicioNombre.Contains("Peluquería") || a.ServicioNombre.Contains("Manicure")))) &&
-        //         (string.IsNullOrEmpty(searchText) ||
-        //          a.ClienteNombre.ToLower().Contains(searchText) ||
-        //          a.MascotaNombre.ToLower().Contains(searchText) ||
-        //          a.ServicioNombre.ToLower().Contains(searchText))
-        //     ).ToList();
-        //     
-        //     // Update the DataGrid
-        //     AppointmentsDataGrid.ItemsSource = filteredAppointments;
-        // }
+            if (_appointments == null) return;
+
+            var filteredAppointments = _appointments.Where(a =>
+                (selectedArea == "Todas" || a.TipoServicio!.Contains(selectedArea)) &&
+                (string.IsNullOrEmpty(searchText) ||
+                 a.Cliente!.Contains(searchText, StringComparison.CurrentCultureIgnoreCase) ||
+                 a.Mascota!.Contains(searchText, StringComparison.CurrentCultureIgnoreCase) ||
+                 a.Servicio!.Contains(searchText, StringComparison.CurrentCultureIgnoreCase) ||
+                 a.TipoServicio!.Contains(searchText, StringComparison.CurrentCultureIgnoreCase))
+            ).ToList();
+
+            AppointmentsDataGrid.ItemsSource = filteredAppointments;
+        }
 
         // private async System.Threading.Tasks.Task AddAppointment()
         // {
