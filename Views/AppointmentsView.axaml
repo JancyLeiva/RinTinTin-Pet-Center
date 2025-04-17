@@ -6,73 +6,28 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ProyectoBD2.Views.AppointmentsView"
              x:DataType="models:Appointment">
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        
-        <!-- Header with title -->
+    <Grid Margin="20" RowDefinitions="Auto,*,Auto">
         <TextBlock Text="Gestión de Citas" FontSize="24" FontWeight="Bold" Grid.Row="0" Margin="0,0,0,15"/>
-        
-        <!-- Filter and search bar -->
-        <Grid Grid.Row="0" Margin="0,40,0,15">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250"/>
-                <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            
-            <!-- Department filter -->
+        <Grid Grid.Row="0" Margin="0,40,0,15" ColumnDefinitions="250,20,*">
             <ComboBox Grid.Column="0" x:Name="DepartmentComboBox" PlaceholderText="Seleccionar departamento" HorizontalAlignment="Stretch">
                 <ComboBoxItem>Veterinaria</ComboBoxItem>
                 <ComboBoxItem>Salón de Belleza</ComboBoxItem>
                 <ComboBoxItem>Todos</ComboBoxItem>
             </ComboBox>
             
-            <!-- Search bar -->
             <TextBox Grid.Column="2" x:Name="SearchTextBox" Watermark="Buscar citas..." />
         </Grid>
         
-        <!-- Appointments DataGrid -->
         <DataGrid Grid.Row="1"
                   x:Name="AppointmentsDataGrid"
-                  AutoGenerateColumns="False"
+                  AutoGenerateColumns="True"
                   IsReadOnly="True"
                   GridLinesVisibility="All"
                   BorderThickness="1"
                   BorderBrush="Gray"
                   Margin="0,10,0,10">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding CitaID}" Width="60"/>
-                <DataGridTextColumn Header="Cliente" Binding="{Binding ClienteNombre}" Width="*"/>
-                <DataGridTextColumn Header="Mascota" Binding="{Binding MascotaNombre}" Width="*"/>
-                <DataGridTextColumn Header="Servicio" Binding="{Binding ServicioNombre}" Width="*"/>
-                <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" Width="100"/>
-                <DataGridTemplateColumn Header="Fecha Inicio" Width="150">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate x:DataType="models:Appointment">
-                            <TextBlock Text="{Binding FechaInicio, StringFormat={}{0:dd/MM/yyyy HH:mm}}" 
-                                       VerticalAlignment="Center"
-                                       Margin="5,0"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Fecha Fin" Width="150">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate x:DataType="models:Appointment">
-                            <TextBlock Text="{Binding FechaFin, StringFormat={}{0:dd/MM/yyyy HH:mm}}"
-                                       VerticalAlignment="Center"
-                                       Margin="5,0"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridCheckBoxColumn Header="Emergencia" Binding="{Binding EsEmergencia}" Width="100"/>
-            </DataGrid.Columns>
         </DataGrid>
         
-        <!-- Action buttons -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15" Margin="0,15,0,0">
             <Button x:Name="AddAppointmentButton" 
                     Content="Agregar Cita" 
