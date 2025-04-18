@@ -5,23 +5,21 @@ using ProyectoBD2.DataAccess;
 using ProyectoBD2.Models;
 
 namespace ProyectoBD2.Services;
-using ProyectoBD2.DataAccess;
 
+using ProyectoBD2.DataAccess;
 
 public static class AppointmentsService
 {
-    public static DataTable FindAll(int? tipoServicioId, string? modoConsulta, string? fecha)
+    public static DataTable FindAll(string? fecha)
     {
         try
         {
-            var parametros = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+            var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
-                { "@TipoServicioID", (tipoServicioId.HasValue ? (object)tipoServicioId.Value : DBNull.Value, null) },
-                { "@ModoConsulta", (modoConsulta ?? "Citas", null) },
                 { "@Fecha", (fecha ?? DateTime.Now.ToString("yyyy-MM-dd"), null) }
             };
 
-            return DBAccess.ExecuteStoredProcedureToDataTable("dbPrj.spConsultarHorariosOCitasPorArea", parametros);
+            return DBAccess.ExecuteStoredProcedureToDataTable("dbPrj.spConsultarCitasPorFecha", parameters);
         }
         catch (Exception ex)
         {
@@ -47,11 +45,11 @@ public static class AppointmentsService
     {
         try
         {
-            var parametros = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+            var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
                 { "@Busqueda", (busqueda ?? null, null)! },
             };
-            return DBAccess.ExecuteStoredProcedureToDataTable("dbPrj.spAutocompletarCliente", parametros);
+            return DBAccess.ExecuteStoredProcedureToDataTable("dbPrj.spAutocompletarCliente", parameters);
         }
         catch (Exception e)
         {
@@ -64,11 +62,11 @@ public static class AppointmentsService
     {
         try
         {
-            var parametros = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+            var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
                 { "@IdentidadCliente", (identidadCliente ?? null, null)! },
             };
-            return DBAccess.ExecuteStoredProcedureToDataTable("dbPrj.spListaMascotasPorCliente", parametros);
+            return DBAccess.ExecuteStoredProcedureToDataTable("dbPrj.spListaMascotasPorCliente", parameters);
         }
         catch (Exception e)
         {
@@ -76,5 +74,42 @@ public static class AppointmentsService
             throw;
         }
     }
-    
+
+    public static DataTable FindServices()
+    {
+        try
+        {
+            return DBAccess.ExecuteStoredProcedureToDataTable("dbPrj.spObtenerServiciosConTipo", null);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public static DataTable CreateAppointment(string identidadCliente, int mascotaId, string estado, int servicioId,
+        DateTime fechaInicio, int esEmergencia = 0)
+    {
+        try
+        {
+            var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+            {
+                { "@IdentidadCliente", (identidadCliente, null) },
+                { "@MascotaID", (mascotaId, null) },
+                { "@Estado", (estado, null) },
+                { "@ServicioID", (servicioId, null) },
+                { "@FechaInicio", (fechaInicio, null) },
+                { "@FechaFin", (fechaInicio.AddHours(1), null) },
+                { "@Emergencia", (esEmergencia, null) }
+            };
+
+            return DBAccess.ExecuteStoredProcedureToDataTable("dbPrj.spCitaInsert", parameters);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }

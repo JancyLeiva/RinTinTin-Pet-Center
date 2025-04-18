@@ -20,7 +20,6 @@ namespace ProyectoBD2.Views
             AppointmentDatePicker.SelectedDate = DateTime.Now.Date;
             LoadAppointments();
             LoadAreas();
-
             DepartmentComboBox.SelectionChanged += (s, e) => FilterAppointments();
             SearchTextBox.TextChanged += (s, e) => FilterAppointments();
             AppointmentDatePicker.Initialized += (s, e) => LoadAppointments();
@@ -29,6 +28,11 @@ namespace ProyectoBD2.Views
             AddAppointmentButton.Click += async (s, e) => await AddAppointment();
             EditAppointmentButton.Click += async (s, e) => await EditAppointment();
             DeleteAppointmentButton.Click += (s, e) => DeleteAppointment();
+        }
+        
+        private void AppointmentsDataGridAutoGeneratingColumn(object? sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            if (e.PropertyName == "CitaId") e.Cancel = true;
         }
 
         private void LoadAreas()
@@ -47,26 +51,23 @@ namespace ProyectoBD2.Views
         {
             try
             {
-                int? serviceTypeId = null;
-                const string queryMode = "Citas";
                 var date = AppointmentDatePicker.SelectedDate!.Value.ToString("yyyy-MM-dd");
                 _appointments = [];
 
-                var data = AppointmentsService.FindAll(serviceTypeId, queryMode, date);
+                var data = AppointmentsService.FindAll(date);
 
                 foreach (DataRow row in data.Rows)
                 {
                     _appointments.Add(new Appointment
                     {
-                        CitaID = (int)row["CitaID"],
+                        CitaId = (int)row["CitaID"],
                         Cliente = (string)row["Cliente"],
                         Mascota = (string)row["Mascota"],
                         TipoServicio = (string)row["TipoServicio"],
                         Servicio = (string)row["Servicio"],
                         FechaInicio = (DateTime)row["FechaInicio"],
-                        FechaFin = (DateTime)row["FechaFin"],
                         Estado = (string)row["Estado"],
-                        EsEmergencia = (bool)row["EsEmergencia"]
+                        EsEmergencia = Convert.ToInt32(row["EsEmergencia"]) == 1
                     });
                 }
 

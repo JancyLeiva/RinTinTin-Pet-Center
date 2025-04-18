@@ -22,7 +22,8 @@
 
                 <StackPanel Spacing="5">
                     <TextBlock Text="Mascota" FontWeight="SemiBold" />
-                    <ComboBox x:Name="MascotaComboBox" HorizontalAlignment="Stretch" PlaceholderText="Seleccionar mascota">
+                    <ComboBox x:Name="MascotaComboBox" HorizontalAlignment="Stretch"
+                              PlaceholderText="Seleccionar mascota">
                         <ComboBox.ItemTemplate>
                             <DataTemplate x:DataType="models:Pet">
                                 <TextBlock Text="{Binding Mascota}" />
@@ -34,7 +35,13 @@
                 <StackPanel Spacing="5">
                     <TextBlock Text="Servicio" FontWeight="SemiBold" />
                     <ComboBox x:Name="ServicioComboBox" HorizontalAlignment="Stretch"
-                              PlaceholderText="Seleccionar servicio" />
+                              PlaceholderText="Seleccionar servicio">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="models:ServiceType">
+                                <TextBlock Text="{Binding Servicio}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                 </StackPanel>
 
                 <StackPanel x:Name="EstadoStackPanel" Spacing="5">
@@ -45,21 +52,22 @@
                 <StackPanel Spacing="5">
                     <TextBlock Text="Fecha y hora de la cita" FontWeight="SemiBold" />
                     <DockPanel LastChildFill="True">
-                        <DatePicker x:Name="FechaDatePicker" HorizontalAlignment="Stretch" Margin="0 0 5 0"/>
+                        <DatePicker x:Name="FechaDatePicker" HorizontalAlignment="Stretch" Margin="0 0 5 0" />
                         <ComboBox x:Name="HoraComboBox" HorizontalAlignment="Stretch" PlaceholderText="Hora"></ComboBox>
                     </DockPanel>
                 </StackPanel>
-                
-                <CheckBox x:Name="EsEmergenciaCheckBox" Content="Es emergencia" />
+
+                <CheckBox x:Name="EsEmergenciaCheckBox" Content="Es emergencia" Click="isEmergencyCheckBox_Checked" />
             </StackPanel>
         </ScrollViewer>
 
         <Grid Grid.Row="2" ColumnDefinitions="*,*" Margin="0,20,0,0" HorizontalAlignment="Center">
             <Button Grid.Column="0" x:Name="CancelButton" HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center" Content="Cancelar" Width="120" Margin="0,0,10,0" Click="CancelButton_Click" />
+                    VerticalContentAlignment="Center" Content="Cancelar" Width="120" Margin="0,0,10,0"
+                    Click="CancelButton_Click" />
             <Button Grid.Column="1" x:Name="SaveButton" HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center" Content="Guardar" Width="120" Margin="10,0,0,0"
-                    Background="#0078D4" Foreground="White" />
+                    Background="#0078D4" Foreground="White" Click="SaveButton_Click"/>
         </Grid>
     </Grid>
 </Window>

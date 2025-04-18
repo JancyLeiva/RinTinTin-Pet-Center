@@ -20,6 +20,7 @@
         <DataGrid Grid.Row="1"
                   x:Name="AppointmentsDataGrid"
                   AutoGenerateColumns="True"
+                  AutoGeneratingColumn="AppointmentsDataGridAutoGeneratingColumn"
                   IsReadOnly="True"
                   GridLinesVisibility="All"
                   BorderThickness="1"
