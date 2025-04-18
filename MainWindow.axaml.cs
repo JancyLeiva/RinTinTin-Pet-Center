@@ -14,7 +14,7 @@ namespace ProyectoBD2
 
         private AppointmentsView? _appointmentsView;
         private ClientsView? _clientsView;
-        private UserControl? _reportsView;
+        // private ReportsView? _reportsView;
 
         private Panel? _viewContainer;
 
@@ -37,9 +37,11 @@ namespace ProyectoBD2
 
             _appointmentsView = new AppointmentsView();
             _clientsView = new ClientsView();
+            // _reportsView = new ReportsView();
 
             _viewContainer.Children.Add(_appointmentsView);
             _viewContainer.Children.Add(_clientsView);
+            // _viewContainer.Children.Add(_reportsView);
 
             foreach (var child in _viewContainer.Children.OfType<Control>())
             {
@@ -62,8 +64,8 @@ namespace ProyectoBD2
         private void SetupNavigation()
         {
             DashboardButton.Click += (s, e) => NavigateToModule("Appointments", DashboardButton);
-            PeopleListButton.Click += (s, e) => NavigateToModule("Clients", PeopleListButton);
-            ReportsButton.Click += (s, e) => NavigateToModule("Reports", ReportsButton);
+            ClientsButton.Click += (s, e) => NavigateToModule("Clients", ClientsButton);
+            // ReportsButton.Click += (s, e) => NavigateToModule("Reports", ReportsButton);
             LogoutButton.Click += (s, e) => LogoutUser();
         }
 
@@ -86,15 +88,9 @@ namespace ProyectoBD2
                 case "Clients":
                     ShowView(_clientsView);
                     break;
-                case "Reports":
-                    if (_reportsView == null)
-                    {
-                        _reportsView = new UserControl();
-                        _viewContainer?.Children.Add(_reportsView);
-                    }
-
-                    ShowView(_reportsView);
-                    break;
+                // case "Reports":
+                //     ShowView(_reportsView);
+                //     break;
             }
         }
 
