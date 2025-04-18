@@ -85,10 +85,7 @@ namespace ProyectoBD2.Windows
             foreach (var hora in _horasHabiles)
             {
                 var horaOcupada = _appointments.Any(cita => hora == cita.FechaInicio.ToString("HH:mm"));
-                if (!horaOcupada)
-                {
-                    _horasDisponibles.Add(hora);
-                }
+                if (!horaOcupada) _horasDisponibles.Add(hora);
             }
             
             HoraComboBox.ItemsSource = _horasDisponibles;
