@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="clr-namespace:ProyectoBD2.Models"
         mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="600"
         Width="450" Height="600"
         x:Class="ProyectoBD2.Windows.AppointmentDialog"
@@ -21,7 +22,13 @@
 
                 <StackPanel Spacing="5">
                     <TextBlock Text="Mascota" FontWeight="SemiBold" />
-                    <AutoCompleteBox x:Name="MascotaAutoCompleteBox"></AutoCompleteBox>
+                    <ComboBox x:Name="MascotaComboBox" HorizontalAlignment="Stretch" PlaceholderText="Seleccionar mascota">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="models:Pet">
+                                <TextBlock Text="{Binding Mascota}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                 </StackPanel>
 
                 <StackPanel Spacing="5">

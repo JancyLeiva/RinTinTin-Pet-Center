@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
+using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using ProyectoBD2.Services;
 
@@ -25,14 +26,12 @@ namespace ProyectoBD2.Windows
             InitializeComponent();
             LoadClients();
             ClienteAutoCompleteBox.ValueMemberBinding = new Binding("Nombre");
-            MascotaAutoCompleteBox.ValueMemberBinding = new Binding("Mascota");
             ClienteAutoCompleteBox.FilterMode = AutoCompleteFilterMode.Contains;
-            MascotaAutoCompleteBox.FilterMode = AutoCompleteFilterMode.Contains;
             EstadoComboBox.ItemsSource = _estados;
             EstadoComboBox.SelectedIndex = 0;
             EstadoStackPanel.IsVisible = false;
             HoraComboBox.IsEnabled = false;
-            MascotaAutoCompleteBox.IsEnabled = false;
+            MascotaComboBox.IsEnabled = false;
             FechaDatePicker.SelectedDateChanged += (s, e) => LoadHorarios();
             ClienteAutoCompleteBox.SelectionChanged += (s, e) => LoadMascotas();
         }
@@ -98,8 +97,8 @@ namespace ProyectoBD2.Windows
             var identidadCliente = ClienteAutoCompleteBox.SelectedItem as Client;
             if (identidadCliente == null)
             {
-                MascotaAutoCompleteBox.IsEnabled = false;
-                MascotaAutoCompleteBox.Text = "";
+                MascotaComboBox.IsEnabled = false;
+                MascotaComboBox.ItemsSource = null;
                 return;
             }
 
@@ -116,9 +115,8 @@ namespace ProyectoBD2.Windows
                 });
             }
             
-            MascotaAutoCompleteBox.ItemsSource = _pets;
-            MascotaAutoCompleteBox.IsEnabled = true;
-            MascotaAutoCompleteBox.IsTextCompletionEnabled = true;
+            MascotaComboBox.ItemsSource = _pets;
+            MascotaComboBox.IsEnabled = true;
         }
 
         private void CancelButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
