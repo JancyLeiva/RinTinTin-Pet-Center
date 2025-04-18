@@ -27,4 +27,11 @@
       <UpToDateCheckInput Remove="Views\LoginView.axaml" />
       <UpToDateCheckInput Remove="Views\MainView.axaml" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\Dialogs\AppointmentDialog.axaml.cs">
+        <DependentUpon>AppointmentDialog.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
 </Project>

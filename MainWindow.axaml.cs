@@ -1,3 +1,4 @@
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
@@ -11,21 +12,57 @@ namespace ProyectoBD2
         private Button? _currentActiveButton;
         private string _currentModule = "Appointments";
 
+        private AppointmentsView? _appointmentsView;
+        private ClientsView? _clientsView;
+        private UserControl? _reportsView;
+
+        private Panel? _viewContainer;
+
         public MainWindow()
         {
             InitializeComponent();
             SetupNavigation();
+            InitializeViews();
 
             _currentActiveButton = DashboardButton;
             HighlightActiveButton(_currentActiveButton);
-            
-            MainContent.Content = new AppointmentsView();
+
+            ShowView(_appointmentsView);
+        }
+
+        private void InitializeViews()
+        {
+            _viewContainer = new Grid();
+            MainContent.Content = _viewContainer;
+
+            _appointmentsView = new AppointmentsView();
+            _clientsView = new ClientsView();
+
+            _viewContainer.Children.Add(_appointmentsView);
+            _viewContainer.Children.Add(_clientsView);
+
+            foreach (var child in _viewContainer.Children.OfType<Control>())
+            {
+                child.IsVisible = false;
+            }
+        }
+
+        private void ShowView(Control? view)
+        {
+            if (view == null || _viewContainer == null) return;
+
+            foreach (var child in _viewContainer.Children.OfType<Control>())
+            {
+                child.IsVisible = false;
+            }
+
+            view.IsVisible = true;
         }
 
         private void SetupNavigation()
         {
             DashboardButton.Click += (s, e) => NavigateToModule("Appointments", DashboardButton);
-            PeopleListButton.Click += (s, e) => NavigateToModule("PeopleList", PeopleListButton);
+            PeopleListButton.Click += (s, e) => NavigateToModule("Clients", PeopleListButton);
             ReportsButton.Click += (s, e) => NavigateToModule("Reports", ReportsButton);
             LogoutButton.Click += (s, e) => LogoutUser();
         }
@@ -44,10 +81,19 @@ namespace ProyectoBD2
             switch (moduleName)
             {
                 case "Appointments":
-                    MainContent.Content = new AppointmentsView();
+                    ShowView(_appointmentsView);
                     break;
-                case "PeopleList":
+                case "Clients":
+                    ShowView(_clientsView);
+                    break;
                 case "Reports":
+                    if (_reportsView == null)
+                    {
+                        _reportsView = new UserControl();
+                        _viewContainer?.Children.Add(_reportsView);
+                    }
+
+                    ShowView(_reportsView);
                     break;
             }
         }
@@ -56,7 +102,6 @@ namespace ProyectoBD2
         {
             var loginWindow = new LoginView();
             loginWindow.Show();
-            
             this.Close();
         }
 
