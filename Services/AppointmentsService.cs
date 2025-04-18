@@ -42,5 +42,39 @@ public static class AppointmentsService
             throw;
         }
     }
+
+    public static DataTable FindClients(string? busqueda)
+    {
+        try
+        {
+            var parametros = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+            {
+                { "@Busqueda", (busqueda ?? null, null)! },
+            };
+            return DBAccess.ExecuteStoredProcedureToDataTable("dbPrj.spAutocompletarCliente", parametros);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public static DataTable FindPets(string? identidadCliente)
+    {
+        try
+        {
+            var parametros = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+            {
+                { "@IdentidadCliente", (identidadCliente ?? null, null)! },
+            };
+            return DBAccess.ExecuteStoredProcedureToDataTable("dbPrj.spListaMascotasPorCliente", parametros);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
     
 }

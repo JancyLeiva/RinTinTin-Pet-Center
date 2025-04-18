@@ -7,70 +7,52 @@
         x:Class="ProyectoBD2.Windows.AppointmentDialog"
         Title="Nueva Cita"
         WindowStartupLocation="CenterOwner">
-    
+
     <Grid Margin="20" RowDefinitions="Auto,*,Auto">
 
-        <TextBlock Grid.Row="0" Text="Información de la Cita" FontSize="20" FontWeight="Bold" Margin="0,0,0,20"/>
-        
+        <TextBlock Grid.Row="0" Text="Información de la Cita" FontSize="20" FontWeight="Bold" Margin="0,0,0,20" />
+
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Spacing="15">
-                <!-- Cliente -->
-                <StackPanel>
-                    <TextBlock Text="Cliente" FontWeight="SemiBold" Margin="0,0,0,5"/>
-                    <ComboBox x:Name="ClienteComboBox" HorizontalAlignment="Stretch" PlaceholderText="Seleccionar cliente"/>
+                <StackPanel Spacing="5">
+                    <TextBlock Text="Nombre del cliente" FontWeight="SemiBold" />
+                    <AutoCompleteBox x:Name="ClienteAutoCompleteBox"></AutoCompleteBox>
+                </StackPanel>
+
+                <StackPanel Spacing="5">
+                    <TextBlock Text="Mascota" FontWeight="SemiBold" />
+                    <AutoCompleteBox x:Name="MascotaAutoCompleteBox"></AutoCompleteBox>
+                </StackPanel>
+
+                <StackPanel Spacing="5">
+                    <TextBlock Text="Servicio" FontWeight="SemiBold" />
+                    <ComboBox x:Name="ServicioComboBox" HorizontalAlignment="Stretch"
+                              PlaceholderText="Seleccionar servicio" />
+                </StackPanel>
+
+                <StackPanel x:Name="EstadoStackPanel" Spacing="5">
+                    <TextBlock Text="Estado" FontWeight="SemiBold" />
+                    <ComboBox x:Name="EstadoComboBox" HorizontalAlignment="Stretch"
+                              PlaceholderText="Seleccionar estado" />
+                </StackPanel>
+                <StackPanel Spacing="5">
+                    <TextBlock Text="Fecha y hora de la cita" FontWeight="SemiBold" />
+                    <DockPanel LastChildFill="True">
+                        <DatePicker x:Name="FechaDatePicker" HorizontalAlignment="Stretch" Margin="0 0 5 0"/>
+                        <ComboBox x:Name="HoraComboBox" HorizontalAlignment="Stretch" PlaceholderText="Hora"></ComboBox>
+                    </DockPanel>
                 </StackPanel>
                 
-                <!-- Mascota -->
-                <StackPanel>
-                    <TextBlock Text="Mascota" FontWeight="SemiBold" Margin="0,0,0,5"/>
-                    <ComboBox x:Name="MascotaComboBox" HorizontalAlignment="Stretch" PlaceholderText="Seleccionar mascota"/>
-                </StackPanel>
-                
-                <!-- Servicio -->
-                <StackPanel>
-                    <TextBlock Text="Servicio" FontWeight="SemiBold" Margin="0,0,0,5"/>
-                    <ComboBox x:Name="ServicioComboBox" HorizontalAlignment="Stretch" PlaceholderText="Seleccionar servicio"/>
-                </StackPanel>
-                
-                <!-- Estado -->
-                <StackPanel>
-                    <TextBlock Text="Estado" FontWeight="SemiBold" Margin="0,0,0,5"/>
-                    <ComboBox x:Name="EstadoComboBox" HorizontalAlignment="Stretch">
-                        <ComboBoxItem>Pendiente</ComboBoxItem>
-                        <ComboBoxItem>Confirmada</ComboBoxItem>
-                        <ComboBoxItem>Completada</ComboBoxItem>
-                        <ComboBoxItem>Cancelada</ComboBoxItem>
-                    </ComboBox>
-                </StackPanel>
-                
-                <!-- Fecha y Hora Inicio -->
-                <StackPanel>
-                    <TextBlock Text="Fecha y Hora de Inicio" FontWeight="SemiBold" Margin="0,0,0,5"/>
-                    <Grid ColumnDefinitions="*,15,*">
-                        <DatePicker Grid.Column="0" x:Name="FechaInicioPicker" HorizontalAlignment="Stretch"/>
-                        <TimePicker Grid.Column="2" x:Name="HoraInicioPicker" HorizontalAlignment="Stretch"/>
-                    </Grid>
-                </StackPanel>
-                
-                <!-- Fecha y Hora Fin -->
-                <StackPanel>
-                    <TextBlock Text="Fecha y Hora de Fin" FontWeight="SemiBold" Margin="0,0,0,5"/>
-                    <Grid ColumnDefinitions="*,15,*">
-                        <DatePicker Grid.Column="0" x:Name="FechaFinPicker" HorizontalAlignment="Stretch"/>
-                        <TimePicker Grid.Column="2" x:Name="HoraFinPicker" HorizontalAlignment="Stretch"/>
-                    </Grid>
-                </StackPanel>
-                
-                <!-- Es Emergencia -->
-                <CheckBox x:Name="EsEmergenciaCheckBox" Content="Es Emergencia" />
+                <CheckBox x:Name="EsEmergenciaCheckBox" Content="Es emergencia" />
             </StackPanel>
         </ScrollViewer>
-        
-        <!-- Buttons -->
-        <Grid Grid.Row="2" ColumnDefinitions="*,*" Margin="0,20,0,0" HorizontalAlignment="Center" >
-            <Button Grid.Column="0" x:Name="CancelButton" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Cancelar" Width="120" Margin="0,0,10,0"/>
-            <Button Grid.Column="1" x:Name="SaveButton" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Guardar" Width="120" Margin="10,0,0,0" 
-                    Background="#0078D4" Foreground="White"/>
+
+        <Grid Grid.Row="2" ColumnDefinitions="*,*" Margin="0,20,0,0" HorizontalAlignment="Center">
+            <Button Grid.Column="0" x:Name="CancelButton" HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center" Content="Cancelar" Width="120" Margin="0,0,10,0" Click="CancelButton_Click" />
+            <Button Grid.Column="1" x:Name="SaveButton" HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center" Content="Guardar" Width="120" Margin="10,0,0,0"
+                    Background="#0078D4" Foreground="White" />
         </Grid>
     </Grid>
 </Window>

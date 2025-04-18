@@ -4,222 +4,129 @@ using Avalonia.Markup.Xaml;
 using ProyectoBD2.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data;
+using System.Linq;
+using Avalonia.Data;
+using ProyectoBD2.Services;
 
 namespace ProyectoBD2.Windows
 {
     public partial class AppointmentDialog : Window
     {
-//         public Appointment ResultAppointment { get; private set; }
-//         private bool _isEditMode;
-//         
-//         // Sample data - in a real application, these would come from the database
-//         private List<(int id, string name)> _clientes = new List<(int id, string name)>
-//         {
-//             (1, "Juan Pérez"),
-//             (2, "María López"),
-//             (3, "Carlos Ruiz"),
-//             (4, "Ana González")
-//         };
-//         
-//         private List<(int id, string name)> _mascotas = new List<(int id, string name)>
-//         {
-//             (1, "Rocky (Labrador)"),
-//             (2, "Luna (Gato)"),
-//             (3, "Max (Bulldog)"),
-//             (4, "Coco (Poodle)")
-//         };
-//         
-//         private List<(int id, string name)> _servicios = new List<(int id, string name)>
-//         {
-//             (1, "Consulta General"),
-//             (2, "Vacunación"),
-//             (3, "Corte de Pelo"),
-//             (4, "Manicure"),
-//             (5, "Baño y Peluquería")
-//         };
-//
-//         public AppointmentDialog()
-//         {
-//             InitializeComponent();
-//             _isEditMode = false;
-//             SetupControls();
-//             LoadSampleData();
-//         }
-//
-//         public AppointmentDialog(Appointment existingAppointment)
-//         {
-//             InitializeComponent();
-//             _isEditMode = true;
-//             
-//             LoadSampleData();
-//             PopulateForm(existingAppointment);
-//             SetupControls();
-//         }
-//
-//         private void LoadSampleData()
-//         {
-//             // Populate ComboBoxes with sample data
-//             var clienteCombo = this.FindControl<ComboBox>("ClienteComboBox");
-//             var mascotaCombo = this.FindControl<ComboBox>("MascotaComboBox");
-//             var servicioCombo = this.FindControl<ComboBox>("ServicioComboBox");
-//             
-//             // Load clientes
-//             foreach (var cliente in _clientes)
-//             {
-//                 clienteCombo.Items.Add(new ComboBoxItem { Content = cliente.name, Tag = cliente.id });
-//             }
-//             
-//             // Load mascotas
-//             foreach (var mascota in _mascotas)
-//             {
-//                 mascotaCombo.Items.Add(new ComboBoxItem { Content = mascota.name, Tag = mascota.id });
-//             }
-//             
-//             // Load servicios
-//             foreach (var servicio in _servicios)
-//             {
-//                 servicioCombo.Items.Add(new ComboBoxItem { Content = servicio.name, Tag = servicio.id });
-//             }
-//         }
-//
-//         private void SetupControls()
-//         {
-//             var saveButton = this.FindControl<Button>("SaveButton");
-//             var cancelButton = this.FindControl<Button>("CancelButton");
-//
-//             // Set title based on mode
-//             this.Title = _isEditMode ? "Editar Cita" : "Nueva Cita";
-//             
-//             // Set defaults
-//             var estadoCombo = this.FindControl<ComboBox>("EstadoComboBox");
-//             if (estadoCombo.SelectedIndex == -1)
-//                 estadoCombo.SelectedIndex = 0;
-//
-//             // Set today's date as default for date pickers
-//             this.FindControl<DatePicker>("FechaInicioPicker").SelectedDate = DateTime.Today;
-//             this.FindControl<DatePicker>("FechaFinPicker").SelectedDate = DateTime.Today;
-//
-//             // Setup button event handlers
-//             saveButton.Click += SaveButton_Click;
-//             cancelButton.Click += CancelButton_Click;
-//         }
-//
-//         private void PopulateForm(Appointment appointment)
-//         {
-//             // Find and select the correct client
-//             var clienteCombo = this.FindControl<ComboBox>("ClienteComboBox");
-//             for (int i = 0; i < clienteCombo.Items.Count; i++)
-//             {
-//                 var item = clienteCombo.Items[i] as ComboBoxItem;
-//                 if (item != null && ((int)item.Tag) == appointment.ClienteID)
-//                 {
-//                     clienteCombo.SelectedIndex = i;
-//                     break;
-//                 }
-//             }
-//             
-//             // Find and select the correct mascota
-//             var mascotaCombo = this.FindControl<ComboBox>("MascotaComboBox");
-//             for (int i = 0; i < mascotaCombo.Items.Count; i++)
-//             {
-//                 var item = mascotaCombo.Items[i] as ComboBoxItem;
-//                 if (item != null && ((int)item.Tag) == appointment.MascotaID)
-//                 {
-//                     mascotaCombo.SelectedIndex = i;
-//                     break;
-//                 }
-//             }
-//             
-//             // Find and select the correct servicio
-//             var servicioCombo = this.FindControl<ComboBox>("ServicioComboBox");
-//             for (int i = 0; i < servicioCombo.Items.Count; i++)
-//             {
-//                 var item = servicioCombo.Items[i] as ComboBoxItem;
-//                 if (item != null && ((int)item.Tag) == appointment.ServicioID)
-//                 {
-//                     servicioCombo.SelectedIndex = i;
-//                     break;
-//                 }
-//             }
-//             
-//             // Set estado
-//             var estadoCombo = this.FindControl<ComboBox>("EstadoComboBox");
-//             for (int i = 0; i < estadoCombo.Items.Count; i++)
-//             {
-//                 var item = estadoCombo.Items[i] as ComboBoxItem;
-//                 if (item != null && item.Content.ToString() == appointment.Estado)
-//                 {
-//                     estadoCombo.SelectedIndex = i;
-//                     break;
-//                 }
-//             }
-//             
-//             // Set dates and times
-//             this.FindControl<DatePicker>("FechaInicioPicker").SelectedDate = new DateTimeOffset(appointment.FechaInicio);
-//             this.FindControl<TimePicker>("HoraInicioPicker").SelectedTime = appointment.FechaInicio.TimeOfDay;
-//
-//             this.FindControl<DatePicker>("FechaFinPicker").SelectedDate = new DateTimeOffset(appointment.FechaFin);
-//             this.FindControl<TimePicker>("HoraFinPicker").SelectedTime = appointment.FechaFin.TimeOfDay;
-//             
-//             // Set emergency checkbox
-//             this.FindControl<CheckBox>("EsEmergenciaCheckBox").IsChecked = appointment.EsEmergencia;
-//         }
-//
-//         private void SaveButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-// {
-//     try
-//     {
-//         // Get values from form controls
-//         var clienteItem = this.FindControl<ComboBox>("ClienteComboBox").SelectedItem as ComboBoxItem;
-//         var mascotaItem = this.FindControl<ComboBox>("MascotaComboBox").SelectedItem as ComboBoxItem;
-//         var servicioItem = this.FindControl<ComboBox>("ServicioComboBox").SelectedItem as ComboBoxItem;
-//         var estadoItem = this.FindControl<ComboBox>("EstadoComboBox").SelectedItem as ComboBoxItem;
-//
-//         // Get dates and times (with null-conditional operators to safely access values)
-//         var fechaInicio = this.FindControl<DatePicker>("FechaInicioPicker").SelectedDate ?? DateTimeOffset.Now;
-//         var horaInicio = this.FindControl<TimePicker>("HoraInicioPicker").SelectedTime ?? TimeSpan.Zero;
-//
-//         var fechaFin = this.FindControl<DatePicker>("FechaFinPicker").SelectedDate ?? DateTimeOffset.Now;
-//         var horaFin = this.FindControl<TimePicker>("HoraFinPicker").SelectedTime ?? TimeSpan.Zero;
-//
-//         // Combine date and time into DateTime, converting from DateTimeOffset to DateTime
-//         var fechaInicioCompleta = fechaInicio.Date.Add(horaInicio);
-//         var fechaFinCompleta = fechaFin.Date.Add(horaFin);
-//
-//         // Get emergency status
-//         var esEmergencia = this.FindControl<CheckBox>("EsEmergenciaCheckBox").IsChecked ?? false;
-//
-//         // Create result appointment
-//         ResultAppointment = new Appointment
-//         {
-//             CitaID = _isEditMode ? ((Appointment)this.DataContext).CitaID : 0,
-//             ClienteID = clienteItem != null ? (int)clienteItem.Tag : 0,
-//             ClienteNombre = clienteItem?.Content.ToString() ?? "",
-//             MascotaID = mascotaItem != null ? (int)mascotaItem.Tag : 0,
-//             MascotaNombre = mascotaItem?.Content.ToString() ?? "",
-//             ServicioID = servicioItem != null ? (int)servicioItem.Tag : 0,
-//             ServicioNombre = servicioItem?.Content.ToString() ?? "",
-//             Estado = estadoItem?.Content.ToString() ?? "Pendiente",
-//             FechaInicio = fechaInicioCompleta,
-//             FechaFin = fechaFinCompleta,
-//             EsEmergencia = esEmergencia
-//         };
-//
-//         // Close with success result
-//         this.Close(true);
-//     }
-//     catch (Exception ex)
-//     {
-//         // In a real application, you would handle this error more gracefully
-//         Console.WriteLine($"Error saving appointment: {ex.Message}");
-//         this.Close(false);
-//     }
-// }
-//
-//         private void CancelButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-//         {
-//             // Close with cancel result
-//             this.Close(false);
-//         }
+        private ObservableCollection<Client>? _clients;
+        private ObservableCollection<Appointment>? _appointments;
+        private ObservableCollection<Pet>? _pets;
+        private ObservableCollection<string>? _horasDisponibles;
+        private readonly ObservableCollection<string> _estados = ["Pendiente", "En curso", "Finalizada", "Cancelada"];
+        private readonly ObservableCollection<string> _horasHabiles = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
+        public AppointmentDialog()
+        {
+            InitializeComponent();
+            LoadClients();
+            ClienteAutoCompleteBox.ValueMemberBinding = new Binding("Nombre");
+            MascotaAutoCompleteBox.ValueMemberBinding = new Binding("Mascota");
+            ClienteAutoCompleteBox.FilterMode = AutoCompleteFilterMode.Contains;
+            MascotaAutoCompleteBox.FilterMode = AutoCompleteFilterMode.Contains;
+            EstadoComboBox.ItemsSource = _estados;
+            EstadoComboBox.SelectedIndex = 0;
+            EstadoStackPanel.IsVisible = false;
+            HoraComboBox.IsEnabled = false;
+            MascotaAutoCompleteBox.IsEnabled = false;
+            FechaDatePicker.SelectedDateChanged += (s, e) => LoadHorarios();
+            ClienteAutoCompleteBox.SelectionChanged += (s, e) => LoadMascotas();
+        }
+
+        private void LoadClients()
+        {
+            _clients = [];
+            var busqueda = "";
+            var data = AppointmentsService.FindClients(busqueda);
+            Console.Write(data);
+            
+            foreach (DataRow row in data.Rows)
+            {
+                _clients.Add(new Client
+                {
+                    Nombre = (string)row["Nombre"],
+                    NumIdentidad = (string)row["NumIdentidad"],
+                });
+            }
+            
+            ClienteAutoCompleteBox.ItemsSource = _clients;
+        }
+
+        private void LoadHorarios()
+        {
+            _horasDisponibles = [];
+            _appointments = [];
+            var fecha = FechaDatePicker.SelectedDate!.Value.ToString("yyyy-MM-dd");
+            int? serviceTypeId = null;
+            const string queryMode = "Citas";
+
+            var data = AppointmentsService.FindAll(serviceTypeId, queryMode, fecha);
+
+            foreach (DataRow row in data.Rows)
+            {
+                _appointments.Add(new Appointment
+                {
+                    CitaID = (int)row["CitaID"],
+                    Cliente = (string)row["Cliente"],
+                    Mascota = (string)row["Mascota"],
+                    TipoServicio = (string)row["TipoServicio"],
+                    Servicio = (string)row["Servicio"],
+                    FechaInicio = (DateTime)row["FechaInicio"],
+                    FechaFin = (DateTime)row["FechaFin"],
+                    Estado = (string)row["Estado"],
+                    EsEmergencia = (bool)row["EsEmergencia"]
+                });
+            }
+            
+            foreach (var hora in _horasHabiles)
+            {
+                var horaOcupada = _appointments.Any(cita => hora == cita.FechaInicio.ToString("HH:mm"));
+                if (!horaOcupada)
+                {
+                    _horasDisponibles.Add(hora);
+                }
+            }
+            
+            HoraComboBox.ItemsSource = _horasDisponibles;
+            HoraComboBox.IsEnabled = true;
+        }
+
+        private void LoadMascotas()
+        {
+            _pets = [];
+            var identidadCliente = ClienteAutoCompleteBox.SelectedItem as Client;
+            if (identidadCliente == null)
+            {
+                MascotaAutoCompleteBox.IsEnabled = false;
+                MascotaAutoCompleteBox.Text = "";
+                return;
+            }
+
+            var data = AppointmentsService.FindPets(identidadCliente!.NumIdentidad);
+
+            foreach (DataRow row in data.Rows)
+            {
+                _pets.Add(new Pet
+                {
+                    ClienteID = (int)row["ClienteID"],
+                    Dueño = (string)row["Dueño"],
+                    Mascota = (string)row["Mascota"],
+                    MascotaID = (int)row["MascotaID"]
+                });
+            }
+            
+            MascotaAutoCompleteBox.ItemsSource = _pets;
+            MascotaAutoCompleteBox.IsEnabled = true;
+            MascotaAutoCompleteBox.IsTextCompletionEnabled = true;
+        }
+
+        private void CancelButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        {
+            this.Close(false);
+        }
     }
 }

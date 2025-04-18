@@ -8,15 +8,14 @@
              x:DataType="models:Appointment">
     <Grid Margin="20" RowDefinitions="Auto,*,Auto">
         <TextBlock Text="Gestión de Citas" FontSize="24" FontWeight="Bold" Grid.Row="0" Margin="0,0,0,15"/>
-        <Grid Grid.Row="0" Margin="0,40,0,15" ColumnDefinitions="250,20,*">
-            <ComboBox Grid.Column="0" x:Name="DepartmentComboBox" PlaceholderText="Seleccionar departamento" HorizontalAlignment="Stretch">
-                <!-- <ComboBoxItem>Veterinaria</ComboBoxItem> -->
-                <!-- <ComboBoxItem>Salón de Belleza</ComboBoxItem> -->
-                <!-- <ComboBoxItem>Todos</ComboBoxItem> -->
-            </ComboBox>
-            
-            <TextBox Grid.Column="2" x:Name="SearchTextBox" Watermark="Buscar citas..." />
-        </Grid>
+        
+        <DockPanel Grid.Row="0" Margin="0,40,0,15" LastChildFill="True">
+            <StackPanel Margin="0,0,15,0" Orientation="Horizontal" Spacing="15">
+                <ComboBox x:Name="DepartmentComboBox" PlaceholderText="Seleccionar departamento" HorizontalAlignment="Stretch"></ComboBox>
+                <DatePicker x:Name="AppointmentDatePicker"></DatePicker>
+            </StackPanel>
+            <TextBox x:Name="SearchTextBox" Watermark="Buscar citas..." VerticalAlignment="Center"/>
+        </DockPanel>
         
         <DataGrid Grid.Row="1"
                   x:Name="AppointmentsDataGrid"

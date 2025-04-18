@@ -2,13 +2,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ProyectoBD2"
-        xmlns:models="clr-namespace:ProyectoBD2.Models"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
         WindowState="Maximized"
         x:Class="ProyectoBD2.MainWindow"
-        Title="ProyectoBD2"
-        x:DataType="models:Person">
+        Title="ProyectoBD2">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
@@ -72,22 +69,6 @@
 
         <!-- Contenido principal que cambiará según el módulo seleccionado -->
         <ContentControl x:Name="MainContent" Grid.Row="1">
-            <!-- Contenido por defecto -->
-            <StackPanel Margin="20">
-                <TextBlock Text="Dashboard" FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
-                <DataGrid x:Name="PeopleDataGrid"
-                          AutoGenerateColumns="False"
-                          IsReadOnly="True"
-                          GridLinesVisibility="All"
-                          BorderThickness="1"
-                          BorderBrush="Gray">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Nombre" Binding="{Binding FirstName}" Width="*"/>
-                        <DataGridTextColumn Header="Apellido" Binding="{Binding LastName}" Width="*"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <Button x:Name="AddButton" HorizontalAlignment="Center" Margin="0,20,0,0">Agregar</Button>
-            </StackPanel>
         </ContentControl>
     </Grid>
 </Window>

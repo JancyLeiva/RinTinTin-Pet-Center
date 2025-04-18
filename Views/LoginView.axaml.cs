@@ -11,14 +11,17 @@ namespace ProyectoBD2.Windows
 {
     public partial class LoginView : Window
     {
-        private TextBox? _usernameTextBox; private TextBox? _passwordTextBox;
+        private TextBox? _usernameTextBox;
+        private TextBox? _passwordTextBox;
 
     public LoginView()
         {
             InitializeComponent();
 
-            _usernameTextBox = this.FindControl<TextBox>("UsernameTextBox");
-            _passwordTextBox = this.FindControl<TextBox>("PasswordTextBox");
+            // _usernameTextBox = this.FindControl<TextBox>("UsernameTextBox");
+            // _passwordTextBox = this.FindControl<TextBox>("PasswordTextBox");
+            UsernameTextBox.Text = "k.martinez";
+            PasswordTextBox.Text = "Rinti123!";
             var loginButton = this.FindControl<Button>("LoginButton");
 
             loginButton.Click += OnLoginButtonClick;
@@ -26,8 +29,8 @@ namespace ProyectoBD2.Windows
 
         private async void OnLoginButtonClick(object? sender, RoutedEventArgs e)
         {
-            string usuario = _usernameTextBox?.Text?.Trim() ?? "";
-            string contrasena = _passwordTextBox?.Text ?? "";
+            var usuario = UsernameTextBox.Text?.Trim() ?? "";
+            var contrasena = PasswordTextBox.Text ?? "";
 
             if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(contrasena))
             {

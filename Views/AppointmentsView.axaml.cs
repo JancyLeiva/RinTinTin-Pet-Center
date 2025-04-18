@@ -5,6 +5,7 @@ using System;
 using System.Data;
 using System.Linq;
 using ProyectoBD2.Services;
+using ProyectoBD2.Windows;
 
 namespace ProyectoBD2.Views
 {
@@ -16,16 +17,18 @@ namespace ProyectoBD2.Views
         public AppointmentsView()
         {
             InitializeComponent();
+            AppointmentDatePicker.SelectedDate = DateTime.Now.Date;
             LoadAppointments();
             LoadAreas();
 
-            // Set up event handlers
             DepartmentComboBox.SelectionChanged += (s, e) => FilterAppointments();
             SearchTextBox.TextChanged += (s, e) => FilterAppointments();
+            AppointmentDatePicker.Initialized += (s, e) => LoadAppointments();
+            AppointmentDatePicker.SelectedDateChanged += (s, e) => LoadAppointments();
 
-            // AddAppointmentButton.Click += async (s, e) => await AddAppointment();
-            // EditAppointmentButton.Click += async (s, e) => await EditAppointment();
-            // DeleteAppointmentButton.Click += (s, e) => DeleteAppointment();
+            AddAppointmentButton.Click += async (s, e) => await AddAppointment();
+            EditAppointmentButton.Click += async (s, e) => await EditAppointment();
+            DeleteAppointmentButton.Click += (s, e) => DeleteAppointment();
         }
 
         private void LoadAreas()
@@ -36,6 +39,7 @@ namespace ProyectoBD2.Views
             {
                 _areas.Add((string)row["Area"]);
             }
+
             DepartmentComboBox.ItemsSource = _areas;
         }
 
@@ -45,9 +49,9 @@ namespace ProyectoBD2.Views
             {
                 int? serviceTypeId = null;
                 const string queryMode = "Citas";
-                const string? date = "2025-04-19";
+                var date = AppointmentDatePicker.SelectedDate!.Value.ToString("yyyy-MM-dd");
                 _appointments = [];
-        
+
                 var data = AppointmentsService.FindAll(serviceTypeId, queryMode, date);
 
                 foreach (DataRow row in data.Rows)
@@ -65,7 +69,7 @@ namespace ProyectoBD2.Views
                         EsEmergencia = (bool)row["EsEmergencia"]
                     });
                 }
-        
+
                 AppointmentsDataGrid.ItemsSource = _appointments;
                 Console.WriteLine($"Loaded {data.Rows.Count} appointments");
             }
@@ -95,76 +99,27 @@ namespace ProyectoBD2.Views
             AppointmentsDataGrid.ItemsSource = filteredAppointments;
         }
 
-        // private async System.Threading.Tasks.Task AddAppointment()
-        // {
-        //     // Create a new dialog for adding an appointment
-        //     var dialog = new AppointmentDialog();
-        //
-        //     // Show the dialog as a modal and get the result
-        //     var topLevel = TopLevel.GetTopLevel(this);
-        //     var result = await dialog.ShowDialog<bool?>(topLevel as Window);
-        //
-        //     // If the dialog was confirmed and we have a result appointment
-        //     if (result == true && dialog.ResultAppointment != null)
-        //     {
-        //         // Generate a new ID (in a real app, this would come from the database)
-        //         dialog.ResultAppointment.CitaID = _appointments.Count > 0 ? 
-        //             _appointments.Max(a => a.CitaID) + 1 : 1;
-        //
-        //         // Add the new appointment to the collection
-        //         _appointments.Add(dialog.ResultAppointment);
-        //
-        //         // Refresh the filtered view
-        //         FilterAppointments();
-        //     }
-        // }
+        private async System.Threading.Tasks.Task AddAppointment()
+        {
+            var dialog = new AppointmentDialog();
 
-        // private async System.Threading.Tasks.Task EditAppointment()
-        // {
-        //     // Get the selected appointment
-        //     var selectedAppointment = AppointmentsDataGrid.SelectedItem as Appointment;
-        //     if (selectedAppointment == null)
-        //         return;
-        //
-        //     // Create a dialog for editing, initialized with the selected appointment
-        //     var dialog = new AppointmentDialog(selectedAppointment)
-        //     {
-        //         DataContext = selectedAppointment
-        //     };
-        //
-        //     // Show the dialog as a modal and get the result
-        //     var topLevel = TopLevel.GetTopLevel(this);
-        //     var result = await dialog.ShowDialog<bool?>(topLevel as Window);
-        //
-        //     // If the dialog was confirmed and we have a result appointment
-        //     if (result == true && dialog.ResultAppointment != null)
-        //     {
-        //         // Find the original appointment in the collection
-        //         var originalAppointment = _appointments.FirstOrDefault(a => a.CitaID == selectedAppointment.CitaID);
-        //         if (originalAppointment != null)
-        //         {
-        //             // Update the appointment data
-        //             int index = _appointments.IndexOf(originalAppointment);
-        //             _appointments[index] = dialog.ResultAppointment;
-        //
-        //             // Refresh the filtered view
-        //             FilterAppointments();
-        //         }
-        //     }
-        // }
+            var topLevel = TopLevel.GetTopLevel(this);
+            var result = await dialog.ShowDialog<bool?>(topLevel as Window);
+        }
 
-        // private void DeleteAppointment()
-        // {
-        //     // Get the selected appointment
-        //     var selectedAppointment = AppointmentsDataGrid.SelectedItem as Appointment;
-        //     if (selectedAppointment == null)
-        //         return;
-        //
-        //     // Remove the appointment from the collection
-        //     _appointments.Remove(selectedAppointment);
-        //
-        //     // Refresh the filtered view
-        //     FilterAppointments();
-        // }
+        private async System.Threading.Tasks.Task EditAppointment()
+        {
+        }
+
+        private void DeleteAppointment()
+        {
+            var selectedAppointment = AppointmentsDataGrid.SelectedItem as Appointment;
+            if (selectedAppointment == null)
+                return;
+
+            _appointments?.Remove(selectedAppointment);
+
+            FilterAppointments();
+        }
     }
 }
