@@ -1,13 +1,9 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using ProyectoBD2.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
-using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using ProyectoBD2.Services;
 
@@ -15,6 +11,9 @@ namespace ProyectoBD2.Windows
 {
     public partial class AppointmentDialog : Window
     {
+        private Appointment? _appointment;
+        private bool _isEditMode;
+
         private ObservableCollection<Client>? _clients;
         private ObservableCollection<Appointment>? _appointments;
         private ObservableCollection<ServiceType>? _services;
@@ -43,10 +42,77 @@ namespace ProyectoBD2.Windows
             MascotaComboBox.SelectionChanged += (s, e) => LoadHorarios();
         }
 
+        public AppointmentDialog(Appointment appointmentToEdit)
+        {
+            InitializeComponent();
+            LoadClients();
+            LoadServices();
+
+            _appointment = appointmentToEdit;
+            _isEditMode = true;
+
+            ClienteAutoCompleteBox.ValueMemberBinding = new Binding("Nombre");
+            // ClienteAutoCompleteBox.FilterMode = AutoCompleteFilterMode.Contains;
+            ClienteAutoCompleteBox.IsEnabled = false;
+            EstadoComboBox.ItemsSource = _estados;
+            EstadoStackPanel.IsVisible = true;
+
+            FechaDatePicker.SelectedDateChanged += (s, e) => LoadHorarios();
+            ClienteAutoCompleteBox.SelectionChanged += (s, e) => LoadMascotas();
+            ServicioComboBox.SelectionChanged += (s, e) => LoadHorarios();
+            MascotaComboBox.SelectionChanged += (s, e) => LoadHorarios();
+
+            LoadAppointmentData();
+
+            if (!_appointment.EsEmergencia) return;
+            FechaDatePicker.IsEnabled = false;
+            HoraComboBox.IsEnabled = false;
+        }
+
+        private void LoadAppointmentData()
+        {
+            if (_appointment == null) return;
+
+            Title = "Editar Cita";
+
+            FechaDatePicker.SelectedDate = _appointment.FechaInicio.Date;
+
+            foreach (var client in _clients!)
+            {
+                if (client.Nombre != _appointment.Cliente) continue;
+                ClienteAutoCompleteBox.SelectedItem = client;
+                break;
+            }
+
+            LoadMascotas();
+
+            foreach (var pet in _pets!)
+            {
+                if (pet.Mascota != _appointment.Mascota) continue;
+                MascotaComboBox.SelectedItem = pet;
+                break;
+            }
+
+            foreach (var service in _services!)
+            {
+                if (!service.Servicio!.Contains(_appointment.TipoServicio!) ||
+                    !service.Servicio.Contains(_appointment.Servicio!)) continue;
+                ServicioComboBox.SelectedItem = service;
+                break;
+            }
+
+            LoadHorarios();
+
+            EsEmergenciaCheckBox.IsChecked = _appointment.EsEmergencia;
+
+            var statusIndex = Array.IndexOf(_estados.ToArray(), _appointment.Estado);
+            if (statusIndex >= 0) EstadoComboBox.SelectedIndex = statusIndex;
+        }
+
         private void LoadClients()
         {
             _clients = [];
-            var busqueda = "";
+            const string busqueda = "";
             var data = AppointmentsService.FindClients(busqueda);
             Console.Write(data);
 
@@ -119,6 +185,11 @@ namespace ProyectoBD2.Windows
 
                 if (appointmentsAtHourAndServiceType.Count < 3 && !appointmentsAtHourAndPet)
                     _horasDisponibles.Add(hora);
+
+                if (_appointment == null || !_isEditMode || _appointment.FechaInicio.ToString("HH:mm") != hora ||
+                    _appointment.Mascota != selectedPet) continue;
+                _horasDisponibles.Add(hora);
+                HoraComboBox.SelectedItem = hora;
             }
 
             HoraComboBox.ItemsSource = _horasDisponibles;
@@ -172,38 +243,45 @@ namespace ProyectoBD2.Windows
         private void isEmergencyCheckBox_Checked(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
             FechaDatePicker.IsEnabled = EsEmergenciaCheckBox.IsChecked != true;
+            HoraComboBox.IsEnabled = EsEmergenciaCheckBox.IsChecked != true;
         }
 
         private void SaveButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
             if (ClienteAutoCompleteBox.SelectedItem == null || MascotaComboBox.SelectedItem == null ||
-                ServicioComboBox.SelectedItem == null || FechaDatePicker.SelectedDate == null ||
-                HoraComboBox.SelectedItem == null)
+                ServicioComboBox.SelectedItem == null || ((FechaDatePicker.SelectedDate == null ||
+                HoraComboBox.SelectedItem == null) && !EsEmergenciaCheckBox.IsChecked == true))
             {
                 return;
             }
 
+            var citaId = _appointment?.CitaId ?? 0;
             var identidadCliente = ((Client)ClienteAutoCompleteBox.SelectedItem).NumIdentidad ?? "";
             var mascotaId = ((Pet)MascotaComboBox.SelectedItem).MascotaID ?? 0;
-            var estado = EstadoComboBox.SelectedItem?.ToString();
+            var estado = EstadoComboBox.SelectedItem?.ToString() ?? "Pendiente";
             var servicioId = ((ServiceType)ServicioComboBox.SelectedItem).ServicioId ?? 0;
             var esEmergencia = EsEmergenciaCheckBox.IsChecked == true ? 1 : 0;
             var fechaInicio = EsEmergenciaCheckBox.IsChecked == true
                 ? DateTime.Now
-                : FechaDatePicker.SelectedDate!.Value.Date.Add(TimeSpan.Parse(HoraComboBox.SelectedItem.ToString()!));
-            Console.WriteLine(identidadCliente);
-            Console.WriteLine(mascotaId);
-            Console.WriteLine(estado);
-            Console.WriteLine(servicioId);
-            Console.WriteLine(fechaInicio);
-            Console.WriteLine(esEmergencia);
-            AppointmentsService.CreateAppointment(identidadCliente, mascotaId, estado!, servicioId, fechaInicio,
-                esEmergencia);
+                : FechaDatePicker.SelectedDate!.Value.Date.Add(TimeSpan.Parse(HoraComboBox.SelectedItem!.ToString()!));
+            
+            if (!_isEditMode)
+            {
+                AppointmentsService.CreateAppointment(identidadCliente, mascotaId, estado, servicioId, fechaInicio,
+                    esEmergencia);
+                Close(true);
+                return;
+            }
+
+            if (_appointment == null || !_isEditMode) return;
+            AppointmentsService.UpdateAppointment(citaId, mascotaId,
+                estado, servicioId, fechaInicio, esEmergencia);
+            Close(true);
         }
 
         private void CancelButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
-            this.Close(false);
+            Close(false);
         }
     }
 }

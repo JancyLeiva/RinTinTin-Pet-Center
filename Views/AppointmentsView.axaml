@@ -7,16 +7,18 @@
              x:Class="ProyectoBD2.Views.AppointmentsView"
              x:DataType="models:Appointment">
     <Grid Margin="20" RowDefinitions="Auto,*,Auto">
-        <TextBlock Text="Gestión de Citas" FontSize="24" FontWeight="Bold" Grid.Row="0" Margin="0,0,0,15"/>
-        
+        <TextBlock Text="Gestión de citas" FontSize="24" FontWeight="Bold" Grid.Row="0" Margin="0,0,0,15" />
+
         <DockPanel Grid.Row="0" Margin="0,40,0,15" LastChildFill="True">
             <StackPanel Margin="0,0,15,0" Orientation="Horizontal" Spacing="15">
-                <ComboBox x:Name="DepartmentComboBox" PlaceholderText="Seleccionar departamento" HorizontalAlignment="Stretch"></ComboBox>
+                <ComboBox x:Name="DepartmentComboBox" PlaceholderText="Seleccionar departamento"
+                          HorizontalAlignment="Stretch">
+                </ComboBox>
                 <DatePicker x:Name="AppointmentDatePicker"></DatePicker>
             </StackPanel>
-            <TextBox x:Name="SearchTextBox" Watermark="Buscar citas..." VerticalAlignment="Center"/>
+            <TextBox x:Name="SearchTextBox" Watermark="Buscar citas..." VerticalAlignment="Center" />
         </DockPanel>
-        
+
         <DataGrid Grid.Row="1"
                   x:Name="AppointmentsDataGrid"
                   AutoGenerateColumns="True"
@@ -27,36 +29,36 @@
                   BorderBrush="Gray"
                   Margin="0,10,0,10">
         </DataGrid>
-        
+
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15" Margin="0,15,0,0">
-            <Button x:Name="AddAppointmentButton" 
-                    Content="Agregar Cita" 
+            <Button x:Name="AddAppointmentButton"
+                    Content="Agregar Cita"
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
-                    Width="150" 
+                    Width="150"
                     Height="40"
                     Background="#0078D4"
-                    Foreground="White"/>
-            
-            <Button x:Name="EditAppointmentButton" 
+                    Foreground="White" />
+
+            <Button x:Name="EditAppointmentButton"
                     Content="Editar Cita"
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
-                    Width="150" 
+                    Width="150"
                     Height="40"
                     IsEnabled="{Binding ElementName=AppointmentsDataGrid, Path=SelectedItem, Converter={x:Static ObjectConverters.IsNotNull}}"
                     Background="#218838"
-                    Foreground="White"/>
-            
-            <Button x:Name="DeleteAppointmentButton" 
+                    Foreground="White" />
+
+            <Button x:Name="DeleteAppointmentButton"
                     Content="Eliminar Cita"
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
-                    Width="150" 
+                    Width="150"
                     Height="40"
                     IsEnabled="{Binding ElementName=AppointmentsDataGrid, Path=SelectedItem, Converter={x:Static ObjectConverters.IsNotNull}}"
                     Background="#DC3545"
-                    Foreground="White"/>
+                    Foreground="White" />
         </StackPanel>
     </Grid>
 </UserControl>

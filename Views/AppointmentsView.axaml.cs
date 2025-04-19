@@ -4,6 +4,8 @@ using ProyectoBD2.Models;
 using System;
 using System.Data;
 using System.Linq;
+using Avalonia.VisualTree;
+using ProyectoBD2.DataAccess;
 using ProyectoBD2.Services;
 using ProyectoBD2.Windows;
 
@@ -105,22 +107,34 @@ namespace ProyectoBD2.Views
             var dialog = new AppointmentDialog();
 
             var topLevel = TopLevel.GetTopLevel(this);
-            var result = await dialog.ShowDialog<bool?>(topLevel as Window);
+            var result = await dialog.ShowDialog<bool?>((topLevel as Window)!);
+            if (result == true) LoadAppointments();
         }
 
         private async System.Threading.Tasks.Task EditAppointment()
         {
+            if (AppointmentsDataGrid.SelectedItem is not Appointment selectedAppointment) return;
+
+            var dialog = new AppointmentDialog(selectedAppointment);
+        
+            var result = await dialog.ShowDialog<bool>((this.GetVisualRoot() as Window)!);
+        
+            if (result) LoadAppointments();
         }
 
         private void DeleteAppointment()
         {
-            var selectedAppointment = AppointmentsDataGrid.SelectedItem as Appointment;
-            if (selectedAppointment == null)
-                return;
-
-            _appointments?.Remove(selectedAppointment);
-
-            FilterAppointments();
+            try
+            {
+                if (AppointmentsDataGrid.SelectedItem is not Appointment selectedAppointment) return;
+                AppointmentsService.DeleteAppointment(selectedAppointment.CitaId);
+                LoadAppointments();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

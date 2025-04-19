@@ -112,4 +112,47 @@ public static class AppointmentsService
             throw;
         }
     }
+
+    public static DataTable UpdateAppointment(int citaId, int mascotaId, string estado, int servicioId,
+        DateTime fechaInicio, int esEmergencia = 0)
+    {
+        try
+        {
+            var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+            {
+                { "@CitaID", (citaId, null) },
+                { "@MascotaID", (mascotaId, null) },
+                { "@Estado", (estado, null) },
+                { "@ServicioID", (servicioId, null) },
+                { "@FechaInicio", (fechaInicio, null) },
+                { "@FechaFin", (fechaInicio.AddHours(1), null) },
+                { "@EsEmergencia", (esEmergencia, null) }
+            };
+
+            return DBAccess.ExecuteStoredProcedureToDataTable("dbPrj.spCitaUpdate", parameters);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public static DataTable DeleteAppointment(int citaId)
+    {
+        try
+        {
+            var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+            {
+                { "@CitaID", (citaId, null) }
+            };
+
+            return DBAccess.ExecuteStoredProcedureToDataTable("dbPrj.spAnularCita", parameters);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }
