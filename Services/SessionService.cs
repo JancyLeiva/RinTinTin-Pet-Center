@@ -5,14 +5,36 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ProyectoBD2.Services {
+    public static class SessionService 
+    {
+        public static string? Usuario { get; set; }
+    
+        private static string? RolesString { get; set; }
+        public static string? Roles 
+        { 
+            get => RolesString;
+            set 
+            {
+                RolesString = value;
+                RolesList = value?.Split(',').Select(r => r.Trim()).ToList() ?? [];
+            } 
+        }
 
-    /*Hice esta clase para almacenar los datos del usuario autenticado 
-     * (para así poder usar los roles que retorna el SP para habilitar 
-     * o restingir funcionalidades del sistema, es decir, controlar los accesos). */
+        private static List<string> RolesList { get; set; } = [];
+    
+        public static bool EstaAutenticado => !string.IsNullOrWhiteSpace(Usuario);
 
-    public static class SessionService { 
-        public static string Usuario {  get; set; } = ""; 
-        public static string Roles { get; set; } = ""; 
-        public static bool EstaAutenticado => !string.IsNullOrWhiteSpace(Usuario); 
-    } 
+        private static bool TieneRol(string rol) => RolesList.Contains(rol);
+
+        public static bool EsAdministrador => TieneRol("Administrador");
+        public static bool EsVeterinario => TieneRol("Veterinario");
+        public static bool EsRecepcionista => TieneRol("Recepcionista");
+    
+        public static void LogOut()
+        {
+            Usuario = "";
+            Roles = "";
+            RolesList.Clear();
+        }
+    }
 }

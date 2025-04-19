@@ -16,23 +16,65 @@
                 VerticalAlignment="Center">
             <StackPanel Spacing="15">
                 <StackPanel Margin="0,30,0,20">
-                    <TextBlock Text="Iniciar Sesión" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Ingrese sus credenciales para continuar" Opacity="0.7" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                    <TextBlock Text="Iniciar Sesión" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" />
+                    <TextBlock Text="Ingrese sus credenciales para continuar" Opacity="0.7"
+                               HorizontalAlignment="Center" Margin="0,5,0,0" />
                 </StackPanel>
+
+                <!-- Error message panel -->
+                <Border x:Name="ErrorPanel"
+                        Background="#FFF0F0"
+                        BorderBrush="#FFD6D6"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Padding="10"
+                        IsVisible="False">
+                    <TextBlock x:Name="ErrorMessage"
+                               Foreground="#D32F2F"
+                               TextWrapping="Wrap"
+                               TextAlignment="Center" />
+                </Border>
+
                 <StackPanel>
-                    <TextBlock Text="Usuario" Margin="0,0,0,5"/>
+                    <TextBlock Text="Usuario" Margin="0,0,0,5" />
                     <TextBox x:Name="UsernameTextBox" Watermark="Ingrese su usuario"/>
                 </StackPanel>
+
                 <StackPanel>
-                    <TextBlock Text="Contraseña" Margin="0,0,0,5"/>
-                    <TextBox x:Name="PasswordTextBox" PasswordChar="•" Watermark="Ingrese su contraseña"/>
+                    <TextBlock Text="Contraseña" Margin="0,0,0,5" />
+                    <TextBox x:Name="PasswordTextBox"
+                             Watermark="Ingrese su contraseña">
+                        <TextBox.InnerRightContent>
+                            <Button x:Name="TogglePasswordButton"
+                                    Width="30"
+                                    Height="30"
+                                    VerticalAlignment="Center"
+                                    Background="Transparent"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Padding="0">
+                                <PathIcon x:Name="EyeIcon"
+                                          Width="18"
+                                          Height="18"
+                                          Foreground="#555555" />
+                            </Button>
+                        </TextBox.InnerRightContent>
+                    </TextBox>
                 </StackPanel>
-                <Button x:Name="LoginButton" Content="Iniciar Sesión"
+
+                <Button x:Name="LoginButton"
+                        Content="Iniciar Sesión"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Center"
                         Padding="0,10"
                         Background="#0078D4"
-                        Foreground="White"/>
+                        Foreground="White" />
+
+                <ProgressBar x:Name="LoadingBar"
+                             IsIndeterminate="True"
+                             IsVisible="False"
+                             Height="4"
+                             Margin="0,5,0,0" />
             </StackPanel>
         </Border>
     </Grid>
