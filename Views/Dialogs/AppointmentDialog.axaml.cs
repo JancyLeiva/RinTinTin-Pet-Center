@@ -88,7 +88,7 @@ namespace ProyectoBD2.Windows
 
             foreach (var pet in _pets!)
             {
-                if (pet.Mascota != _appointment.Mascota) continue;
+                if (pet.Nombre != _appointment.Mascota) continue;
                 MascotaComboBox.SelectedItem = pet;
                 break;
             }
@@ -167,7 +167,7 @@ namespace ProyectoBD2.Windows
             }
 
             var selectedTipoServicio = selectedService.Servicio?.Split(" -")[0];
-            var selectedPet = (MascotaComboBox.SelectionBoxItem as Pet)?.Mascota;
+            var selectedPet = (MascotaComboBox.SelectionBoxItem as Pet)?.Nombre;
             var selectedClient = (ClienteAutoCompleteBox.SelectedItem as Client)?.Nombre;
 
             foreach (var hora in _horasHabiles)
@@ -212,10 +212,10 @@ namespace ProyectoBD2.Windows
             {
                 _pets.Add(new Pet
                 {
-                    ClienteID = (int)row["ClienteID"],
+                    ClienteId = (int)row["ClienteID"],
                     Dueño = (string)row["Dueño"],
-                    Mascota = (string)row["Mascota"],
-                    MascotaID = (int)row["MascotaID"]
+                    Nombre = (string)row["Mascota"],
+                    MascotaId = (int)row["MascotaID"]
                 });
             }
 
@@ -257,7 +257,7 @@ namespace ProyectoBD2.Windows
 
             var citaId = _appointment?.CitaId ?? 0;
             var identidadCliente = ((Client)ClienteAutoCompleteBox.SelectedItem).NumIdentidad ?? "";
-            var mascotaId = ((Pet)MascotaComboBox.SelectedItem).MascotaID ?? 0;
+            var mascotaId = ((Pet)MascotaComboBox.SelectedItem).MascotaId ?? 0;
             var estado = EstadoComboBox.SelectedItem?.ToString() ?? "Pendiente";
             var servicioId = ((ServiceType)ServicioComboBox.SelectedItem).ServicioId ?? 0;
             var esEmergencia = EsEmergenciaCheckBox.IsChecked == true ? 1 : 0;

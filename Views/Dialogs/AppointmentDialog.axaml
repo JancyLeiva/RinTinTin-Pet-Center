@@ -26,7 +26,7 @@
                               PlaceholderText="Seleccionar mascota">
                         <ComboBox.ItemTemplate>
                             <DataTemplate x:DataType="models:Pet">
-                                <TextBlock Text="{Binding Mascota}" />
+                                <TextBlock Text="{Binding Nombre}" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>

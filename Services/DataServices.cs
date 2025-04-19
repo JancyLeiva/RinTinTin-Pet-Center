@@ -98,5 +98,15 @@ namespace ProyectoBD2.Services
         {
             return DbAccess.ExecuteStoredProcedure("dbPrj.spObtenerServiciosConTipo", EmptyParams);
         }
+
+        public static DataTable FindPetByClientId(int? clienteId)
+        {
+            var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+            {
+                { "@ClienteID", (clienteId != null ? clienteId : DBNull.Value, null) }
+            };
+            
+            return DbAccess.ExecuteStoredProcedure("dbPrj.spListaDeMascotasDeUnCliente", parameters);
+        }
     }
 }

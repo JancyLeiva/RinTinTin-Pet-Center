@@ -58,31 +58,40 @@
                             <TextBlock Text="Información del Cliente" FontWeight="Bold" FontSize="16" Grid.Row="0"
                                        Margin="0,0,0,15" />
 
-                            <Grid Grid.Row="1" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                            <Grid Grid.Row="1" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,*"
                                   Margin="0,0,0,20">
-                                <TextBlock Text="Identidad:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"
+                                <TextBlock Text="Nombre:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"
                                            Margin="0,0,10,10" />
-                                <TextBox x:Name="ClientIdTextBox" Grid.Row="0" Grid.Column="1" Margin="0,0,0,10"
+                                <TextBox x:Name="NombreClienteTextBox" Grid.Row="0" Grid.Column="1" Margin="0,0,0,10"
                                          IsReadOnly="True" />
 
-                                <TextBlock Text="Nombre:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"
+                                <TextBlock Text="Identidad:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"
                                            Margin="0,0,10,10" />
-                                <TextBox x:Name="ClientNameTextBox" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10"
+                                <TextBox x:Name="NumIdentidadClienteTextBox" Grid.Row="1" Grid.Column="1"
+                                         Margin="0,0,0,10"
                                          IsReadOnly="True" />
 
                                 <TextBlock Text="Teléfono:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"
                                            Margin="0,0,10,10" />
-                                <TextBox x:Name="ClientPhoneTextBox" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10"
+                                <TextBox x:Name="TelefonoClienteTextBox" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10"
                                          IsReadOnly="True" />
 
                                 <TextBlock Text="Correo:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"
                                            Margin="0,0,10,10" />
-                                <TextBox x:Name="ClientEmailTextBox" Grid.Row="3" Grid.Column="1" Margin="0,0,0,10"
+                                <TextBox x:Name="CorreoClienteTextBox" Grid.Row="3" Grid.Column="1" Margin="0,0,0,10"
                                          IsReadOnly="True" />
 
                                 <TextBlock Text="Dirección:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"
                                            Margin="0,0,10,10" />
-                                <TextBox x:Name="ClientAddressTextBox" Grid.Row="4" Grid.Column="1" Margin="0,0,0,10"
+                                <TextBox x:Name="DireccionClienteTextBox" Grid.Row="4" Grid.Column="1"
+                                         Margin="0,0,0,10"
+                                         IsReadOnly="True" />
+
+                                <TextBlock Text="Teléfono adicional:" Grid.Row="5" Grid.Column="0"
+                                           VerticalAlignment="Center"
+                                           Margin="0,0,10,10" />
+                                <TextBox x:Name="TelefonoAdicionalClienteTextBox" Grid.Row="5" Grid.Column="1"
+                                         Margin="0,0,0,10"
                                          IsReadOnly="True" />
                             </Grid>
 
@@ -109,7 +118,7 @@
                         </Grid>
                     </TabItem>
 
-                    <TabItem Header="Mascotas">
+                    <TabItem Header="Mascotas" x:Name="PetsTab">
                         <Grid RowDefinitions="Auto,*,Auto" Margin="10">
                             <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,10">
                                 <TextBlock Text="Mascotas del Cliente" FontWeight="Bold" FontSize="16"
@@ -117,17 +126,11 @@
                             </Grid>
 
                             <DataGrid x:Name="PetsDataGrid" Grid.Row="1"
-                                      AutoGenerateColumns="False"
+                                      AutoGenerateColumns="True"
+                                      AutoGeneratingColumn="PetsDataGridAutoGeneratingColumn"
                                       IsReadOnly="True"
                                       BorderThickness="0"
                                       Margin="0,0,0,10">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="ID" Width="60" />
-                                    <DataGridTextColumn Header="Nombre" Width="*" />
-                                    <DataGridTextColumn Header="Especie" Width="100" />
-                                    <DataGridTextColumn Header="Raza" Width="100" />
-                                    <DataGridTextColumn Header="Edad" Width="80" />
-                                </DataGrid.Columns>
                             </DataGrid>
 
                             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15"
@@ -168,27 +171,37 @@
                             <TextBlock Text="Crear Nuevo Cliente" FontWeight="Bold" FontSize="16" Grid.Row="0"
                                        Margin="0,0,0,15" />
 
-                            <Grid Grid.Row="1" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                            <Grid Grid.Row="1" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,*"
                                   Margin="0,0,0,20">
-                                <TextBlock Text="Identidad:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"
+                                <TextBlock Text="Nombre:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"
                                            Margin="0,0,10,10" />
-                                <TextBox x:Name="NewClientIdTextBox" Grid.Row="0" Grid.Column="1" Margin="0,0,0,10" />
+                                <TextBox x:Name="NombreClienteNuevoTextBox" Grid.Row="0" Grid.Column="1"
+                                         Margin="0,0,0,10" />
 
-                                <TextBlock Text="Nombre:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"
+                                <TextBlock Text="Identidad:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"
                                            Margin="0,0,10,10" />
-                                <TextBox x:Name="NewClientNameTextBox" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" />
+                                <TextBox x:Name="NumIdentidadClienteNuevoTextBox" Grid.Row="1" Grid.Column="1"
+                                         Margin="0,0,0,10" />
 
                                 <TextBlock Text="Teléfono:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"
                                            Margin="0,0,10,10" />
-                                <TextBox x:Name="NewClientPhoneTextBox" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" />
+                                <TextBox x:Name="TelefonoClienteNuevoTextBox" Grid.Row="2" Grid.Column="1"
+                                         Margin="0,0,0,10" />
 
                                 <TextBlock Text="Correo:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"
                                            Margin="0,0,10,10" />
-                                <TextBox x:Name="NewClientEmailTextBox" Grid.Row="3" Grid.Column="1" Margin="0,0,0,10" />
+                                <TextBox x:Name="CorreoClienteNuevoTextBox" Grid.Row="3" Grid.Column="1"
+                                         Margin="0,0,0,10" />
 
                                 <TextBlock Text="Dirección:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"
                                            Margin="0,0,10,10" />
-                                <TextBox x:Name="NewClientAddressTextBox" Grid.Row="4" Grid.Column="1"
+                                <TextBox x:Name="DireccionClienteNuevoTextBox" Grid.Row="4" Grid.Column="1"
+                                         Margin="0,0,0,10" />
+
+                                <TextBlock Text="Teléfono adicional:" Grid.Row="5" Grid.Column="0"
+                                           VerticalAlignment="Center"
+                                           Margin="0,0,10,10" />
+                                <TextBox x:Name="TelefonoAdicionalClienteNuevoTextBox" Grid.Row="5" Grid.Column="1"
                                          Margin="0,0,0,10" />
                             </Grid>
 
@@ -215,35 +228,30 @@
                         </Grid>
                     </TabItem>
 
-                    <TabItem Header="Mascotas" x:Name="CreateMascotasTab" IsEnabled="False">
+                    <TabItem Header="Mascotas" x:Name="CreatePetsTab" IsEnabled="False">
                         <Grid RowDefinitions="Auto,Auto,*,Auto" Margin="10">
                             <TextBlock Text="Agregar Mascotas (Opcional)" FontWeight="Bold" FontSize="16" Grid.Row="0"
                                        Margin="0,0,0,15" />
 
-                            <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto,*" RowDefinitions="Auto,Auto"
-                                  Margin="0,0,0,15">
-                                <TextBlock Text="Nombre:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"
-                                           Margin="0,0,10,10" />
-                                <TextBox x:Name="NewPetNameTextBox" Grid.Row="0" Grid.Column="1" Margin="0,0,20,10" />
+                            <Grid Grid.Row="1" ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Margin="0,0,0,15">
+                                <TextBlock Text="Nombre:" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="0,0,0,5" />
+                                <TextBox x:Name="NombreMascotaNuevaTextBox" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,10" />
 
-                                <TextBlock Text="Especie:" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center"
-                                           Margin="0,0,10,10" />
-                                <ComboBox x:Name="NewPetSpeciesComboBox" Grid.Row="0" Grid.Column="3" Margin="0,0,0,10"
-                                          HorizontalAlignment="Stretch">
-                                    <ComboBoxItem>Perro</ComboBoxItem>
-                                    <ComboBoxItem>Gato</ComboBoxItem>
-                                    <ComboBoxItem>Ave</ComboBoxItem>
-                                    <ComboBoxItem>Otro</ComboBoxItem>
-                                </ComboBox>
+                                <TextBlock Text="Especie:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,0,5" />
+                                <TextBlock Text="Raza:" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,0,5" />
+                                <TextBox x:Name="EspecieMascotaNuevaTextBox" Grid.Row="3" Grid.Column="0" Margin="0,0,10,10" />
+                                <TextBox x:Name="RazaMascotaNuevaTextBox" Grid.Row="3" Grid.Column="1" Margin="0,0,0,10" />
 
-                                <TextBlock Text="Raza:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"
-                                           Margin="0,0,10,10" />
-                                <TextBox x:Name="NewPetBreedTextBox" Grid.Row="1" Grid.Column="1" Margin="0,0,20,10" />
-
-                                <TextBlock Text="Edad:" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"
-                                           Margin="0,0,10,10" />
-                                <NumericUpDown x:Name="NewPetAgeNumeric" Grid.Row="1" Grid.Column="3" Margin="0,0,0,10"
+                                <TextBlock Text="Edad:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,0,5" />
+                                <TextBlock Text="Peso (Lbs):" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,0,5" />
+                                <NumericUpDown x:Name="EdadMascotaNuevaNumeric" Grid.Row="5" Grid.Column="0" Margin="0,0,10,10"
                                                Minimum="0" Maximum="30" />
+                                <NumericUpDown x:Name="PesoMascotaNuevaNumeric" Grid.Row="5" Grid.Column="1" Margin="0,0,0,10"
+                                               Minimum="0" Maximum="100" FormatString="F2" />
+
+                                <TextBlock Text="Descripción:" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" Margin="0,0,0,5" />
+                                <TextBox x:Name="DescripcionMascotaNuevaTextBox" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
+                                         Margin="0,0,0,10" Height="60" AcceptsReturn="True" TextWrapping="Wrap" />
                             </Grid>
 
                             <Button Grid.Row="2" x:Name="AddNewPetButton"

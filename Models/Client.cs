@@ -9,4 +9,5 @@ public class Client
     public string? Direccion { get; set; }
     public string? TelefonoAdicional { get; set; }
     public string? NumIdentidad { get; set; }
+    public bool? Activo { get; set; }
 }
