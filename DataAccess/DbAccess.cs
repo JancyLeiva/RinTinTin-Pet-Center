@@ -5,22 +5,21 @@ using System;
 
 namespace ProyectoBD2.DataAccess
 {
-    public static class DBAccess
+    public static class DbAccess
     {
-        private static readonly string connectionString =
-            "Server=3.128.144.165; Database=DB20202000577; UID=jancy.leiva; PWD=JL20202000577; TrustServerCertificate=True;";
+        private const string ConnectionString = "Server=3.128.144.165; Database=DB20202000577; UID=jancy.leiva; PWD=JL20202000577; TrustServerCertificate=True;";
 
-        public static void ExecuteStoredProcedureNonQuery(string nombreSP,
-            Dictionary<string, (object valor, ParameterDirection? direccion)> parametros,
+        public static void ExecuteStoredProcedureNonQuery(string nombreSp,
+            Dictionary<string, (object valor, ParameterDirection? direccion)> parameters,
             ref Dictionary<string, object> valoresSalida)
         {
-            using var conn = new SqlConnection(connectionString);
-            using var cmd = new SqlCommand(nombreSP, conn);
+            using var conn = new SqlConnection(ConnectionString);
+            using var cmd = new SqlCommand(nombreSp, conn);
             cmd.CommandType = CommandType.StoredProcedure;
 
-            foreach (var param in parametros)
+            foreach (var param in parameters)
             {
-                var sqlParam = new SqlParameter(param.Key, param.Value.valor ?? DBNull.Value);
+                var sqlParam = new SqlParameter(param.Key, param.Value.valor);
                 if (param.Value.direccion.HasValue)
                 {
                     sqlParam.Direction = param.Value.direccion.Value;
@@ -44,12 +43,12 @@ namespace ProyectoBD2.DataAccess
             }
         }
 
-        public static DataTable ExecuteStoredProcedureToDataTable(string procedureName,
+        public static DataTable ExecuteStoredProcedure(string procedureName,
             Dictionary<string, (object valor, ParameterDirection? direccion)>? parameters)
         {
             var dataTable = new DataTable();
 
-            using var conn = new SqlConnection(connectionString);
+            using var conn = new SqlConnection(ConnectionString);
             using var cmd = new SqlCommand(procedureName, conn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandTimeout = 120;
@@ -107,12 +106,12 @@ namespace ProyectoBD2.DataAccess
             return dataTable;
         }
 
-        public static DataTable ExecuteSqlQueryToDataTable(string sqlQuery,
+        public static DataTable ExecuteSqlRawQuery(string sqlQuery,
             Dictionary<string, object>? parameters = null)
         {
             var dataTable = new DataTable();
 
-            using var conn = new SqlConnection(connectionString);
+            using var conn = new SqlConnection(ConnectionString);
             using var cmd = new SqlCommand(sqlQuery, conn);
             cmd.CommandType = CommandType.Text;
             cmd.CommandTimeout = 120;
@@ -123,9 +122,9 @@ namespace ProyectoBD2.DataAccess
             {
                 foreach (var param in parameters)
                 {
-                    var sqlParam = new SqlParameter(param.Key, param.Value ?? DBNull.Value);
+                    var sqlParam = new SqlParameter(param.Key, param.Value);
                     cmd.Parameters.Add(sqlParam);
-                    Console.WriteLine($"Parameter: {param.Key} = {param.Value ?? "NULL"}");
+                    Console.WriteLine($"Parameter: {param.Key} = {param.Value}");
                 }
             }
 

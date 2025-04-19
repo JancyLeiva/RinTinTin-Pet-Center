@@ -113,7 +113,7 @@ namespace ProyectoBD2.Windows
         {
             _clients = [];
             const string busqueda = "";
-            var data = AppointmentsService.FindClients(busqueda);
+            var data = DataServices.FindClients(busqueda);
             Console.Write(data);
 
             foreach (DataRow row in data.Rows)
@@ -149,7 +149,7 @@ namespace ProyectoBD2.Windows
                 return;
             }
 
-            var data = AppointmentsService.FindAll(date);
+            var data = DataServices.FindAppointmentsByDate(date);
 
             foreach (DataRow row in data.Rows)
             {
@@ -206,7 +206,7 @@ namespace ProyectoBD2.Windows
                 return;
             }
 
-            var data = AppointmentsService.FindPets(identidadCliente.NumIdentidad);
+            var data = DataServices.FindPets(identidadCliente.NumIdentidad);
 
             foreach (DataRow row in data.Rows)
             {
@@ -226,7 +226,7 @@ namespace ProyectoBD2.Windows
         private void LoadServices()
         {
             _services = [];
-            var data = AppointmentsService.FindServices();
+            var data = DataServices.FindServices();
 
             foreach (DataRow row in data.Rows)
             {
@@ -267,14 +267,14 @@ namespace ProyectoBD2.Windows
             
             if (!_isEditMode)
             {
-                AppointmentsService.CreateAppointment(identidadCliente, mascotaId, estado, servicioId, fechaInicio,
+                DataServices.CreateAppointment(identidadCliente, mascotaId, estado, servicioId, fechaInicio,
                     esEmergencia);
                 Close(true);
                 return;
             }
 
             if (_appointment == null || !_isEditMode) return;
-            AppointmentsService.UpdateAppointment(citaId, mascotaId,
+            DataServices.UpdateAppointment(citaId, mascotaId,
                 estado, servicioId, fechaInicio, esEmergencia);
             Close(true);
         }

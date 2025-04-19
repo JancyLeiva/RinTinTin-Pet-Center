@@ -8,9 +8,9 @@ namespace ProyectoBD2.Services;
 
 using ProyectoBD2.DataAccess;
 
-public static class AppointmentsService
+public static class DataServices
 {
-    public static DataTable FindAll(string? fecha)
+    public static DataTable FindAppointmentsByDate(string? fecha)
     {
         try
         {
@@ -19,11 +19,11 @@ public static class AppointmentsService
                 { "@Fecha", (fecha ?? DateTime.Now.ToString("yyyy-MM-dd"), null) }
             };
 
-            return DBAccess.ExecuteStoredProcedureToDataTable("dbPrj.spConsultarCitasPorFecha", parameters);
+            return DbAccess.ExecuteStoredProcedure("dbPrj.spConsultarCitasPorFecha", parameters);
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            Console.WriteLine($"Error in FindAll method: {ex.Message}");
+            Console.WriteLine(e.Message);
             throw;
         }
     }
@@ -32,11 +32,11 @@ public static class AppointmentsService
     {
         try
         {
-            return DBAccess.ExecuteSqlQueryToDataTable("SELECT * FROM dbPrj.vArea");
+            return DbAccess.ExecuteSqlRawQuery("SELECT * FROM dbPrj.vArea");
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine(e.Message);
             throw;
         }
     }
@@ -49,11 +49,11 @@ public static class AppointmentsService
             {
                 { "@Busqueda", (busqueda ?? null, null)! },
             };
-            return DBAccess.ExecuteStoredProcedureToDataTable("dbPrj.spAutocompletarCliente", parameters);
+            return DbAccess.ExecuteStoredProcedure("dbPrj.spAutocompletarCliente", parameters);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine(e.Message);
             throw;
         }
     }
@@ -66,11 +66,11 @@ public static class AppointmentsService
             {
                 { "@IdentidadCliente", (identidadCliente ?? null, null)! },
             };
-            return DBAccess.ExecuteStoredProcedureToDataTable("dbPrj.spListaMascotasPorCliente", parameters);
+            return DbAccess.ExecuteStoredProcedure("dbPrj.spListaMascotasPorCliente", parameters);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine(e.Message);
             throw;
         }
     }
@@ -79,11 +79,11 @@ public static class AppointmentsService
     {
         try
         {
-            return DBAccess.ExecuteStoredProcedureToDataTable("dbPrj.spObtenerServiciosConTipo", null);
+            return DbAccess.ExecuteStoredProcedure("dbPrj.spObtenerServiciosConTipo", null);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine(e.Message);
             throw;
         }
     }
@@ -104,11 +104,11 @@ public static class AppointmentsService
                 { "@Emergencia", (esEmergencia, null) }
             };
 
-            return DBAccess.ExecuteStoredProcedureToDataTable("dbPrj.spCitaInsert", parameters);
+            return DbAccess.ExecuteStoredProcedure("dbPrj.spCitaInsert", parameters);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine(e.Message);
             throw;
         }
     }
@@ -129,11 +129,11 @@ public static class AppointmentsService
                 { "@EsEmergencia", (esEmergencia, null) }
             };
 
-            return DBAccess.ExecuteStoredProcedureToDataTable("dbPrj.spCitaUpdate", parameters);
+            return DbAccess.ExecuteStoredProcedure("dbPrj.spCitaUpdate", parameters);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine(e.Message);
             throw;
         }
     }
@@ -147,11 +147,11 @@ public static class AppointmentsService
                 { "@CitaID", (citaId, null) }
             };
 
-            return DBAccess.ExecuteStoredProcedureToDataTable("dbPrj.spAnularCita", parameters);
+            return DbAccess.ExecuteStoredProcedure("dbPrj.spAnularCita", parameters);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine(e.Message);
             throw;
         }
     }

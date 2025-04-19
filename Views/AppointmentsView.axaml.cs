@@ -40,7 +40,7 @@ namespace ProyectoBD2.Views
         private void LoadAreas()
         {
             _areas = ["Todas"];
-            var data = AppointmentsService.FindAreas();
+            var data = DataServices.FindAreas();
             foreach (DataRow row in data.Rows)
             {
                 _areas.Add((string)row["Area"]);
@@ -56,7 +56,7 @@ namespace ProyectoBD2.Views
                 var date = AppointmentDatePicker.SelectedDate!.Value.ToString("yyyy-MM-dd");
                 _appointments = [];
 
-                var data = AppointmentsService.FindAll(date);
+                var data = DataServices.FindAppointmentsByDate(date);
 
                 foreach (DataRow row in data.Rows)
                 {
@@ -127,7 +127,7 @@ namespace ProyectoBD2.Views
             try
             {
                 if (AppointmentsDataGrid.SelectedItem is not Appointment selectedAppointment) return;
-                AppointmentsService.DeleteAppointment(selectedAppointment.CitaId);
+                DataServices.DeleteAppointment(selectedAppointment.CitaId);
                 LoadAppointments();
             }
             catch (Exception e)

@@ -23,7 +23,7 @@ namespace ProyectoBD2.Services
 
             var salida = new Dictionary<string, object>();
 
-            DBAccess.ExecuteStoredProcedureNonQuery("dbPrj.spUsuarioValidacion", parametros, ref salida);
+            DbAccess.ExecuteStoredProcedureNonQuery("dbPrj.spUsuarioValidacion", parametros, ref salida);
 
             bool esValido = Convert.ToBoolean(salida["@EsValido"]);
             string roles = salida["@Roles"]?.ToString() ?? "";
