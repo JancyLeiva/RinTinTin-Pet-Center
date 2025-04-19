@@ -7,14 +7,14 @@
 
     <Grid RowDefinitions="Auto,*" Margin="20">
         <Grid Grid.Row="0" RowDefinitions="Auto,Auto" Margin="0,0,0,15">
-            <TextBlock Grid.Row="0" Text="Gestión de Clientes" FontSize="24" FontWeight="Bold"/>
+            <TextBlock Grid.Row="0" Text="Gestión de Clientes" FontSize="24" FontWeight="Bold" />
         </Grid>
 
-        <Grid Grid.Row="1" ColumnDefinitions="*,*" >
+        <Grid Grid.Row="1" ColumnDefinitions="*,*">
             <Grid Grid.Column="0" RowDefinitions="Auto,*" Margin="0,0,10,0">
                 <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,10">
-                    <TextBox Grid.Column="0" x:Name="SearchTextBox" 
-                             HorizontalAlignment="Stretch" 
+                    <TextBox Grid.Column="0" x:Name="SearchTextBox"
+                             HorizontalAlignment="Stretch"
                              Watermark="Buscar cliente..." />
                     <Button Grid.Column="1" x:Name="AddClientButton"
                             Content="Nuevo Cliente"
@@ -22,7 +22,7 @@
                             Foreground="White"
                             Margin="10,0,0,0" />
                 </Grid>
-                
+
                 <Border Grid.Row="1" BorderBrush="#CCCCCC" BorderThickness="1" VerticalAlignment="Stretch">
                     <DataGrid x:Name="ClientsDataGrid"
                               AutoGenerateColumns="False"
@@ -30,109 +30,272 @@
                               BorderThickness="0"
                               VerticalAlignment="Stretch">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Identidad" Width="120"/>
-                            <DataGridTextColumn Header="Nombre" Width="*"/>
-                            <DataGridTextColumn Header="Teléfono" Width="100"/>
-                            <DataGridTextColumn Header="Mascotas" Width="80"/>
+                            <DataGridTextColumn Header="Identidad" Width="120" />
+                            <DataGridTextColumn Header="Nombre" Width="*" />
+                            <DataGridTextColumn Header="Teléfono" Width="100" />
+                            <DataGridTextColumn Header="Mascotas" Width="80" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Border>
             </Grid>
 
-            <TabControl Grid.Column="1" Margin="10,0,0,0">
-                <TabItem Header="Detalles del Cliente">
-                    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,*" Margin="10">
-                        <TextBlock Text="Información del Cliente" FontWeight="Bold" FontSize="16" Grid.Row="0" Margin="0,0,0,15"/>
+            <Grid Grid.Column="1" Margin="10,0,0,0">
+                <StackPanel x:Name="NoSelectionPanel"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <Viewbox Width="100" Height="100" Margin="0,0,0,20">
+                        <Path
+                            Data="M16,13C15.71,13 15.38,13 15.03,13.05C16.19,13.89 17,15 17,16.5V19H23V16.5C23,14.17 18.33,13 16,13M8,13C5.67,13 1,14.17 1,16.5V19H15V16.5C15,14.17 10.33,13 8,13M8,11A3,3 0 0,0 11,8A3,3 0 0,0 8,5A3,3 0 0,0 5,8A3,3 0 0,0 8,11M16,11A3,3 0 0,0 19,8A3,3 0 0,0 16,5A3,3 0 0,0 13,8A3,3 0 0,0 16,11Z"
+                            Fill="#CCCCCC" />
+                    </Viewbox>
+                    <TextBlock
+                        Text="Seleccione un cliente para ver detalles o haga click en 'Nuevo Cliente' para crear un cliente."
+                        TextWrapping="Wrap"
+                        HorizontalAlignment="Center"
+                        TextAlignment="Center"
+                        MaxWidth="300"
+                        Foreground="#555555" />
+                </StackPanel>
 
-                        <Grid Grid.Row="1" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="0,0,0,20">
-                            <TextBlock Text="Identidad:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,10,10"/>
-                            <TextBox x:Name="ClientIdTextBox" Grid.Row="0" Grid.Column="1" Margin="0,0,0,10" IsReadOnly="True"/>
+                <TabControl x:Name="ViewClientTabControl" IsVisible="False">
+                    <TabItem Header="Detalles del Cliente">
+                        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,*" Margin="10">
+                            <TextBlock Text="Información del Cliente" FontWeight="Bold" FontSize="16" Grid.Row="0"
+                                       Margin="0,0,0,15" />
 
-                            <TextBlock Text="Nombre:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,10,10"/>
-                            <TextBox x:Name="ClientNameTextBox" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" IsReadOnly="True"/>
+                            <Grid Grid.Row="1" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                                  Margin="0,0,0,20">
+                                <TextBlock Text="Identidad:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"
+                                           Margin="0,0,10,10" />
+                                <TextBox x:Name="ClientIdTextBox" Grid.Row="0" Grid.Column="1" Margin="0,0,0,10"
+                                         IsReadOnly="True" />
 
-                            <TextBlock Text="Teléfono:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,10,10"/>
-                            <TextBox x:Name="ClientPhoneTextBox" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" IsReadOnly="True"/>
+                                <TextBlock Text="Nombre:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"
+                                           Margin="0,0,10,10" />
+                                <TextBox x:Name="ClientNameTextBox" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10"
+                                         IsReadOnly="True" />
 
-                            <TextBlock Text="Correo:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,10,10"/>
-                            <TextBox x:Name="ClientEmailTextBox" Grid.Row="3" Grid.Column="1" Margin="0,0,0,10" IsReadOnly="True"/>
+                                <TextBlock Text="Teléfono:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"
+                                           Margin="0,0,10,10" />
+                                <TextBox x:Name="ClientPhoneTextBox" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10"
+                                         IsReadOnly="True" />
 
-                            <TextBlock Text="Dirección:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,10,10"/>
-                            <TextBox x:Name="ClientAddressTextBox" Grid.Row="4" Grid.Column="1" Margin="0,0,0,10" IsReadOnly="True"/>
+                                <TextBlock Text="Correo:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"
+                                           Margin="0,0,10,10" />
+                                <TextBox x:Name="ClientEmailTextBox" Grid.Row="3" Grid.Column="1" Margin="0,0,0,10"
+                                         IsReadOnly="True" />
+
+                                <TextBlock Text="Dirección:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"
+                                           Margin="0,0,10,10" />
+                                <TextBox x:Name="ClientAddressTextBox" Grid.Row="4" Grid.Column="1" Margin="0,0,0,10"
+                                         IsReadOnly="True" />
+                            </Grid>
+
+                            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15"
+                                        Margin="0,15,0,0">
+                                <Button x:Name="EditClientButton"
+                                        Content="Editar cliente"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Width="150"
+                                        Height="40"
+                                        Background="#218838"
+                                        Foreground="White" />
+
+                                <Button x:Name="DeleteClientButton"
+                                        Content="Eliminar cliente"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Width="150"
+                                        Height="40"
+                                        Background="#DC3545"
+                                        Foreground="White" />
+                            </StackPanel>
                         </Grid>
-                        
-                        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15" Margin="0,15,0,0">
-                            <Button x:Name="EditClientButton"
-                                    Content="Editar cliente"
-                                    HorizontalContentAlignment="Center"
-                                    VerticalContentAlignment="Center"
-                                    Width="150"
-                                    Height="40"
-                                    Background="#218838"
-                                    Foreground="White" />
+                    </TabItem>
 
-                            <Button x:Name="DeleteClientButton"
-                                    Content="Eliminar cliente"
-                                    HorizontalContentAlignment="Center"
-                                    VerticalContentAlignment="Center"
-                                    Width="150"
-                                    Height="40"
-                                    Background="#DC3545"
-                                    Foreground="White" />
-                        </StackPanel>
-                    </Grid>
-                </TabItem>
+                    <TabItem Header="Mascotas">
+                        <Grid RowDefinitions="Auto,*,Auto" Margin="10">
+                            <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,10">
+                                <TextBlock Text="Mascotas del Cliente" FontWeight="Bold" FontSize="16"
+                                           VerticalAlignment="Center" />
+                            </Grid>
 
-                <TabItem Header="Mascotas">
-                    <Grid RowDefinitions="Auto,*,Auto" Margin="10">
-                        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,10">
-                            <TextBlock Text="Mascotas del Cliente" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
+                            <DataGrid x:Name="PetsDataGrid" Grid.Row="1"
+                                      AutoGenerateColumns="False"
+                                      IsReadOnly="True"
+                                      BorderThickness="0"
+                                      Margin="0,0,0,10">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="ID" Width="60" />
+                                    <DataGridTextColumn Header="Nombre" Width="*" />
+                                    <DataGridTextColumn Header="Especie" Width="100" />
+                                    <DataGridTextColumn Header="Raza" Width="100" />
+                                    <DataGridTextColumn Header="Edad" Width="80" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15"
+                                        Margin="0,15,0,0">
+                                <Button x:Name="AddPetButton"
+                                        Content="Agregar mascota"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Width="150"
+                                        Height="40"
+                                        Background="#0078D4"
+                                        Foreground="White" />
+                                <Button x:Name="EditPetButton"
+                                        Content="Editar mascota"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Width="150"
+                                        Height="40"
+                                        Background="#218838"
+                                        Foreground="White" />
+
+                                <Button x:Name="DeletePetButton"
+                                        Content="Eliminar mascota"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Width="150"
+                                        Height="40"
+                                        Background="#DC3545"
+                                        Foreground="White" />
+                            </StackPanel>
                         </Grid>
+                    </TabItem>
+                </TabControl>
 
-                        <DataGrid x:Name="PetsDataGrid" Grid.Row="1"
-                                  AutoGenerateColumns="False"
-                                  IsReadOnly="True"
-                                  BorderThickness="0"
-                                  Margin="0,0,0,10">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="ID" Width="60"/>
-                                <DataGridTextColumn Header="Nombre" Width="*"/>
-                                <DataGridTextColumn Header="Especie" Width="100"/>
-                                <DataGridTextColumn Header="Raza" Width="100"/>
-                                <DataGridTextColumn Header="Edad" Width="80"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
+                <TabControl x:Name="CreateClientTabControl" IsVisible="False">
+                    <TabItem Header="Detalles del Cliente">
+                        <Grid RowDefinitions="Auto,Auto,Auto" Margin="10">
+                            <TextBlock Text="Crear Nuevo Cliente" FontWeight="Bold" FontSize="16" Grid.Row="0"
+                                       Margin="0,0,0,15" />
 
-                        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15" Margin="0,15,0,0">
-                            <Button x:Name="AddPetButton"
-                                    Content="Agregar mascota"
-                                    HorizontalContentAlignment="Center"
-                                    VerticalContentAlignment="Center"
-                                    Width="150"
-                                    Height="40"
+                            <Grid Grid.Row="1" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                                  Margin="0,0,0,20">
+                                <TextBlock Text="Identidad:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"
+                                           Margin="0,0,10,10" />
+                                <TextBox x:Name="NewClientIdTextBox" Grid.Row="0" Grid.Column="1" Margin="0,0,0,10" />
+
+                                <TextBlock Text="Nombre:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"
+                                           Margin="0,0,10,10" />
+                                <TextBox x:Name="NewClientNameTextBox" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" />
+
+                                <TextBlock Text="Teléfono:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"
+                                           Margin="0,0,10,10" />
+                                <TextBox x:Name="NewClientPhoneTextBox" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" />
+
+                                <TextBlock Text="Correo:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"
+                                           Margin="0,0,10,10" />
+                                <TextBox x:Name="NewClientEmailTextBox" Grid.Row="3" Grid.Column="1" Margin="0,0,0,10" />
+
+                                <TextBlock Text="Dirección:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"
+                                           Margin="0,0,10,10" />
+                                <TextBox x:Name="NewClientAddressTextBox" Grid.Row="4" Grid.Column="1"
+                                         Margin="0,0,0,10" />
+                            </Grid>
+
+                            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15"
+                                        Margin="0,15,0,0">
+                                <Button x:Name="ContinueToMascotasButton"
+                                        Content="Continuar"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Width="150"
+                                        Height="40"
+                                        Background="#206EA9"
+                                        Foreground="White" />
+
+                                <Button x:Name="CancelNewClientButton"
+                                        Content="Cancelar"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Width="150"
+                                        Height="40"
+                                        Background="#6c757d"
+                                        Foreground="White" />
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="Mascotas" x:Name="CreateMascotasTab" IsEnabled="False">
+                        <Grid RowDefinitions="Auto,Auto,*,Auto" Margin="10">
+                            <TextBlock Text="Agregar Mascotas (Opcional)" FontWeight="Bold" FontSize="16" Grid.Row="0"
+                                       Margin="0,0,0,15" />
+
+                            <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto,*" RowDefinitions="Auto,Auto" Margin="0,0,0,15">
+                                <TextBlock Text="Nombre:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"
+                                           Margin="0,0,10,10" />
+                                <TextBox x:Name="NewPetNameTextBox" Grid.Row="0" Grid.Column="1" Margin="0,0,20,10" />
+
+                                <TextBlock Text="Especie:" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center"
+                                           Margin="0,0,10,10" />
+                                <ComboBox x:Name="NewPetSpeciesComboBox" Grid.Row="0" Grid.Column="3" Margin="0,0,0,10"
+                                          HorizontalAlignment="Stretch">
+                                    <ComboBoxItem>Perro</ComboBoxItem>
+                                    <ComboBoxItem>Gato</ComboBoxItem>
+                                    <ComboBoxItem>Ave</ComboBoxItem>
+                                    <ComboBoxItem>Otro</ComboBoxItem>
+                                </ComboBox>
+
+                                <TextBlock Text="Raza:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"
+                                           Margin="0,0,10,10" />
+                                <TextBox x:Name="NewPetBreedTextBox" Grid.Row="1" Grid.Column="1" Margin="0,0,20,10" />
+
+                                <TextBlock Text="Edad:" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"
+                                           Margin="0,0,10,10" />
+                                <NumericUpDown x:Name="NewPetAgeNumeric" Grid.Row="1" Grid.Column="3" Margin="0,0,0,10"
+                                               Minimum="0" Maximum="30" />
+                            </Grid>
+
+                            <Button Grid.Row="2" x:Name="AddNewPetButton"
+                                    Content="Agregar a la lista"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Top"
+                                    Margin="0,0,0,10"
                                     Background="#0078D4"
                                     Foreground="White" />
-                            <Button x:Name="EditPetButton"
-                                    Content="Editar mascota"
-                                    HorizontalContentAlignment="Center"
-                                    VerticalContentAlignment="Center"
-                                    Width="150"
-                                    Height="40"
-                                    Background="#218838"
-                                    Foreground="White" />
 
-                            <Button x:Name="DeletePetButton"
-                                    Content="Eliminar mascota"
-                                    HorizontalContentAlignment="Center"
-                                    VerticalContentAlignment="Center"
-                                    Width="150"
-                                    Height="40"
-                                    Background="#DC3545"
-                                    Foreground="White" />
-                        </StackPanel>
-                    </Grid>
-                </TabItem>
-            </TabControl>
+                            <ListBox Grid.Row="2" x:Name="NewPetsListBox" Margin="0,40,0,0">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <TextBlock Text="{Binding}" VerticalAlignment="Center" />
+                                            <Button Grid.Column="1" Content="Eliminar"
+                                                    Background="#DC3545"
+                                                    Foreground="White"
+                                                    Padding="8,4" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+
+                            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15"
+                                        Margin="0,15,0,0">
+                                <Button x:Name="SaveNewClientButton"
+                                        Content="Guardar Cliente"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Width="150"
+                                        Height="40"
+                                        Background="#218838"
+                                        Foreground="White" />
+
+                                <Button x:Name="BackToClientDetailsButton"
+                                        Content="Regresar"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Width="150"
+                                        Height="40"
+                                        Background="#6c757d"
+                                        Foreground="White" />
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>
