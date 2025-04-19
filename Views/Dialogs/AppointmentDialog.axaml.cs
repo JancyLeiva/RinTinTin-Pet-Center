@@ -113,7 +113,7 @@ namespace ProyectoBD2.Windows
         {
             _clients = [];
             const string busqueda = "";
-            var data = DataServices.FindClients(busqueda);
+            var data = DataServices.FindClientsOnAppointments(busqueda);
             Console.Write(data);
 
             foreach (DataRow row in data.Rows)

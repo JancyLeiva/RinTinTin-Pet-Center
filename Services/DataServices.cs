@@ -9,8 +9,6 @@ namespace ProyectoBD2.Services
     {
         private static readonly Dictionary<string, (object valor, ParameterDirection? direccion)> EmptyParams = new();
 
-        #region Citas (Appointments)
-
         public static DataTable FindAppointmentsByDate(string? fecha)
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
@@ -65,11 +63,8 @@ namespace ProyectoBD2.Services
             return DbAccess.ExecuteStoredProcedure("dbPrj.spAnularCita", parameters);
         }
 
-        #endregion
 
-        #region Clientes y Mascotas (Clients and Pets)
-
-        public static DataTable FindClients(string? busqueda)
+        public static DataTable FindClientsOnAppointments(string? busqueda)
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
@@ -77,6 +72,11 @@ namespace ProyectoBD2.Services
             };
 
             return DbAccess.ExecuteStoredProcedure("dbPrj.spAutocompletarCliente", parameters);
+        }
+        
+        public static DataTable FindAllClients()
+        {
+            return DbAccess.ExecuteStoredProcedure("dbPrj.spListaClientes", EmptyParams);
         }
 
         public static DataTable FindPets(string? identidadCliente)
@@ -89,10 +89,6 @@ namespace ProyectoBD2.Services
             return DbAccess.ExecuteStoredProcedure("dbPrj.spListaMascotasPorCliente", parameters);
         }
 
-        #endregion
-
-        #region Áreas y Servicios (Areas and Services)
-
         public static DataTable FindAreas()
         {
             return DbAccess.ExecuteSqlRawQuery("SELECT * FROM dbPrj.vArea");
@@ -102,7 +98,5 @@ namespace ProyectoBD2.Services
         {
             return DbAccess.ExecuteStoredProcedure("dbPrj.spObtenerServiciosConTipo", EmptyParams);
         }
-
-        #endregion
     }
 }

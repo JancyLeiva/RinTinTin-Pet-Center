@@ -23,20 +23,15 @@
                             Margin="10,0,0,0" />
                 </Grid>
 
-                <Border Grid.Row="1" BorderBrush="#CCCCCC" BorderThickness="1" VerticalAlignment="Stretch">
-                    <DataGrid x:Name="ClientsDataGrid"
-                              AutoGenerateColumns="False"
-                              IsReadOnly="True"
-                              BorderThickness="0"
-                              VerticalAlignment="Stretch">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Identidad" Width="120" />
-                            <DataGridTextColumn Header="Nombre" Width="*" />
-                            <DataGridTextColumn Header="Teléfono" Width="100" />
-                            <DataGridTextColumn Header="Mascotas" Width="80" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Border>
+                <DataGrid x:Name="ClientsDataGrid" Grid.Row="1"
+                          AutoGenerateColumns="True"
+                          AutoGeneratingColumn="ClientsDataGridAutoGeneratingColumn"
+                          IsReadOnly="True"
+                          BorderThickness="1"
+                          BorderBrush="Gray"
+                          Margin="0,10,0,10"
+                          VerticalAlignment="Stretch">
+                </DataGrid>
             </Grid>
 
             <Grid Grid.Column="1" Margin="10,0,0,0">
@@ -225,7 +220,8 @@
                             <TextBlock Text="Agregar Mascotas (Opcional)" FontWeight="Bold" FontSize="16" Grid.Row="0"
                                        Margin="0,0,0,15" />
 
-                            <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto,*" RowDefinitions="Auto,Auto" Margin="0,0,0,15">
+                            <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto,*" RowDefinitions="Auto,Auto"
+                                  Margin="0,0,0,15">
                                 <TextBlock Text="Nombre:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"
                                            Margin="0,0,10,10" />
                                 <TextBox x:Name="NewPetNameTextBox" Grid.Row="0" Grid.Column="1" Margin="0,0,20,10" />

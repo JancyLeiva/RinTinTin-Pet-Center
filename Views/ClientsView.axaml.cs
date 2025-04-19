@@ -2,11 +2,15 @@ using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using System.Collections.ObjectModel;
+using System.Data;
+using ProyectoBD2.Models;
+using ProyectoBD2.Services;
 
 namespace ProyectoBD2.Views;
 
 public partial class ClientsView : UserControl
 {
+    private ObservableCollection<Client>? _clients;
     private enum ViewState
     {
         NoSelection,
@@ -20,6 +24,7 @@ public partial class ClientsView : UserControl
     public ClientsView()
     {
         InitializeComponent();
+        LoadClients();
         
         ClientsDataGrid.SelectionChanged += ClientsDataGrid_SelectionChanged;
         AddClientButton.Click += AddClientButton_Click;
@@ -31,6 +36,36 @@ public partial class ClientsView : UserControl
         
         NewPetsListBox.ItemsSource = _newPets;
         UpdateViewState();
+    }
+
+    private void LoadClients()
+    {
+        _clients = [];
+        var data = DataServices.FindAllClients();
+
+        foreach (DataRow row in data.Rows)
+        {
+            _clients.Add(new Client
+            {
+                ClienteId = (int)row["ClienteID"],
+                Nombre = (string)row["ClienteNombre"],
+                Telefono = (string)row["Telefono"],
+                Correo = (string)row["Correo"],
+                Direccion = (string)row["Direccion"],
+                TelefonoAdicional = (string)row["TelefonoAdicional"],
+            });
+        }
+        
+        ClientsDataGrid.ItemsSource = _clients;
+    }
+    
+    private void ClientsDataGridAutoGeneratingColumn(object? sender, DataGridAutoGeneratingColumnEventArgs e)
+    {
+        e.Cancel = e.PropertyName switch
+        {
+            "ClienteId" or "NumIdentidad" => true,
+            _ => e.Cancel
+        };
     }
     
     private void ClientsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
