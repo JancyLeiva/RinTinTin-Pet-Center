@@ -1,18 +1,17 @@
-using System.Data;
 using System;
 using System.Collections.Generic;
-using ProyectoBD2.DataAccess;
-using ProyectoBD2.Models;
-
-namespace ProyectoBD2.Services;
-
+using System.Data;
 using ProyectoBD2.DataAccess;
 
-public static class DataServices
+namespace ProyectoBD2.Services
 {
-    public static DataTable FindAppointmentsByDate(string? fecha)
+    public static class DataServices
     {
-        try
+        private static readonly Dictionary<string, (object valor, ParameterDirection? direccion)> EmptyParams = new();
+
+        #region Citas (Appointments)
+
+        public static DataTable FindAppointmentsByDate(string? fecha)
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
@@ -21,77 +20,9 @@ public static class DataServices
 
             return DbAccess.ExecuteStoredProcedure("dbPrj.spConsultarCitasPorFecha", parameters);
         }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-            throw;
-        }
-    }
 
-    public static DataTable FindAreas()
-    {
-        try
-        {
-            return DbAccess.ExecuteSqlRawQuery("SELECT * FROM dbPrj.vArea");
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-            throw;
-        }
-    }
-
-    public static DataTable FindClients(string? busqueda)
-    {
-        try
-        {
-            var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
-            {
-                { "@Busqueda", (busqueda ?? null, null)! },
-            };
-            return DbAccess.ExecuteStoredProcedure("dbPrj.spAutocompletarCliente", parameters);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-            throw;
-        }
-    }
-
-    public static DataTable FindPets(string? identidadCliente)
-    {
-        try
-        {
-            var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
-            {
-                { "@IdentidadCliente", (identidadCliente ?? null, null)! },
-            };
-            return DbAccess.ExecuteStoredProcedure("dbPrj.spListaMascotasPorCliente", parameters);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-            throw;
-        }
-    }
-
-    public static DataTable FindServices()
-    {
-        try
-        {
-            return DbAccess.ExecuteStoredProcedure("dbPrj.spObtenerServiciosConTipo", null);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-            throw;
-        }
-    }
-
-    public static DataTable CreateAppointment(string identidadCliente, int mascotaId, string estado, int servicioId,
-        DateTime fechaInicio, int esEmergencia = 0)
-    {
-        try
+        public static DataTable CreateAppointment(string identidadCliente, int mascotaId, string estado, int servicioId,
+            DateTime fechaInicio, int esEmergencia = 0)
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
@@ -106,17 +37,9 @@ public static class DataServices
 
             return DbAccess.ExecuteStoredProcedure("dbPrj.spCitaInsert", parameters);
         }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-            throw;
-        }
-    }
 
-    public static DataTable UpdateAppointment(int citaId, int mascotaId, string estado, int servicioId,
-        DateTime fechaInicio, int esEmergencia = 0)
-    {
-        try
+        public static DataTable UpdateAppointment(int citaId, int mascotaId, string estado, int servicioId,
+            DateTime fechaInicio, int esEmergencia = 0)
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
@@ -131,16 +54,8 @@ public static class DataServices
 
             return DbAccess.ExecuteStoredProcedure("dbPrj.spCitaUpdate", parameters);
         }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-            throw;
-        }
-    }
 
-    public static DataTable DeleteAppointment(int citaId)
-    {
-        try
+        public static DataTable DeleteAppointment(int citaId)
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
@@ -149,10 +64,45 @@ public static class DataServices
 
             return DbAccess.ExecuteStoredProcedure("dbPrj.spAnularCita", parameters);
         }
-        catch (Exception e)
+
+        #endregion
+
+        #region Clientes y Mascotas (Clients and Pets)
+
+        public static DataTable FindClients(string? busqueda)
         {
-            Console.WriteLine(e.Message);
-            throw;
+            var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+            {
+                { "@Busqueda", (busqueda != null ? busqueda : DBNull.Value, null) }
+            };
+
+            return DbAccess.ExecuteStoredProcedure("dbPrj.spAutocompletarCliente", parameters);
         }
+
+        public static DataTable FindPets(string? identidadCliente)
+        {
+            var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+            {
+                { "@IdentidadCliente", (identidadCliente != null ? identidadCliente : DBNull.Value, null) }
+            };
+
+            return DbAccess.ExecuteStoredProcedure("dbPrj.spListaMascotasPorCliente", parameters);
+        }
+
+        #endregion
+
+        #region Áreas y Servicios (Areas and Services)
+
+        public static DataTable FindAreas()
+        {
+            return DbAccess.ExecuteSqlRawQuery("SELECT * FROM dbPrj.vArea");
+        }
+
+        public static DataTable FindServices()
+        {
+            return DbAccess.ExecuteStoredProcedure("dbPrj.spObtenerServiciosConTipo", EmptyParams);
+        }
+
+        #endregion
     }
 }

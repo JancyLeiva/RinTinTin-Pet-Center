@@ -1,152 +1,146 @@
 ﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System;
 
 namespace ProyectoBD2.DataAccess
 {
     public static class DbAccess
     {
-        private const string ConnectionString = "Server=3.128.144.165; Database=DB20202000577; UID=jancy.leiva; PWD=JL20202000577; TrustServerCertificate=True;";
+        private const string ConnectionString = "Server=3.128.144.165; Database=DB20202000577; UID=jancy.leiva; PWD=JL20202000577; TrustServerCertificate=True;Pooling=true;Min Pool Size=5;Max Pool Size=100;";
+        private const int DefaultCommandTimeout = 30;
 
-        public static void ExecuteStoredProcedureNonQuery(string nombreSp,
+        public static void ExecuteStoredProcedureNonQuery(
+            string procedureName,
             Dictionary<string, (object valor, ParameterDirection? direccion)> parameters,
-            ref Dictionary<string, object> valoresSalida)
+            ref Dictionary<string, object?> outputValues)
         {
-            using var conn = new SqlConnection(ConnectionString);
-            using var cmd = new SqlCommand(nombreSp, conn);
-            cmd.CommandType = CommandType.StoredProcedure;
+            using var connection = new SqlConnection(ConnectionString);
+            using var command = CreateStoredProcCommand(procedureName, parameters, connection);
 
-            foreach (var param in parameters)
+            try
             {
-                var sqlParam = new SqlParameter(param.Key, param.Value.valor);
-                if (param.Value.direccion.HasValue)
-                {
-                    sqlParam.Direction = param.Value.direccion.Value;
-
-                    if (sqlParam.SqlDbType is SqlDbType.NVarChar or SqlDbType.VarChar)
-                        sqlParam.Size = 1000;
-                }
-
-                cmd.Parameters.Add(sqlParam);
+                connection.Open();
+                command.ExecuteNonQuery();
+                CollectOutputParameters(command, outputValues);
             }
-
-            conn.Open();
-            cmd.ExecuteNonQuery();
-
-            foreach (SqlParameter p in cmd.Parameters)
+            catch (Exception ex)
             {
-                if (p.Direction is ParameterDirection.Output or ParameterDirection.InputOutput)
-                {
-                    valoresSalida[p.ParameterName] = p.Value;
-                }
+                LogError(ex, procedureName);
+                throw;
             }
         }
 
-        public static DataTable ExecuteStoredProcedure(string procedureName,
+        public static DataTable ExecuteStoredProcedure(
+            string procedureName,
             Dictionary<string, (object valor, ParameterDirection? direccion)>? parameters)
         {
             var dataTable = new DataTable();
 
-            using var conn = new SqlConnection(ConnectionString);
-            using var cmd = new SqlCommand(procedureName, conn);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandTimeout = 120;
-
-            Console.WriteLine($"Executing stored procedure: {procedureName}");
-
-            if (parameters != null)
-            {
-                foreach (var param in parameters)
-                {
-                    var sqlParam = new SqlParameter(param.Key, param.Value.valor ?? DBNull.Value);
-
-                    if (param.Value.direccion.HasValue)
-                    {
-                        sqlParam.Direction = param.Value.direccion.Value;
-
-                        if (sqlParam.SqlDbType is SqlDbType.NVarChar or SqlDbType.VarChar)
-                            sqlParam.Size = 1000;
-                    }
-
-                    cmd.Parameters.Add(sqlParam);
-                    Console.WriteLine($"Parameter: {param.Key} = {param.Value.valor ?? "NULL"}");
-                }
-            }
+            using var connection = new SqlConnection(ConnectionString);
+            using var command = CreateStoredProcCommand(procedureName, parameters, connection);
 
             try
             {
-                using (var adapter = new SqlDataAdapter(cmd))
-                {
-                    conn.Open();
-                    adapter.Fill(dataTable);
-                    Console.WriteLine(
-                        $"Results returned: {dataTable.Rows.Count} rows, {dataTable.Columns.Count} columns");
-                }
-
-                var outputValues = new Dictionary<string, object>();
-                foreach (SqlParameter p in cmd.Parameters)
-                {
-                    if (p.Direction is not (ParameterDirection.Output or ParameterDirection.InputOutput)) continue;
-                    outputValues[p.ParameterName] = p.Value;
-                    Console.WriteLine($"Output parameter: {p.ParameterName} = {p.Value}");
-                }
-            }
-            catch (SqlException ex)
-            {
-                Console.WriteLine($"SQL error: {ex.Number}, Message: {ex.Message}");
-                throw;
+                using var adapter = new SqlDataAdapter(command);
+                connection.Open();
+                adapter.Fill(dataTable);
+                return dataTable;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                LogError(ex, procedureName);
                 throw;
             }
-
-            return dataTable;
         }
 
-        public static DataTable ExecuteSqlRawQuery(string sqlQuery,
+        public static DataTable ExecuteSqlRawQuery(
+            string sqlQuery,
             Dictionary<string, object>? parameters = null)
         {
             var dataTable = new DataTable();
 
-            using var conn = new SqlConnection(ConnectionString);
-            using var cmd = new SqlCommand(sqlQuery, conn);
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandTimeout = 120;
-
-            Console.WriteLine($"Executing SQL query: {sqlQuery}");
+            using var connection = new SqlConnection(ConnectionString);
+            using var command = new SqlCommand(sqlQuery, connection);
+            command.CommandType = CommandType.Text;
+            command.CommandTimeout = DefaultCommandTimeout;
 
             if (parameters != null)
             {
                 foreach (var param in parameters)
                 {
-                    var sqlParam = new SqlParameter(param.Key, param.Value);
-                    cmd.Parameters.Add(sqlParam);
-                    Console.WriteLine($"Parameter: {param.Key} = {param.Value}");
+                    command.Parameters.AddWithValue(param.Key, param.Value);
                 }
             }
 
             try
             {
-                using var adapter = new SqlDataAdapter(cmd);
-                conn.Open();
+                using var adapter = new SqlDataAdapter(command);
+                connection.Open();
                 adapter.Fill(dataTable);
-                Console.WriteLine($"Results returned: {dataTable.Rows.Count} rows, {dataTable.Columns.Count} columns");
-            }
-            catch (SqlException ex)
-            {
-                Console.WriteLine($"SQL error: {ex.Number}, Message: {ex.Message}");
-                throw;
+                return dataTable;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                LogError(ex, sqlQuery);
                 throw;
             }
+        }
 
-            return dataTable;
+        private static SqlCommand CreateStoredProcCommand(
+            string procedureName,
+            Dictionary<string, (object valor, ParameterDirection? direccion)>? parameters,
+            SqlConnection connection)
+        {
+            var command = new SqlCommand(procedureName, connection)
+            {
+                CommandType = CommandType.StoredProcedure,
+                CommandTimeout = DefaultCommandTimeout
+            };
+
+            if (parameters == null) return command;
+
+            foreach (var param in parameters)
+            {
+                var sqlParam = new SqlParameter(param.Key, param.Value.valor);
+                
+                if (param.Value.direccion.HasValue)
+                {
+                    sqlParam.Direction = param.Value.direccion.Value;
+                    
+                    if (sqlParam.SqlDbType is SqlDbType.NVarChar or SqlDbType.VarChar)
+                        sqlParam.Size = 1000;
+                }
+                
+                command.Parameters.Add(sqlParam);
+            }
+
+            return command;
+        }
+
+        private static void CollectOutputParameters(SqlCommand command, Dictionary<string, object?> outputValues)
+        {
+            foreach (SqlParameter param in command.Parameters)
+            {
+                if (param.Direction is ParameterDirection.Output or ParameterDirection.InputOutput)
+                {
+                    outputValues[param.ParameterName] = param.Value;
+                }
+            }
+        }
+
+        private static void LogError(Exception ex, string operation)
+        {
+            #if DEBUG
+            if (ex is SqlException sqlEx)
+            {
+                Console.WriteLine($"SQL error in {operation}: {sqlEx.Number}, Message: {sqlEx.Message}");
+            }
+            else
+            {
+                Console.WriteLine($"Error in {operation}: {ex.Message}");
+            }
+            #endif
         }
     }
 }
