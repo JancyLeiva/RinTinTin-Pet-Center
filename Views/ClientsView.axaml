@@ -17,7 +17,7 @@
                              HorizontalAlignment="Stretch"
                              Watermark="Buscar cliente..." />
                     <Button Grid.Column="1" x:Name="AddClientButton"
-                            Content="Nuevo Cliente"
+                            Content="Nuevo cliente"
                             Background="#206EA9"
                             Foreground="White"
                             Margin="10,0,0,0" />
@@ -53,12 +53,9 @@
                 </StackPanel>
 
                 <TabControl x:Name="ViewClientTabControl" IsVisible="False">
-                    <TabItem Header="Detalles del Cliente">
-                        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,*" Margin="10">
-                            <TextBlock Text="Información del Cliente" FontWeight="Bold" FontSize="16" Grid.Row="0"
-                                       Margin="0,0,0,15" />
-
-                            <Grid Grid.Row="1" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,*"
+                    <TabItem Header="Detalles del cliente">
+                        <Grid RowDefinitions="Auto,Auto,Auto,Auto,*" Margin="10">
+                            <Grid Grid.Row="0" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,*"
                                   Margin="0,0,0,20">
                                 <TextBlock Text="Nombre:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"
                                            Margin="0,0,10,10" />
@@ -95,7 +92,7 @@
                                          IsReadOnly="True" />
                             </Grid>
 
-                            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15"
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15"
                                         Margin="0,15,0,0">
                                 <Button x:Name="EditClientButton"
                                         Content="Editar cliente"
@@ -119,13 +116,9 @@
                     </TabItem>
 
                     <TabItem Header="Mascotas" x:Name="PetsTab">
-                        <Grid RowDefinitions="Auto,*,Auto" Margin="10">
-                            <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,10">
-                                <TextBlock Text="Mascotas del Cliente" FontWeight="Bold" FontSize="16"
-                                           VerticalAlignment="Center" />
-                            </Grid>
+                        <Grid RowDefinitions="*,Auto" Margin="10">
 
-                            <DataGrid x:Name="PetsDataGrid" Grid.Row="1"
+                            <DataGrid x:Name="PetsDataGrid" Grid.Row="0"
                                       AutoGenerateColumns="True"
                                       AutoGeneratingColumn="PetsDataGridAutoGeneratingColumn"
                                       IsReadOnly="True"
@@ -133,7 +126,7 @@
                                       Margin="0,0,0,10">
                             </DataGrid>
 
-                            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15"
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15"
                                         Margin="0,15,0,0">
                                 <Button x:Name="AddPetButton"
                                         Content="Agregar mascota"
@@ -166,12 +159,9 @@
                 </TabControl>
 
                 <TabControl x:Name="CreateClientTabControl" IsVisible="False">
-                    <TabItem Header="Detalles del Cliente">
-                        <Grid RowDefinitions="Auto,Auto,Auto" Margin="10">
-                            <TextBlock Text="Crear Nuevo Cliente" FontWeight="Bold" FontSize="16" Grid.Row="0"
-                                       Margin="0,0,0,15" />
-
-                            <Grid Grid.Row="1" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,*"
+                    <TabItem Header="Nuevo cliente">
+                        <Grid RowDefinitions="Auto,Auto" Margin="10">
+                            <Grid Grid.Row="0" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,*"
                                   Margin="0,0,0,20">
                                 <TextBlock Text="Nombre:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"
                                            Margin="0,0,10,10" />
@@ -205,7 +195,7 @@
                                          Margin="0,0,0,10" />
                             </Grid>
 
-                            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15"
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15"
                                         Margin="0,15,0,0">
                                 <Button x:Name="ContinueToMascotasButton"
                                         Content="Continuar"
@@ -229,54 +219,61 @@
                     </TabItem>
 
                     <TabItem Header="Mascotas" x:Name="CreatePetsTab" IsEnabled="False">
-                        <Grid RowDefinitions="Auto,Auto,*,Auto" Margin="10">
-                            <TextBlock Text="Agregar Mascotas (Opcional)" FontWeight="Bold" FontSize="16" Grid.Row="0"
-                                       Margin="0,0,0,15" />
-
-                            <Grid Grid.Row="1" ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Margin="0,0,0,15">
-                                <TextBlock Text="Nombre:" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="0,0,0,5" />
-                                <TextBox x:Name="NombreMascotaNuevaTextBox" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,10" />
-
-                                <TextBlock Text="Especie:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,0,5" />
-                                <TextBlock Text="Raza:" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,0,5" />
-                                <TextBox x:Name="EspecieMascotaNuevaTextBox" Grid.Row="3" Grid.Column="0" Margin="0,0,10,10" />
-                                <TextBox x:Name="RazaMascotaNuevaTextBox" Grid.Row="3" Grid.Column="1" Margin="0,0,0,10" />
-
-                                <TextBlock Text="Edad:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,0,5" />
-                                <TextBlock Text="Peso (Lbs):" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,0,5" />
-                                <NumericUpDown x:Name="EdadMascotaNuevaNumeric" Grid.Row="5" Grid.Column="0" Margin="0,0,10,10"
-                                               Minimum="0" Maximum="30" />
-                                <NumericUpDown x:Name="PesoMascotaNuevaNumeric" Grid.Row="5" Grid.Column="1" Margin="0,0,0,10"
-                                               Minimum="0" Maximum="100" FormatString="F2" />
-
-                                <TextBlock Text="Descripción:" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" Margin="0,0,0,5" />
-                                <TextBox x:Name="DescripcionMascotaNuevaTextBox" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
-                                         Margin="0,0,0,10" Height="60" AcceptsReturn="True" TextWrapping="Wrap" />
+                        <Grid RowDefinitions="Auto,*,Auto" Margin="10">
+                            <Grid Grid.Row="0" ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto">
+                                <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,10,10">
+                                    <TextBlock Text="Nombre:" Margin="0,0,0,5" />
+                                    <TextBox x:Name="NombreMascotaNuevaTextBox" />
+                                </StackPanel>
+    
+                                <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,0,0,10">
+                                    <TextBlock Text="Especie:" Margin="0,0,0,5" />
+                                    <TextBox x:Name="EspecieMascotaNuevaTextBox" />
+                                </StackPanel>
+    
+                                <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,10,10">
+                                    <TextBlock Text="Raza:" Margin="0,0,0,5" />
+                                    <TextBox x:Name="RazaMascotaNuevaTextBox" />
+                                </StackPanel>
+    
+                                <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,0,10">
+                                    <TextBlock Text="Color:" Margin="0,0,0,5" />
+                                    <TextBox x:Name="ColorMascotaNuevaTextBox" />
+                                </StackPanel>
+    
+                                <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,10,10">
+                                    <TextBlock Text="Edad:" Margin="0,0,0,5" />
+                                    <NumericUpDown x:Name="EdadMascotaNuevaNumeric" Minimum="0" Maximum="30" />
+                                </StackPanel>
+    
+                                <StackPanel Grid.Row="2" Grid.Column="1" Margin="0,0,0,10">
+                                    <TextBlock Text="Peso (Lbs):" Margin="0,0,0,5" />
+                                    <NumericUpDown x:Name="PesoMascotaNuevaNumeric" Minimum="0" Maximum="100" FormatString="F2" />
+                                </StackPanel>
+    
+                                <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,10">
+                                    <TextBlock Text="Descripción:" Margin="0,0,0,5" />
+                                    <TextBox x:Name="DescripcionMascotaNuevaTextBox" Height="60" AcceptsReturn="True" TextWrapping="Wrap" />
+                                </StackPanel>
                             </Grid>
 
-                            <Button Grid.Row="2" x:Name="AddNewPetButton"
-                                    Content="Agregar a la lista"
+                            <Button Grid.Row="1" x:Name="AddNewPetButton"
+                                    Content="Agregar mascota"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Top"
                                     Margin="0,0,0,10"
                                     Background="#0078D4"
                                     Foreground="White" />
 
-                            <ListBox Grid.Row="2" x:Name="NewPetsListBox" Margin="0,40,0,0">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid ColumnDefinitions="*,Auto">
-                                            <TextBlock Text="{Binding}" VerticalAlignment="Center" />
-                                            <Button Grid.Column="1" Content="Eliminar"
-                                                    Background="#DC3545"
-                                                    Foreground="White"
-                                                    Padding="8,4" />
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
+                            <DataGrid Grid.Row="1" x:Name="NewPetsDataGrid" Margin="0,40,0,0"
+                                      BorderThickness="1"
+                                      BorderBrush="Gray"
+                                      AutoGenerateColumns="True"
+                                      AutoGeneratingColumn="PetsDataGridAutoGeneratingColumn"
+                                      IsReadOnly="False">
+                            </DataGrid>
 
-                            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15"
+                            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15"
                                         Margin="0,15,0,0">
                                 <Button x:Name="SaveNewClientButton"
                                         Content="Guardar Cliente"

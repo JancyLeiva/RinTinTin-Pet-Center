@@ -206,7 +206,7 @@ namespace ProyectoBD2.Windows
                 return;
             }
 
-            var data = DataServices.FindPets(identidadCliente.NumIdentidad);
+            var data = DataServices.FindPetsOnAppointments(identidadCliente.NumIdentidad);
 
             foreach (DataRow row in data.Rows)
             {

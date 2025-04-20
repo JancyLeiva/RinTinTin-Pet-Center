@@ -13,16 +13,17 @@ public partial class ClientsView : UserControl
     private ObservableCollection<Client>? _clients;
     private ObservableCollection<Pet>? _pets;
     private Client? _newClient;
-    private ObservableCollection<string>? _newPets;
+    private ObservableCollection<Pet>? _newPets;
+
     private enum ViewState
     {
         NoSelection,
         ViewingClient,
         CreatingClient
     }
-    
+
     private ViewState _currentState = ViewState.NoSelection;
-    
+
     public ClientsView()
     {
         InitializeComponent();
@@ -35,10 +36,10 @@ public partial class ClientsView : UserControl
         ContinueToMascotasButton.Click += ContinueToMascotasButton_Click;
         BackToClientDetailsButton.Click += BackToClientDetailsButton_Click;
         SaveNewClientButton.Click += SaveNewClientButton_Click;
-        // AddNewPetButton.Click += AddNewPetButton_Click;
+        AddNewPetButton.Click += AddNewPetButton_Click;
         CreatePetsTab.Tapped += ContinueToMascotasButton_Click;
-        
-        NewPetsListBox.ItemsSource = _pets;
+
+        // NewPetsListBox.ItemsSource = _pets;
         UpdateViewState();
     }
 
@@ -61,7 +62,7 @@ public partial class ClientsView : UserControl
                 Activo = (bool)row["Activo"],
             });
         }
-        
+
         ClientsDataGrid.ItemsSource = _clients;
     }
 
@@ -79,7 +80,8 @@ public partial class ClientsView : UserControl
             foreach (var client in _clients)
             {
                 if (client.Nombre?.ToLower().Contains(filterText, StringComparison.CurrentCultureIgnoreCase) == true ||
-                    client.NumIdentidad?.ToLower().Contains(filterText, StringComparison.CurrentCultureIgnoreCase) == true)
+                    client.NumIdentidad?.ToLower().Contains(filterText, StringComparison.CurrentCultureIgnoreCase) ==
+                    true)
                 {
                     filteredClients.Add(client);
                 }
@@ -87,7 +89,7 @@ public partial class ClientsView : UserControl
 
         ClientsDataGrid.ItemsSource = filteredClients;
     }
-    
+
     private void ClientsDataGridAutoGeneratingColumn(object? sender, DataGridAutoGeneratingColumnEventArgs e)
     {
         e.Cancel = e.PropertyName switch
@@ -96,6 +98,7 @@ public partial class ClientsView : UserControl
             _ => e.Cancel
         };
     }
+
     private void PetsDataGridAutoGeneratingColumn(object? sender, DataGridAutoGeneratingColumnEventArgs e)
     {
         e.Cancel = e.PropertyName switch
@@ -104,7 +107,7 @@ public partial class ClientsView : UserControl
             _ => e.Cancel
         };
     }
-    
+
     private void ClientsDataGrid_SelectionChanged(object? sender, SelectionChangedEventArgs? e)
     {
         _pets = [];
@@ -114,7 +117,7 @@ public partial class ClientsView : UserControl
             UpdateViewState();
             return;
         }
-        
+
         var selectedClientId = selectedClient.ClienteId;
         var data = DataServices.FindPetByClientId(selectedClientId);
 
@@ -134,48 +137,46 @@ public partial class ClientsView : UserControl
                 Activo = (bool)row["Activo"],
             });
         }
-        
+
         PetsDataGrid.ItemsSource = _pets;
-        
+
         NumIdentidadClienteTextBox.Text = selectedClient.NumIdentidad;
         NombreClienteTextBox.Text = selectedClient.Nombre;
         TelefonoClienteTextBox.Text = selectedClient.Telefono;
         CorreoClienteTextBox.Text = selectedClient.Correo ?? "";
         DireccionClienteTextBox.Text = selectedClient.Direccion ?? "";
         TelefonoAdicionalClienteTextBox.Text = selectedClient.TelefonoAdicional ?? "";
-        
+
         _currentState = ViewState.ViewingClient;
         UpdateViewState();
     }
-    
+
     private void AddClientButton_Click(object? sender, RoutedEventArgs? e)
     {
+        _newClient = new Client();
+        _newPets = [];
         if (ClientsDataGrid.SelectedItem != null) ClientsDataGrid.SelectedItem = null;
-        
+
         _currentState = ViewState.CreatingClient;
         UpdateViewState();
-        
-        NumIdentidadClienteNuevoTextBox.Text = string.Empty;
-        NombreClienteNuevoTextBox.Text = string.Empty;
-        TelefonoClienteNuevoTextBox.Text = string.Empty;
-        CorreoClienteNuevoTextBox.Text = string.Empty;
-        DireccionClienteNuevoTextBox.Text = string.Empty;
-        TelefonoAdicionalClienteNuevoTextBox.Text = string.Empty;
-        
+
         CreateClientTabControl.SelectedIndex = 0;
         CreatePetsTab.IsEnabled = false;
     }
-    
+
     private void CancelNewClientButton_Click(object? sender, RoutedEventArgs? e)
     {
         _currentState = ClientsDataGrid.SelectedItem != null ? ViewState.ViewingClient : ViewState.NoSelection;
         UpdateViewState();
     }
-    
+
     private void ContinueToMascotasButton_Click(object? sender, RoutedEventArgs? e)
     {
-        if(!CreatePetsTab.IsEnabled) CreatePetsTab.IsEnabled = true;
+        if (!CreatePetsTab.IsEnabled) CreatePetsTab.IsEnabled = true;
         CreateClientTabControl.SelectedIndex = 1;
+        
+        if (NombreClienteNuevoTextBox == null || TelefonoClienteNuevoTextBox == null ||
+            CorreoClienteNuevoTextBox == null || DireccionClienteNuevoTextBox == null || NumIdentidadClienteNuevoTextBox == null) return;
 
         _newClient = new Client
         {
@@ -186,38 +187,66 @@ public partial class ClientsView : UserControl
             Direccion = DireccionClienteNuevoTextBox.Text?.Trim(),
             TelefonoAdicional = TelefonoAdicionalClienteNuevoTextBox.Text?.Trim(),
         };
-        
+
         Console.WriteLine(_newClient);
     }
-    
+
     private void BackToClientDetailsButton_Click(object? sender, RoutedEventArgs? e)
     {
         CreateClientTabControl.SelectedIndex = 0;
     }
-    
+
     private void SaveNewClientButton_Click(object? sender, RoutedEventArgs? e)
     {
+        if(_newClient == null) return;
+        var result = DataServices.CreateClient(
+            _newClient.Nombre,
+            _newClient.NumIdentidad,
+            _newClient.Telefono,
+            _newClient.Correo,
+            _newClient.Direccion,
+            _newClient.TelefonoAdicional);
+        
+        var clienteId = (int)result.Rows[0]["ClienteID"];
+        
+        foreach (var pet in _newPets!)
+        {
+            DataServices.CreatePet(
+                pet.Nombre,
+                pet.Especie,
+                pet.Raza,
+                pet.Peso,
+                pet.Edad,
+                pet.Color,
+                pet.Descripcion,
+                clienteId);
+        }
+        
         _currentState = ViewState.NoSelection;
         UpdateViewState();
     }
-    
-    // private void AddNewPetButton_Click(object? sender, RoutedEventArgs? e)
-    // {
-    //     var petName = NewPetNameTextBox.Text?.Trim() ?? string.Empty;
-    //     var petSpecies = (NewPetSpeciesComboBox.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "No especificado";
-    //     var petBreed = NewPetBreedTextBox.Text?.Trim() ?? string.Empty;
-    //     var petAge = NewPetAgeNumeric.Value;
-    //
-    //     if (string.IsNullOrWhiteSpace(petName)) return;
-    //     var petDisplay = $"{petName} - {petSpecies} - {petBreed} - {petAge} años";
-    //     // _newPets.Add(petDisplay);
-    //         
-    //     NewPetNameTextBox.Text = string.Empty;
-    //     NewPetSpeciesComboBox.SelectedIndex = -1;
-    //     NewPetBreedTextBox.Text = string.Empty;
-    //     NewPetAgeNumeric.Value = 0;
-    // }
-    
+
+    private void AddNewPetButton_Click(object? sender, RoutedEventArgs? e)
+    {
+        if (NombreClienteTextBox == null || EspecieMascotaNuevaTextBox == null || RazaMascotaNuevaTextBox == null ||
+            ColorMascotaNuevaTextBox == null ||
+            PesoMascotaNuevaNumeric == null || EdadMascotaNuevaNumeric == null ||
+            DescripcionMascotaNuevaTextBox == null) return;
+
+        _newPets?.Add(new Pet
+        {
+            Nombre = NombreMascotaNuevaTextBox.Text,
+            Especie = EspecieMascotaNuevaTextBox.Text,
+            Raza = RazaMascotaNuevaTextBox.Text,
+            Color = ColorMascotaNuevaTextBox.Text,
+            Peso = PesoMascotaNuevaNumeric.Value,
+            Edad = (int)EdadMascotaNuevaNumeric.Value!,
+            Descripcion = DescripcionMascotaNuevaTextBox.Text
+        });
+
+        NewPetsDataGrid.ItemsSource = _newPets;
+    }
+
     private void UpdateViewState()
     {
         switch (_currentState)
@@ -227,13 +256,13 @@ public partial class ClientsView : UserControl
                 ViewClientTabControl.IsVisible = false;
                 CreateClientTabControl.IsVisible = false;
                 break;
-                
+
             case ViewState.ViewingClient:
                 NoSelectionPanel.IsVisible = false;
                 ViewClientTabControl.IsVisible = true;
                 CreateClientTabControl.IsVisible = false;
                 break;
-                
+
             case ViewState.CreatingClient:
                 NoSelectionPanel.IsVisible = false;
                 ViewClientTabControl.IsVisible = false;

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ProyectoBD2")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+752a05d58af532db95c809faf0393e3354e3ae8d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+add3623fdfcb5687889e5a0e4d09bfc70bad173a")]
 [assembly: System.Reflection.AssemblyProductAttribute("ProyectoBD2")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ProyectoBD2")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
