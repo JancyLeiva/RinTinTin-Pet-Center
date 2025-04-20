@@ -89,8 +89,7 @@
                                          Margin="0,0,0,10" IsReadOnly="True" />
                             </Grid>
 
-                            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15"
-                                        Margin="0,15,0,0">
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15" Margin="0,15,0,0">
                                 <Button x:Name="EditClientButton"
                                         Content="Editar"
                                         HorizontalContentAlignment="Center"
@@ -99,15 +98,35 @@
                                         Height="40"
                                         Background="#206EA9"
                                         Foreground="White" />
-
+                                
                                 <Button x:Name="DeleteClientButton"
+                                        Content="Eliminar"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Width="150"
+                                        Height="40"
+                                        Background="#DC3545"
+                                        Foreground="White" />
+            
+                                <Button x:Name="SaveClientButton"
+                                        Content="Guardar cambios"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Width="150"
+                                        Height="40"
+                                        Background="#218838"
+                                        Foreground="White"
+                                        IsVisible="False" />
+
+                                <Button x:Name="CancelEditButton"
                                         Content="Cancelar"
                                         HorizontalContentAlignment="Center"
                                         VerticalContentAlignment="Center"
                                         Width="150"
                                         Height="40"
                                         Background="#6c757d"
-                                        Foreground="White" />
+                                        Foreground="White"
+                                        IsVisible="False" />
                             </StackPanel>
                         </Grid>
                     </TabItem>
@@ -287,7 +306,7 @@
                                       BorderThickness="1"
                                       BorderBrush="Gray"
                                       AutoGenerateColumns="True"
-                                      AutoGeneratingColumn="PetsDataGridAutoGeneratingColumn"
+                                      AutoGeneratingColumn="NewPetsDataGridAutoGeneratingColumn"
                                       IsReadOnly="False">
                             </DataGrid>
 

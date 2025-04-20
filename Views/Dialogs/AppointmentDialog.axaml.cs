@@ -120,8 +120,8 @@ namespace ProyectoBD2.Windows
             {
                 _clients.Add(new Client
                 {
-                    Nombre = (string)row["Nombre"],
-                    NumIdentidad = (string)row["NumIdentidad"],
+                    Nombre = row["Nombre"] == DBNull.Value ? null : (string)row["Nombre"],
+                    NumIdentidad = row["NumIdentidad"] == DBNull.Value ? null : (string)row["NumIdentidad"],
                 });
             }
 
