@@ -34,7 +34,7 @@ public partial class ClientsView : UserControl
         AddClientButton.Click += AddClientButton_Click;
         CancelNewClientButton.Click += CancelNewClientButton_Click;
         ContinueToMascotasButton.Click += ContinueToMascotasButton_Click;
-        BackToClientDetailsButton.Click += BackToClientDetailsButton_Click;
+        BackToNewClientFormButton.Click += BackToNewClientFormButton_Click;
         SaveNewClientButton.Click += SaveNewClientButton_Click;
         AddNewPetButton.Click += AddNewPetButton_Click;
         CreatePetsTab.Tapped += ContinueToMascotasButton_Click;
@@ -191,7 +191,7 @@ public partial class ClientsView : UserControl
         Console.WriteLine(_newClient);
     }
 
-    private void BackToClientDetailsButton_Click(object? sender, RoutedEventArgs? e)
+    private void BackToNewClientFormButton_Click(object? sender, RoutedEventArgs? e)
     {
         CreateClientTabControl.SelectedIndex = 0;
     }
