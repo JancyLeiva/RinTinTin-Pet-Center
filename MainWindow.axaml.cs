@@ -14,6 +14,7 @@ namespace ProyectoBD2
 
         private AppointmentsView? _appointmentsView;
         private ClientsView? _clientsView;
+        private HostingView? _hostingView;
         // private ReportsView? _reportsView;
 
         private Panel? _viewContainer;
@@ -37,10 +38,12 @@ namespace ProyectoBD2
 
             _appointmentsView = new AppointmentsView();
             _clientsView = new ClientsView();
+            _hostingView = new HostingView();
             // _reportsView = new ReportsView();
 
             _viewContainer.Children.Add(_appointmentsView);
             _viewContainer.Children.Add(_clientsView);
+            _viewContainer.Children.Add(_hostingView);
             // _viewContainer.Children.Add(_reportsView);
 
             foreach (var child in _viewContainer.Children.OfType<Control>())
@@ -65,6 +68,7 @@ namespace ProyectoBD2
         {
             DashboardButton.Click += (s, e) => NavigateToModule("Appointments", DashboardButton);
             ClientsButton.Click += (s, e) => NavigateToModule("Clients", ClientsButton);
+            HostingButton.Click += (s, e) => NavigateToModule("Hosting", HostingButton);
             // ReportsButton.Click += (s, e) => NavigateToModule("Reports", ReportsButton);
             LogoutButton.Click += (s, e) => LogoutUser();
         }
@@ -87,6 +91,9 @@ namespace ProyectoBD2
                     break;
                 case "Clients":
                     ShowView(_clientsView);
+                    break;
+                case "Hosting":
+                    ShowView(_hostingView);
                     break;
                 // case "Reports":
                 //     ShowView(_reportsView);

@@ -1,0 +1,173 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:ProyectoBD2.Models"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="800"
+             x:Class="ProyectoBD2.Views.HostingView">
+
+    <Grid RowDefinitions="Auto,*" Margin="20">
+        <StackPanel Grid.Row="0" Spacing="10">
+            <TextBlock Text="Hospedaje de Mascotas" FontSize="24" FontWeight="Bold" Margin="0,0,0,10" />
+
+            <Grid ColumnDefinitions="*,Auto" RowDefinitions="*,*">
+                <TextBox Grid.Row="0" Grid.Column="0" x:Name="SearchTextBox"
+                         Watermark="Buscar por cliente o mascota..." Margin="0,0,10,0" />
+                <Button Grid.Row="0" Grid.Column="1" x:Name="NewHostingButton" Content="Nueva Reserva"
+                        Background="#206EA9" Foreground="White" Padding="15,7" Margin="0,0,0,0" />
+
+                <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Spacing="10" Margin="0,10,0,0">
+                    <ComboBox x:Name="StatusFilter" SelectedIndex="0" Width="150">
+                        <ComboBoxItem Content="Todos" />
+                        <ComboBoxItem Content="Activos" />
+                        <ComboBoxItem Content="Finalizados" />
+                        <ComboBoxItem Content="Próximos" />
+                    </ComboBox>
+                    <DatePicker x:Name="DateFilter" />
+                </StackPanel>
+            </Grid>
+
+        </StackPanel>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*,Auto" Margin="0,20,0,0">
+            <DataGrid Grid.Column="0" x:Name="HostingDataGrid" AutoGenerateColumns="True" IsReadOnly="True"
+                      Margin="0,0,15,0" BorderBrush="#ddd" BorderThickness="1">
+            </DataGrid>
+
+            <Border Grid.Column="1" Background="White" BorderBrush="#ddd" BorderThickness="1">
+                <Panel>
+                    <StackPanel x:Name="NoSelectionPanel" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                Margin="20,0,20,0">
+                        <Viewbox Width="100" Height="100" Margin="0,0,0,20">
+                            <Path
+                                Data="M20 19V3H4V19H20ZM12 6H17V8H12V6ZM12 9H17V11H12V9ZM12 12H17V14H12V12ZM7 6H11V14H7V6ZM7 15H17V17H7V15Z"
+                                Fill="#CCCCCC" />
+                        </Viewbox>
+                        <TextBlock
+                            Text="Seleccione una reserva para ver los detalles o haz click en el botón 'Nueva reserva' para reservar."
+                            TextWrapping="Wrap"
+                            HorizontalAlignment="Center"
+                            TextAlignment="Center"
+                            MaxWidth="300"
+                            Foreground="#555555" />
+                    </StackPanel>
+
+                    <Grid x:Name="FormPanel" RowDefinitions="Auto,*" Margin="15" IsVisible="False">
+                        <TextBlock Grid.Row="0" x:Name="FormTitle" Text="Nueva Reserva" FontSize="18"
+                                   FontWeight="SemiBold" Margin="0,0,0,15" />
+
+                        <ScrollViewer Grid.Row="1">
+                            <StackPanel Spacing="15">
+                                <StackPanel>
+                                    <TextBlock Text="Cliente" Margin="0,0,0,5" />
+                                    <AutoCompleteBox x:Name="ClienteAutoCompleteBox" Watermark="Buscar cliente..." />
+                                </StackPanel>
+
+                                <StackPanel>
+                                    <TextBlock Text="Mascota" Margin="0,0,0,5" />
+                                    <ComboBox x:Name="PetComboBox" PlaceholderText="Seleccione una mascota"
+                                              HorizontalAlignment="Stretch">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate x:DataType="models:Pet">
+                                                <TextBlock Text="{Binding Nombre}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </StackPanel>
+
+                                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Fecha de Ingreso" Margin="0,0,5,5" />
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Fecha de Salida" Margin="5,0,0,5" />
+
+                                    <DatePicker Grid.Row="1" Grid.Column="0" x:Name="EntryDatePicker" Margin="0,0,5,0" />
+                                    <DatePicker Grid.Row="1" Grid.Column="1" x:Name="ExitDatePicker" Margin="5,0,0,0" />
+                                </Grid>
+
+                                <StackPanel>
+                                    <TextBlock Text="Habitación" Margin="0,0,0,5" />
+                                    <ComboBox x:Name="RoomComboBox" PlaceholderText="Seleccione una habitación"
+                                              HorizontalAlignment="Stretch">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate x:DataType="models:Room">
+                                                <TextBlock>
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="{}No. {0} - {1}">
+                                                            <Binding Path="HabitacionId" />
+                                                            <Binding Path="Descripcion" />
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </StackPanel>
+
+                                <StackPanel>
+                                    <TextBlock Text="Servicios Adicionales" Margin="0,0,0,5" />
+                                    <StackPanel Spacing="8">
+                                        <CheckBox Content="Alimentación especial" x:Name="SpecialFoodCheck" />
+                                        <CheckBox Content="Paseo diario" x:Name="DailyWalkCheck" />
+                                        <CheckBox Content="Baño y cepillado" x:Name="GroomingCheck" />
+                                        <CheckBox Content="Administración de medicamentos" x:Name="MedicationCheck" />
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel>
+                                    <TextBlock Text="Notas" Margin="0,0,0,5" />
+                                    <TextBox x:Name="NotesTextBox" Height="60" AcceptsReturn="True" TextWrapping="Wrap" />
+                                </StackPanel>
+
+                                <StackPanel>
+                                    <TextBlock Text="Precio estimado" Margin="0,0,0,5" />
+                                    <TextBlock x:Name="PriceTextBlock" Text="$0.00" FontSize="20" FontWeight="Bold" />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15" Margin="0,15,0,0">
+                                    <!-- Botones para modo visualización -->
+                                    <Button x:Name="EditHostingButton"
+                                            Content="Editar"
+                                            HorizontalContentAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            Width="150"
+                                            Height="40"
+                                            Background="#206EA9"
+                                            Foreground="White" />
+    
+                                    <Button x:Name="DeleteHostingButton"
+                                            Content="Eliminar"
+                                            HorizontalContentAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            Width="150"
+                                            Height="40"
+                                            Background="#DC3545"
+                                            Foreground="White" />
+
+                                    <!-- Botones para modo edición -->
+                                    <Button x:Name="SaveButton"
+                                            Content="Guardar cambios"
+                                            HorizontalContentAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            Width="150"
+                                            Height="40"
+                                            Background="#218838"
+                                            Foreground="White"
+                                            IsVisible="False" />
+
+                                    <Button x:Name="CancelButton"
+                                            Content="Cancelar"
+                                            HorizontalContentAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            Width="150"
+                                            Height="40"
+                                            Background="#6c757d"
+                                            Foreground="White"
+                                            IsVisible="False" />
+                                </StackPanel>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </Panel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

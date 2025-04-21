@@ -196,5 +196,26 @@ namespace ProyectoBD2.Services
             };
             return DbAccess.ExecuteStoredProcedure("dbPrj.spMascotaDesactivar", parameters);
         }
+
+        public static DataTable FindReservationsByDate(string? fecha)
+        {
+            var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+            {
+                { "@FechaInicio", (fecha ?? DateTime.Now.ToString("yyyy-MM-dd"), null) }
+            };
+
+            return DbAccess.ExecuteStoredProcedure("dbPrj.sp_MostrarReservasPorFecha", parameters);
+        }
+        
+        public static DataTable FindRoomsAvailableByDate(string? fechaInicio, string? fechaFin)
+        {
+            var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+            {
+                { "@p_FechaIngreso", (fechaInicio ?? DateTime.Now.ToString("yyyy-MM-dd"), null) },
+                { "p_FechaSalida", (fechaFin ?? DateTime.Now.ToString("yyyy-MM-dd"), null) }
+            };
+
+            return DbAccess.ExecuteStoredProcedure("dbPrj.sp_BuscarHabitacionesDisponibles ", parameters);
+        }
     }
 }

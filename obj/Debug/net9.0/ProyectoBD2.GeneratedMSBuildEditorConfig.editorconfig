@@ -36,5 +36,8 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 [/home/dandresrp/dev/personal/RinTinTin-Pet-Center/Views/Dialogs/AppointmentDialog.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[/home/dandresrp/dev/personal/RinTinTin-Pet-Center/Views/HostingView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [/home/dandresrp/dev/personal/RinTinTin-Pet-Center/Views/LoginView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
