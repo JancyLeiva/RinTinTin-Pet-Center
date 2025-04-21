@@ -17,12 +17,7 @@
                         Background="#206EA9" Foreground="White" Padding="15,7" Margin="0,0,0,0" />
 
                 <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Spacing="10" Margin="0,10,0,0">
-                    <ComboBox x:Name="StatusFilter" SelectedIndex="0" Width="150">
-                        <ComboBoxItem Content="Todos" />
-                        <ComboBoxItem Content="Activos" />
-                        <ComboBoxItem Content="Finalizados" />
-                        <ComboBoxItem Content="Próximos" />
-                    </ComboBox>
+                    <TextBlock VerticalAlignment="Center" Text="Fecha"></TextBlock>
                     <DatePicker x:Name="DateFilter" />
                 </StackPanel>
             </Grid>
@@ -30,7 +25,7 @@
         </StackPanel>
 
         <Grid Grid.Row="1" ColumnDefinitions="*,Auto" Margin="0,20,0,0">
-            <DataGrid Grid.Column="0" x:Name="HostingDataGrid" AutoGenerateColumns="True" IsReadOnly="True"
+            <DataGrid Grid.Column="0" x:Name="HostingDataGrid" AutoGenerateColumns="True"  AutoGeneratingColumn="HostingDataGridAutoGeneratingColumn" IsReadOnly="True"
                       Margin="0,0,15,0" BorderBrush="#ddd" BorderThickness="1">
             </DataGrid>
 
@@ -84,7 +79,7 @@
                                 </Grid>
 
                                 <StackPanel>
-                                    <TextBlock Text="Habitación" Margin="0,0,0,5" />
+                                    <TextBlock x:Name="RoomTextBlock" Text="Habitación" Margin="0,0,0,5" />
                                     <ComboBox x:Name="RoomComboBox" PlaceholderText="Seleccione una habitación"
                                               HorizontalAlignment="Stretch">
                                         <ComboBox.ItemTemplate>
@@ -123,7 +118,6 @@
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15" Margin="0,15,0,0">
-                                    <!-- Botones para modo visualización -->
                                     <Button x:Name="EditHostingButton"
                                             Content="Editar"
                                             HorizontalContentAlignment="Center"
@@ -142,7 +136,6 @@
                                             Background="#DC3545"
                                             Foreground="White" />
 
-                                    <!-- Botones para modo edición -->
                                     <Button x:Name="SaveButton"
                                             Content="Guardar cambios"
                                             HorizontalContentAlignment="Center"

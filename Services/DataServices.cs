@@ -236,5 +236,34 @@ namespace ProyectoBD2.Services
             };
             return DbAccess.ExecuteStoredProcedure("dbPrj.sp_CrearEstadia", parameters);
         }
+        public static DataTable UpdateReservation(int? estadiaId, int? mascotaId, int? habitacionId, string? fechaIngreso, string? fechaSalida, int? servicioAlimentacion, int? servicioPaseo, int? servicioBano, int? servicioMedicamento, string? observaciones)
+        {
+            var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+            {
+                
+                { "p_EstadiaID", (estadiaId != null ? estadiaId : DBNull.Value, null) },
+                { "p_MascotaID", (mascotaId != null ? mascotaId : DBNull.Value, null) },
+                { "p_HabitacionID", (habitacionId != null ? habitacionId : DBNull.Value, null) },
+                { "p_FechaIngreso", (fechaIngreso != null ? fechaIngreso : DBNull.Value, null) },
+                { "p_FechaSalida", (fechaSalida != null ? fechaSalida : DBNull.Value, null) },
+                { "p_Observaciones", (observaciones != null ? observaciones : DBNull.Value, null) },
+                { "p_ServicioAlimentacionEspecial", (servicioAlimentacion != null ? servicioAlimentacion : DBNull.Value, null) },
+                { "p_ServicioPaseoDiario", (servicioPaseo != null ? servicioPaseo : DBNull.Value, null) },
+                { "p_ServicioBanoCepillado", (servicioBano != null ? servicioBano : DBNull.Value, null) },
+                { "p_ServicioMedicamento", (servicioMedicamento != null ? servicioMedicamento : DBNull.Value, null) },
+                { "p_Mensaje", ("", ParameterDirection.Output) }
+            };
+            return DbAccess.ExecuteStoredProcedure("dbPrj.sp_EditarEstadia", parameters);
+        }
+        
+        public static DataTable DeleteReservation(int? estadiaId) 
+        {
+            var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+            {
+                { "p_EstadiaID", (estadiaId != null ? estadiaId : DBNull.Value, null) },
+                { "p_Mensaje", ("", ParameterDirection.Output) }
+            };
+            return DbAccess.ExecuteStoredProcedure("dbPrj.sp_EliminarEstadia", parameters);
+        }
     }
 }
