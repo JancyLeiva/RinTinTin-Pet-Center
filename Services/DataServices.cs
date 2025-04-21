@@ -13,7 +13,7 @@ namespace ProyectoBD2.Services
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
-                { "@Fecha", (fecha ?? DateTime.Now.ToString("yyyy-MM-dd"), null) }
+                { "Fecha", (fecha ?? DateTime.Now.ToString("yyyy-MM-dd"), null) }
             };
 
             return DbAccess.ExecuteStoredProcedure("dbPrj.spConsultarCitasPorFecha", parameters);
@@ -24,13 +24,13 @@ namespace ProyectoBD2.Services
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
-                { "@IdentidadCliente", (identidadCliente, null) },
-                { "@MascotaID", (mascotaId, null) },
-                { "@Estado", (estado, null) },
-                { "@ServicioID", (servicioId, null) },
-                { "@FechaInicio", (fechaInicio, null) },
-                { "@FechaFin", (fechaInicio.AddHours(1), null) },
-                { "@Emergencia", (esEmergencia, null) }
+                { "IdentidadCliente", (identidadCliente, null) },
+                { "MascotaID", (mascotaId, null) },
+                { "Estado", (estado, null) },
+                { "ServicioID", (servicioId, null) },
+                { "FechaInicio", (fechaInicio, null) },
+                { "FechaFin", (fechaInicio.AddHours(1), null) },
+                { "Emergencia", (esEmergencia, null) }
             };
 
             return DbAccess.ExecuteStoredProcedure("dbPrj.spCitaInsert", parameters);
@@ -41,13 +41,13 @@ namespace ProyectoBD2.Services
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
-                { "@CitaID", (citaId, null) },
-                { "@MascotaID", (mascotaId, null) },
-                { "@Estado", (estado, null) },
-                { "@ServicioID", (servicioId, null) },
-                { "@FechaInicio", (fechaInicio, null) },
-                { "@FechaFin", (fechaInicio.AddHours(1), null) },
-                { "@EsEmergencia", (esEmergencia, null) }
+                { "CitaID", (citaId, null) },
+                { "MascotaID", (mascotaId, null) },
+                { "Estado", (estado, null) },
+                { "ServicioID", (servicioId, null) },
+                { "FechaInicio", (fechaInicio, null) },
+                { "FechaFin", (fechaInicio.AddHours(1), null) },
+                { "EsEmergencia", (esEmergencia, null) }
             };
 
             return DbAccess.ExecuteStoredProcedure("dbPrj.spCitaUpdate", parameters);
@@ -57,7 +57,7 @@ namespace ProyectoBD2.Services
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
-                { "@CitaID", (citaId, null) }
+                { "CitaID", (citaId, null) }
             };
 
             return DbAccess.ExecuteStoredProcedure("dbPrj.spAnularCita", parameters);
@@ -68,7 +68,7 @@ namespace ProyectoBD2.Services
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
-                { "@Busqueda", (busqueda != null ? busqueda : DBNull.Value, null) }
+                { "Busqueda", (busqueda != null ? busqueda : DBNull.Value, null) }
             };
 
             return DbAccess.ExecuteStoredProcedure("dbPrj.spAutocompletarCliente", parameters);
@@ -83,7 +83,7 @@ namespace ProyectoBD2.Services
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
-                { "@IdentidadCliente", (identidadCliente != null ? identidadCliente : DBNull.Value, null) }
+                { "IdentidadCliente", (identidadCliente != null ? identidadCliente : DBNull.Value, null) }
             };
 
             return DbAccess.ExecuteStoredProcedure("dbPrj.spListaMascotasPorCliente", parameters);
@@ -103,7 +103,7 @@ namespace ProyectoBD2.Services
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
-                { "@ClienteID", (clienteId != null ? clienteId : DBNull.Value, null) }
+                { "ClienteID", (clienteId != null ? clienteId : DBNull.Value, null) }
             };
             
             return DbAccess.ExecuteStoredProcedure("dbPrj.spListaDeMascotasDeUnCliente", parameters);
@@ -113,12 +113,12 @@ namespace ProyectoBD2.Services
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
-                { "@Nombre", (nombre != null ? nombre : DBNull.Value, null) },
+                { "Nombre", (nombre != null ? nombre : DBNull.Value, null) },
                 { "Identidad", (identidad != null ? identidad : DBNull.Value, null) },
-                { "@Telefono", (telefono != null ? telefono : DBNull.Value, null) },
-                { "@Correo", (correo != null ? correo : DBNull.Value, null) },
-                { "@Direccion", (direccion != null ? direccion : DBNull.Value, null) },
-                { "@TelefonoAdicional", (telefonoAdicional != null ? telefonoAdicional : DBNull.Value, null) }
+                { "Telefono", (telefono != null ? telefono : DBNull.Value, null) },
+                { "Correo", (correo != null ? correo : DBNull.Value, null) },
+                { "Direccion", (direccion != null ? direccion : DBNull.Value, null) },
+                { "TelefonoAdicional", (telefonoAdicional != null ? telefonoAdicional : DBNull.Value, null) }
             };
             return DbAccess.ExecuteStoredProcedure("dbPrj.spClienteInsert", parameters);
         }
@@ -127,13 +127,13 @@ namespace ProyectoBD2.Services
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
-                { "@ClienteID", (clienteId != null ? clienteId : DBNull.Value, null) },
-                { "@Nombre", (nombre != null ? nombre : DBNull.Value, null) },
+                { "ClienteID", (clienteId != null ? clienteId : DBNull.Value, null) },
+                { "Nombre", (nombre != null ? nombre : DBNull.Value, null) },
                 { "Identidad", (identidad != null ? identidad : DBNull.Value, null) },
-                { "@Telefono", (telefono != null ? telefono : DBNull.Value, null) },
-                { "@Correo", (correo != null ? correo : DBNull.Value, null) },
-                { "@Direccion", (direccion != null ? direccion : DBNull.Value, null) },
-                { "@TelefonoAdicional", (telefonoAdicional != null ? telefonoAdicional : DBNull.Value, null) }
+                { "Telefono", (telefono != null ? telefono : DBNull.Value, null) },
+                { "Correo", (correo != null ? correo : DBNull.Value, null) },
+                { "Direccion", (direccion != null ? direccion : DBNull.Value, null) },
+                { "TelefonoAdicional", (telefonoAdicional != null ? telefonoAdicional : DBNull.Value, null) }
             };
             return DbAccess.ExecuteStoredProcedure("dbPrj.spClienteUpdate", parameters);
         }
@@ -142,7 +142,7 @@ namespace ProyectoBD2.Services
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
-                { "@ClienteID", (clienteId != null ? clienteId : DBNull.Value, null) }
+                { "ClienteID", (clienteId != null ? clienteId : DBNull.Value, null) }
             };
             return DbAccess.ExecuteStoredProcedure("dbPrj.spClienteDesactivar", parameters);
         }
@@ -151,7 +151,7 @@ namespace ProyectoBD2.Services
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
-                { "@ClienteID", (clienteId != null ? clienteId : DBNull.Value, null) }
+                { "ClienteID", (clienteId != null ? clienteId : DBNull.Value, null) }
             };
             return DbAccess.ExecuteStoredProcedure("dbPrj.spListaDeMascotasDeUnCliente", parameters);
         }
@@ -160,14 +160,14 @@ namespace ProyectoBD2.Services
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
-                { "@Nombre", (nombre != null ? nombre : DBNull.Value, null) },
-                { "@Especie", (especie != null ? especie : DBNull.Value, null) },
-                { "@Raza", (raza != null ? raza : DBNull.Value, null) },
-                { "@ClienteID", (clienteId != null ? clienteId : DBNull.Value, null) },
-                { "@Peso", (peso != null ? peso : DBNull.Value, null) },
-                { "@Edad", (edad != null ? edad : DBNull.Value, null) },
-                { "@Color", (color != null ? color : DBNull.Value, null) },
-                { "@Descripcion", (descripcion != null ? descripcion : DBNull.Value, null) }
+                { "Nombre", (nombre != null ? nombre : DBNull.Value, null) },
+                { "Especie", (especie != null ? especie : DBNull.Value, null) },
+                { "Raza", (raza != null ? raza : DBNull.Value, null) },
+                { "ClienteID", (clienteId != null ? clienteId : DBNull.Value, null) },
+                { "Peso", (peso != null ? peso : DBNull.Value, null) },
+                { "Edad", (edad != null ? edad : DBNull.Value, null) },
+                { "Color", (color != null ? color : DBNull.Value, null) },
+                { "Descripcion", (descripcion != null ? descripcion : DBNull.Value, null) }
             };
             return DbAccess.ExecuteStoredProcedure("dbPrj.spMascotaInsert", parameters);
         }
@@ -176,14 +176,14 @@ namespace ProyectoBD2.Services
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
-                { "@MascotaID", (mascotaId != null ? mascotaId : DBNull.Value, null) },
-                { "@Nombre", (nombre != null ? nombre : DBNull.Value, null) },
-                { "@Especie", (especie != null ? especie : DBNull.Value, null) },
-                { "@Raza", (raza != null ? raza : DBNull.Value, null) },
-                { "@Peso", (peso != null ? peso : DBNull.Value, null) },
-                { "@Edad", (edad != null ? edad : DBNull.Value, null) },
-                { "@Color", (color != null ? color : DBNull.Value, null) },
-                { "@Descripcion", (descripcion != null ? descripcion : DBNull.Value, null) }
+                { "MascotaID", (mascotaId != null ? mascotaId : DBNull.Value, null) },
+                { "Nombre", (nombre != null ? nombre : DBNull.Value, null) },
+                { "Especie", (especie != null ? especie : DBNull.Value, null) },
+                { "Raza", (raza != null ? raza : DBNull.Value, null) },
+                { "Peso", (peso != null ? peso : DBNull.Value, null) },
+                { "Edad", (edad != null ? edad : DBNull.Value, null) },
+                { "Color", (color != null ? color : DBNull.Value, null) },
+                { "Descripcion", (descripcion != null ? descripcion : DBNull.Value, null) }
             };
             return DbAccess.ExecuteStoredProcedure("dbPrj.spMascotaUpdate", parameters);
         }
@@ -192,7 +192,7 @@ namespace ProyectoBD2.Services
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
-                { "@MascotaID", (mascotaId != null ? mascotaId : DBNull.Value, null) }
+                { "MascotaID", (mascotaId != null ? mascotaId : DBNull.Value, null) }
             };
             return DbAccess.ExecuteStoredProcedure("dbPrj.spMascotaDesactivar", parameters);
         }
@@ -201,7 +201,7 @@ namespace ProyectoBD2.Services
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
-                { "@FechaInicio", (fecha ?? DateTime.Now.ToString("yyyy-MM-dd"), null) }
+                { "FechaInicio", (fecha ?? DateTime.Now.ToString("yyyy-MM-dd"), null) }
             };
 
             return DbAccess.ExecuteStoredProcedure("dbPrj.sp_MostrarReservasPorFecha", parameters);
@@ -211,11 +211,30 @@ namespace ProyectoBD2.Services
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
-                { "@p_FechaIngreso", (fechaInicio ?? DateTime.Now.ToString("yyyy-MM-dd"), null) },
+                { "p_FechaIngreso", (fechaInicio ?? DateTime.Now.ToString("yyyy-MM-dd"), null) },
                 { "p_FechaSalida", (fechaFin ?? DateTime.Now.ToString("yyyy-MM-dd"), null) }
             };
 
             return DbAccess.ExecuteStoredProcedure("dbPrj.sp_BuscarHabitacionesDisponibles ", parameters);
+        }
+        
+        public static DataTable CreateReservation(int? mascotaId, int? habitacionId, string? fechaIngreso, string? fechaSalida, int? servicioAlimentacion, int? servicioPaseo, int? servicioBano, int? servicioMedicamento, string? observaciones)
+        {
+            var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+            {
+                { "p_MascotaID", (mascotaId != null ? mascotaId : DBNull.Value, null) },
+                { "p_HabitacionID", (habitacionId != null ? habitacionId : DBNull.Value, null) },
+                { "p_FechaIngreso", (fechaIngreso != null ? fechaIngreso : DBNull.Value, null) },
+                { "p_FechaSalida", (fechaSalida != null ? fechaSalida : DBNull.Value, null) },
+                { "p_Observaciones", (observaciones != null ? observaciones : DBNull.Value, null) },
+                { "p_ServicioAlimentacionEspecial", (servicioAlimentacion != null ? servicioAlimentacion : DBNull.Value, null) },
+                { "p_ServicioPaseoDiario", (servicioPaseo != null ? servicioPaseo : DBNull.Value, null) },
+                { "p_ServicioBanoCepillado", (servicioBano != null ? servicioBano : DBNull.Value, null) },
+                { "p_ServicioMedicamento", (servicioMedicamento != null ? servicioMedicamento : DBNull.Value, null) },
+                { "p_EstadiaID", (0, ParameterDirection.Output) },
+                { "p_Mensaje", ("", ParameterDirection.Output) }
+            };
+            return DbAccess.ExecuteStoredProcedure("dbPrj.sp_CrearEstadia", parameters);
         }
     }
 }

@@ -26,7 +26,6 @@ namespace ProyectoBD2.Views
             InitializeComponent();
             LoadClients();
             
-            // Initialize event handlers
             NewHostingButton.Click += NewHostingButton_Click;
             CancelButton.Click += CancelButton_Click;
             SaveButton.Click += SaveButton_Click;
@@ -36,20 +35,21 @@ namespace ProyectoBD2.Views
             DateFilter.SelectedDate = DateTime.Today;
             DateFilter.SelectedDateChanged += (s, a) => LoadHostings();
             
-            // Initialize client autocomplete with data source
             ClienteAutoCompleteBox.ValueMemberBinding = new Binding("Nombre");
             ClienteAutoCompleteBox.SelectionChanged += LoadMascotas;
 
             PetComboBox.IsEnabled = false;
-            // Setup data grid event handlers
             HostingDataGrid.SelectionChanged += HostingDataGrid_SelectionChanged;
             EntryDatePicker.SelectedDateChanged += (s,a) => LoadRooms();
             ExitDatePicker.SelectedDateChanged += (s, a) => LoadRooms();
+            RoomComboBox.SelectionChanged += (s, a) => UpdateEstimatedPrice();
+            SpecialFoodCheck.IsCheckedChanged += (s, a) => UpdateEstimatedPrice();
+            DailyWalkCheck.IsCheckedChanged += (s, a) => UpdateEstimatedPrice();
+            GroomingCheck.IsCheckedChanged += (s, a) => UpdateEstimatedPrice();
+            MedicationCheck.IsCheckedChanged += (s, a) => UpdateEstimatedPrice();
             
-            // Load initial data
             LoadHostings();
             
-            // Initial UI state
             _currentState = ViewState.List;
             UpdateViewState();
         }
@@ -245,43 +245,32 @@ namespace ProyectoBD2.Views
 
         private void SaveButton_Click(object? sender, RoutedEventArgs e)
         {
-            // Validate form
-            if (string.IsNullOrEmpty(ClienteAutoCompleteBox.Text))
-            {
-                // Show error message
-                return;
-            }
-
-            if (PetComboBox.SelectedIndex == -1)
-            {
-                // Show error message
-                return;
-            }
-            
-            if (RoomComboBox.SelectedIndex == -1)
-            {
-                // Show error message
-                return;
-            }
-
-            // Get form values and save to database
             try
             {
-                // Implement saving logic using your DataServices
-                // Example:
-                // if (_currentState == ViewState.New)
-                // {
-                //     DataServices.CreateHosting(...);
-                // }
+                var selectedPet = PetComboBox.SelectedItem as Pet;
+                var selectedRoom = RoomComboBox.SelectedItem as Room;
+                
+                var petId = selectedPet?.MascotaId;
+                var roomId = selectedRoom?.HabitacionId;
+                var entryDate = EntryDatePicker.SelectedDate?.ToString("yyyy-MM-dd");
+                var exitDate = ExitDatePicker.SelectedDate?.ToString("yyyy-MM-dd");
+                var specialFood = SpecialFoodCheck.IsChecked == true ? 1 : 0;
+                var dailyWalk = DailyWalkCheck.IsChecked == true ? 1 : 0;
+                var grooming = GroomingCheck.IsChecked == true ? 1 : 0;
+                var medication = MedicationCheck.IsChecked == true ? 1 : 0;
+                var notes = NotesTextBox.Text;
+                
+                if (_currentState == ViewState.New)
+                {
+                    DataServices.CreateReservation(petId, roomId, entryDate, exitDate, specialFood, dailyWalk, grooming, medication, notes);
+                }
                 // else
                 // {
-                //     DataServices.UpdateHosting(...);
+                //     DataServices.UpdateReservation(petId, roomId, entryDate, exitDate, specialFood, dailyWalk, grooming, medication, notes);
                 // }
                 
-                // Reload data
                 LoadHostings();
                 
-                // Reset state
                 _currentState = ViewState.List;
                 UpdateViewState();
             }
@@ -296,20 +285,20 @@ namespace ProyectoBD2.Views
             var entryDate = EntryDatePicker.SelectedDate;
             var exitDate = ExitDatePicker.SelectedDate;
             
-            if (!entryDate.HasValue || !exitDate.HasValue)
+            if (!entryDate.HasValue || !exitDate.HasValue || _rooms == null)
                 return;
                 
             var days = (exitDate.Value - entryDate.Value).Days;
-            var basePrice = days * 50; // Base price per day
+            var basePrice = days * 50;
             
             var additionalServices = 0.0;
-            if (SpecialFoodCheck.IsChecked == true) additionalServices += days * 10;
-            if (DailyWalkCheck.IsChecked == true) additionalServices += days * 15;
-            if (GroomingCheck.IsChecked == true) additionalServices += 25;
-            if (MedicationCheck.IsChecked == true) additionalServices += days * 5;
+            if (SpecialFoodCheck.IsChecked == true) additionalServices += days * 500;
+            if (DailyWalkCheck.IsChecked == true) additionalServices += days * 500;
+            if (GroomingCheck.IsChecked == true) additionalServices += 500;
+            if (MedicationCheck.IsChecked == true) additionalServices += days * 500;
             
             var totalPrice = basePrice + additionalServices;
-            PriceTextBlock.Text = $"${totalPrice:F2}";
+            PriceTextBlock.Text = $"L. {totalPrice:F2}";
         }
 
         private void SearchButton_Click(object? sender, RoutedEventArgs e)
@@ -328,7 +317,6 @@ namespace ProyectoBD2.Views
         {
             if (HostingDataGrid.SelectedItem is DataRowView selectedRow)
             {
-                // Populate form with selected hosting data
                 _currentState = ViewState.Edit;
                 UpdateViewState();
             }
