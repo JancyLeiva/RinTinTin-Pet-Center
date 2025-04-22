@@ -1,0 +1,120 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+             x:Class="ProyectoBD2.Views.PurchasesView">
+    <Grid RowDefinitions="Auto,*" Margin="20">
+        <Grid Grid.Row="0" RowDefinitions="Auto,Auto" Margin="0,0,0,15">
+            <TextBlock Grid.Row="0" Text="Gestión de Compras" FontSize="24" FontWeight="Bold" />
+        </Grid>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*,*" Margin="0,0,0,0">
+            <Grid Grid.Column="0" RowDefinitions="Auto,*" Margin="0,0,10,0">
+                <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,10">
+                    <TextBox Grid.Column="0" x:Name="SearchPurchasesTextBox"
+                             HorizontalAlignment="Stretch"
+                             Watermark="Buscar compra..." />
+                    <Button Grid.Column="1" x:Name="NewPurchaseButton"
+                            Content="Nueva compra"
+                            Background="#28A745"
+                            Foreground="White"
+                            Margin="10,0,0,0" />
+                </Grid>
+
+                <DataGrid x:Name="PurchasesHistoryDataGrid" Grid.Row="1"
+                          AutoGenerateColumns="True"
+                          IsReadOnly="True"
+                          BorderThickness="1"
+                          BorderBrush="Gray"
+                          Margin="0,10,0,10"
+                          VerticalAlignment="Stretch">
+                </DataGrid>
+            </Grid>
+
+            <Grid Grid.Column="1" RowDefinitions="Auto,*,Auto" Margin="10,0,0,0">
+                <Grid x:Name="ViewPanel" Grid.Row="0" IsVisible="True" RowDefinitions="Auto,Auto" Margin="0,0,0,10">
+                    <TextBlock Grid.Row="0" Text="Detalles de la Compra" FontSize="20" FontWeight="Bold"
+                               Margin="0,0,0,15" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
+                        <Button x:Name="EditPurchaseButton"
+                                Content="Editar Compra"
+                                Width="150"
+                                Height="40"
+                                IsEnabled="{Binding ElementName=PurchasesHistoryDataGrid, Path=SelectedItem, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                Background="#0078D4"
+                                Foreground="White" />
+                        <Button x:Name="DeletePurchaseButton"
+                                Content="Eliminar Compra"
+                                Width="150"
+                                Height="40"
+                                IsEnabled="{Binding ElementName=PurchasesHistoryDataGrid, Path=SelectedItem, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                Background="#DC3545"
+                                Foreground="White" />
+                    </StackPanel>
+                </Grid>
+
+                <Grid x:Name="EditCreatePanel" Grid.Row="0" IsVisible="False" RowDefinitions="Auto,*,Auto,Auto"
+                      Margin="0,0,0,10">
+                    <TextBlock Grid.Row="0" x:Name="EditCreateTitle" Text="Nueva Compra" FontSize="20"
+                               FontWeight="Bold" Margin="0,0,0,15" />
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="10" Margin="0,0,0,15">
+                        <ComboBox x:Name="SupplierComboBox" PlaceholderText="Seleccionar proveedor" />
+                        <DatePicker x:Name="PurchaseDatePicker" IsEnabled="False" />
+                        <ComboBox x:Name="StatusComboBox" PlaceholderText="Seleccionar estado" IsVisible="False" />
+                    </StackPanel>
+
+                    <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Margin="0,0,0,10">
+                        <ComboBox Grid.Column="0" x:Name="ArticleComboBox" PlaceholderText="Seleccionar artículo" />
+
+                        <Button Grid.Column="1" x:Name="AddArticleButton"
+                                Content="Agregar Artículo"
+                                Margin="10,0,0,0"
+                                Background="#28A745"
+                                Foreground="White" />
+                    </Grid>
+                </Grid>
+
+                <DataGrid x:Name="PurchaseItemsDataGrid" Grid.Row="1"
+                          AutoGenerateColumns="False"
+                          BorderThickness="1"
+                          BorderBrush="Gray"
+                          Margin="0,10,0,10" />
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="10" Margin="0,10,0,0"
+                            VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Button x:Name="SaveButton"
+                            Content="Guardar Cambios"
+                            Width="150"
+                            Height="40"
+                            Background="#0078D4"
+                            Foreground="White"
+                            IsVisible="False"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center" />
+
+                    <Button x:Name="CreateButton"
+                            Content="Crear Compra"
+                            Width="150"
+                            Height="40"
+                            Background="#28A745"
+                            Foreground="White"
+                            IsVisible="False"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center" />
+
+                    <Button x:Name="CancelButton"
+                            Content="Cancelar"
+                            Width="150"
+                            Height="40"
+                            Background="#6C757D"
+                            Foreground="White"
+                            IsVisible="False"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -265,5 +265,15 @@ namespace ProyectoBD2.Services
             };
             return DbAccess.ExecuteStoredProcedure("dbPrj.sp_EliminarEstadia", parameters);
         }
+
+        public static DataTable FindProviders()
+        {
+            return DbAccess.ExecuteStoredProcedure("dbPrj.spListaProveedores", EmptyParams);
+        }
+
+        public static DataTable FindArticles()
+        {
+            return DbAccess.ExecuteStoredProcedure("dbPrj.spListaArticulos", EmptyParams);
+        }
     }
 }

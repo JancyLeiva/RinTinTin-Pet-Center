@@ -22,6 +22,7 @@ namespace ProyectoBD2.Views
             AppointmentDatePicker.SelectedDate = DateTime.Now.Date;
             LoadAppointments();
             LoadAreas();
+            
             DepartmentComboBox.SelectionChanged += (s, e) => FilterAppointments();
             SearchTextBox.TextChanged += (s, e) => FilterAppointments();
             AppointmentDatePicker.Initialized += (s, e) => LoadAppointments();
@@ -41,6 +42,7 @@ namespace ProyectoBD2.Views
         {
             _areas = ["Todas"];
             var data = DataServices.FindAreas();
+            
             foreach (DataRow row in data.Rows)
             {
                 _areas.Add((string)row["Area"]);

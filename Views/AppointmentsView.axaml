@@ -12,9 +12,8 @@
         <DockPanel Grid.Row="0" Margin="0,40,0,15" LastChildFill="True">
             <StackPanel Margin="0,0,15,0" Orientation="Horizontal" Spacing="15">
                 <ComboBox x:Name="DepartmentComboBox" PlaceholderText="Seleccionar departamento"
-                          HorizontalAlignment="Stretch">
-                </ComboBox>
-                <DatePicker x:Name="AppointmentDatePicker"></DatePicker>
+                          HorizontalAlignment="Stretch"/>
+                <DatePicker x:Name="AppointmentDatePicker"/>
             </StackPanel>
             <TextBox x:Name="SearchTextBox" Watermark="Buscar citas..." VerticalAlignment="Center" />
         </DockPanel>
