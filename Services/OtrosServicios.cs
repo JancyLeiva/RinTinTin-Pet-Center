@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using ProyectoBD2.DataAccess;
+using ProyectoBD2.Models;
 
 namespace ProyectoBD2.Services;
 
@@ -139,5 +141,8 @@ public static class OtrosServicios
         return DbAccess.ExecuteStoredProcedure("dbPrj.spArticuloUpdate", parameters);
     }
     
-    
+    public static DataTable GetNivelesStock(string? nombreArticulo = null, string? clasificacion = null, bool soloEstadoCritico = false)
+    {
+        return DbAccess.ExecuteStoredProcedure("dbPrj.sp_GetNivelesStock", EmptyParams);
+    }
 }

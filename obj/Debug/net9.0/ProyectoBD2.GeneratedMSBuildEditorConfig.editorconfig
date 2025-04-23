@@ -36,9 +36,6 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 [C:/Users/Robertos/RiderProjects/RinTinTin-Pet-Center/Views/ClientsView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/Robertos/RiderProjects/RinTinTin-Pet-Center/Views/CuentasBancariasView.axaml]
-build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
-
 [C:/Users/Robertos/RiderProjects/RinTinTin-Pet-Center/Views/Dialogs/AppointmentDialog.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
@@ -55,4 +52,7 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/Robertos/RiderProjects/RinTinTin-Pet-Center/Views/PurchasesView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/Robertos/RiderProjects/RinTinTin-Pet-Center/Views/StockView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

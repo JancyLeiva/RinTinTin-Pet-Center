@@ -1,0 +1,67 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
+             x:Class="ProyectoBD2.Views.StockView">
+
+    <Grid RowDefinitions="Auto,Auto,*" Margin="15">
+        <!-- Título -->
+        <TextBlock Grid.Row="0"
+                   Text="Monitoreo de Niveles de Stock"
+                   FontSize="24"
+                   FontWeight="SemiBold"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,15" />
+
+        <!-- Panel de filtros -->
+        <Grid Grid.Row="1" ColumnDefinitions="*,*,*,*" Margin="0,0,0,15" VerticalAlignment="Center">
+            <!-- Filtro por nombre -->
+            <StackPanel Grid.Column="0" Orientation="Vertical" Spacing="5" Margin="5">
+                <TextBlock Text="Buscar Artículo:" />
+                <TextBox Name="BuscarArticuloTextBox" Watermark="Nombre" />
+            </StackPanel>
+
+            <!-- Filtro por clasificación -->
+            <StackPanel Grid.Column="1" Orientation="Vertical" Spacing="5" Margin="5">
+                <TextBlock Text="Clasificación:" />
+                <ComboBox Name="ClasificacionComboBox" Width="180" HorizontalAlignment="Left" />
+            </StackPanel>
+
+            <!-- Checkbox para estado crítico -->
+            <StackPanel Grid.Column="2" Orientation="Vertical" Spacing="5" Margin="5" VerticalAlignment="Center">
+                <CheckBox Name="EstadoCriticoCheckBox" Content="Solo estado crítico" Margin="0,20,0,0" />
+            </StackPanel>
+            
+            <!-- Botón de actualizar -->
+            <Button Grid.Column="3" 
+                    Name="ActualizarButton" 
+                    Content="Actualizar" 
+                    HorizontalAlignment="Right"
+                    Background="#0d6efd"
+                    Foreground="White"
+                    Padding="12,8"
+                    Margin="0,20,0,0" />
+        </Grid>
+
+        <!-- DataGrid de niveles de stock -->
+        <DataGrid Grid.Row="2"
+                  Name="StockDataGrid"
+                  AutoGenerateColumns="True"
+                  BorderThickness="1"
+                  BorderBrush="#dee2e6"
+                  VerticalScrollBarVisibility="Auto"
+                  IsReadOnly="True">
+            <DataGrid.Styles>
+                <Style Selector="DataGridRow">
+                    <Setter Property="Height" Value="40" />
+                </Style>
+                <Style Selector="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#f8f9fa" />
+                    <Setter Property="FontWeight" Value="SemiBold" />
+                    <Setter Property="Height" Value="40" />
+                </Style>
+            </DataGrid.Styles>
+        </DataGrid>
+    </Grid>
+</UserControl>

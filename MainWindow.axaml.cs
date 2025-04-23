@@ -19,7 +19,7 @@ namespace ProyectoBD2
         private EmpleadoView? _empleadosView;
         private ProveedoresView? _proveedoresView;
         private ArticulosView? _articulosView;
-        private CuentasBancariasView? _cuentasBancariasView;
+        private StockView? _stockView;
         // private ReportsView? _reportsView;
 
         private Panel? _viewContainer;
@@ -48,7 +48,7 @@ namespace ProyectoBD2
             _empleadosView = new EmpleadoView();
             _proveedoresView = new ProveedoresView();
             _articulosView = new ArticulosView();
-            _cuentasBancariasView = new CuentasBancariasView();
+            _stockView = new StockView();
             
             // _reportsView = new ReportsView();
 
@@ -59,7 +59,7 @@ namespace ProyectoBD2
             _viewContainer.Children.Add(_empleadosView);
             _viewContainer.Children.Add(_proveedoresView);
             _viewContainer.Children.Add(_articulosView);
-            _viewContainer.Children.Add(_cuentasBancariasView);
+            _viewContainer.Children.Add(_stockView);
             // _viewContainer.Children.Add(_reportsView);
 
             foreach (var child in _viewContainer.Children.OfType<Control>())
@@ -129,7 +129,7 @@ namespace ProyectoBD2
                     ShowView(_articulosView);
                     break;
                 case "CuentasBancarias":
-                    ShowView(_cuentasBancariasView);
+                    ShowView(_stockView);
                     break;
                 // case "Reports":
                 //     ShowView(_reportsView);
