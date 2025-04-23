@@ -1,0 +1,37 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ProyectoBD2.Views.EmpleadoView">
+
+    <Grid RowDefinitions="Auto,*" Margin="20">
+        <!-- Título -->
+        <TextBlock Grid.Row="0" Text="Gestión de Empleados" FontSize="24" FontWeight="Bold" Margin="0,0,0,15" />
+
+        <!-- Contenido principal -->
+        <Grid Grid.Row="1" RowDefinitions="Auto,*" Margin="0,0,0,0">
+            <!-- Barra de búsqueda y botón de agregar -->
+            <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,10">
+                <TextBox Grid.Column="0" x:Name="SearchEmpleadoTextBox"
+                         HorizontalAlignment="Stretch"
+                         Watermark="Buscar empleado..." />
+                <Button Grid.Column="1" x:Name="AddEmpleadoButton"
+                        Content="Nuevo empleado"
+                        Background="#206EA9"
+                        Foreground="White"
+                        Margin="10,0,0,0" />
+            </Grid>
+
+            <!-- DataGrid para CRUD -->
+            <DataGrid Grid.Row="1" x:Name="EmpleadosDataGrid"
+                      AutoGenerateColumns="True"
+                      IsReadOnly="False"
+                      BorderThickness="1"
+                      BorderBrush="Gray"
+                      Margin="0,10,0,0"
+                      VerticalAlignment="Stretch">
+            </DataGrid>
+        </Grid>
+    </Grid>
+</UserControl>
