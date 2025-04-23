@@ -275,22 +275,5 @@ namespace ProyectoBD2.Services
         {
             return DbAccess.ExecuteStoredProcedure("dbPrj.spListaArticulos", EmptyParams);
         }
-
-        public static DataTable FindPurchasesHistory()
-        {
-            return DbAccess.ExecuteSqlRawQuery("Select * from dbPrj.vListaCompras");
-        }
-        
-        public static DataTable CreatePurchase(int? proveedorId, DateTimeOffset? fecha, DataTable? detalles)
-        {
-            var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
-            {
-                { "ProveedorID", (proveedorId != null ? proveedorId : DBNull.Value, null) },
-                { "Fecha", (fecha != null ? fecha : DBNull.Value, null) },
-                { "Estado", ("Pendiente", null) },
-                { "Detalles", (detalles != null ? detalles : DBNull.Value, null) }
-            };
-            return DbAccess.ExecuteStoredProcedure("dbPrj.spCompraCompletaInsert", parameters);
-        }
     }
 }

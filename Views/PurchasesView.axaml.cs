@@ -1,8 +1,16 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Linq;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Templates;
 using Avalonia.Data;
+using Avalonia.Interactivity;
+using Avalonia.Layout;
+using Avalonia.Media;
+using Avalonia.Threading;
+using Microsoft.IdentityModel.Tokens;
 using ProyectoBD2.Models;
 using ProyectoBD2.Services;
 
@@ -12,15 +20,7 @@ public partial class PurchasesView : UserControl
 {
     private readonly ObservableCollection<Provider>? _providers = [];
     private readonly ObservableCollection<Article>? _articles = [];
-    private readonly ObservableCollection<PurchaseItem>? _purchaseItems = [];
-    private readonly ObservableCollection<string> _statuses =
-    [
-        "Pendiente",
-        "Finalizada"
-    ];
-    private readonly ObservableCollection<Purchase>? _purchases = [];
-    
-    private Article? _selectedArticle = new Article();
+    // private readonly ObservableCollection<Purchases>? _purchases = [];
     
     private enum ViewMode
     {
@@ -36,49 +36,25 @@ public partial class PurchasesView : UserControl
         InitializeComponent();
         LoadProviders();
         LoadArticles();
-        LoadPurchaseHistory();
         
-        SetupPurchaseItemsDataGrid();
-        
-        PurchaseItemsDataGrid.ItemsSource = _purchaseItems;
-        ArticleAutoCompleteBox.ItemsSource = _articles;
-        ArticleAutoCompleteBox.ValueMemberBinding = new Binding("Nombre");
+        // PurchaseItemsDataGrid.ItemsSource = _purchaseItems;
+        ArticleComboBox.ItemsSource = _articles;
         SupplierComboBox.ItemsSource = _providers;
         SupplierComboBox.DisplayMemberBinding = new Binding("Nombre");
+        ArticleComboBox.DisplayMemberBinding = new Binding("Nombre");
         PurchaseDatePicker.SelectedDate = DateTime.Now;
-        StatusComboBox.ItemsSource = _statuses;
-        StatusComboBox.SelectedIndex = 0;
-
+    
+        // Set up event handlers
         NewPurchaseButton.Click += (s, e) => SetViewMode(ViewMode.Creating);
         EditPurchaseButton.Click += (s, e) => SetViewMode(ViewMode.Editing);
         CancelButton.Click += (s, e) => SetViewMode(ViewMode.Viewing);
-        
-        CreateButton.Click += (s, e) => CreatePurchase();
+        // CreateButton.Click += (s, e) => CreatePurchase();
         // SaveButton.Click += (s, e) => SavePurchase();
         // DeletePurchaseButton.Click += (s, e) => DeletePurchase();
         AddArticleButton.Click += (s, e) => AddArticleToGrid();
     
         // Initial state
         SetViewMode(ViewMode.Viewing);
-    }
-
-    private void LoadPurchaseHistory()
-    {
-        var data = DataServices.FindPurchasesHistory();
-
-        foreach (DataRow row in data.Rows)
-        {
-            _purchases?.Add(new Purchase
-            {
-                CompraId = row["CompraID"] == DBNull.Value ? null : (int?)row["CompraID"],
-                CodigoCompra = row["CodigoCompra"] == DBNull.Value ? null : (string)row["CodigoCompra"],
-                Proveedor = row["Proveedor"] == DBNull.Value ? null : (string)row["Proveedor"],
-                Fecha = row["Fecha"] == DBNull.Value ? null : (DateTime?)row["Fecha"],
-                Total = row["Total"] == DBNull.Value ? null : (decimal?)row["Total"],
-            });
-        }
-        
-        PurchasesHistoryDataGrid.ItemsSource = _purchases;
     }
     
     private void LoadProviders()
@@ -110,7 +86,7 @@ public partial class PurchasesView : UserControl
             });
         }
         
-        ArticleAutoCompleteBox.ItemsSource = _articles;
+        ArticleComboBox.ItemsSource = _articles;
     }
     
     private void SetViewMode(ViewMode mode)
@@ -123,20 +99,21 @@ public partial class PurchasesView : UserControl
     
         // Set title
         EditCreateTitle.Text = mode == ViewMode.Creating ? "Nueva Compra" : "Editar Compra";
-        
-        PurchasesHistoryDataGrid.SelectedItem = mode == ViewMode.Creating ? null : PurchasesHistoryDataGrid.SelectedItem;
     
         // Set button visibility
         CreateButton.IsVisible = mode == ViewMode.Creating;
         SaveButton.IsVisible = mode == ViewMode.Editing;
         CancelButton.IsVisible = mode != ViewMode.Viewing;
+        StatusComboBox.IsVisible = mode == ViewMode.Editing;
     
         // Reset form if creating
-        if (mode != ViewMode.Creating) return;
-        // _purchaseItems.Clear();
-        SupplierComboBox.SelectedItem = null;
-        PurchaseDatePicker.SelectedDate = DateTime.Now;
-
+        if (mode == ViewMode.Creating)
+        {
+            // _purchaseItems.Clear();
+            SupplierComboBox.SelectedItem = null;
+            PurchaseDatePicker.SelectedDate = DateTime.Now;
+        }
+    
         // Load data if editing
         // if (mode == ViewMode.Editing && PurchasesHistoryDataGrid.SelectedItem is Purchase selectedPurchase)
         // {
@@ -148,97 +125,18 @@ public partial class PurchasesView : UserControl
 
     private void AddArticleToGrid()
     {
-        if (ArticleAutoCompleteBox.SelectedItem is not Article selectedArticle) return;
-        _selectedArticle = selectedArticle;
-        _purchaseItems?.Add(new PurchaseItem
+        if (ArticleComboBox.SelectedItem is Article selectedArticle)
         {
-            ArticuloId = _selectedArticle?.ArticuloId,
-            NombreArticulo = _selectedArticle?.Nombre,
-        });
-        
-        PurchaseItemsDataGrid.ItemsSource = _purchaseItems;
-    }
-    
-    private void SetupPurchaseItemsDataGrid()
-    {
-        PurchaseItemsDataGrid.Columns.Clear();
-    
-        var articuloIdColumn = new DataGridTextColumn
-        {
-            Header = "ArticuloID",
-            Binding = new Binding("ArticuloId"),
-            IsReadOnly = true
-        };
-        PurchaseItemsDataGrid.Columns.Add(articuloIdColumn);
-    
-        var nombreArticuloColumn = new DataGridTextColumn
-        {
-            Header = "NombreArticulo",
-            Binding = new Binding("NombreArticulo"),
-            IsReadOnly = true
-        };
-        PurchaseItemsDataGrid.Columns.Add(nombreArticuloColumn);
-    
-        var cantidadColumn = new DataGridTextColumn
-        {
-            Header = "Cantidad",
-            Binding = new Binding("Cantidad")
-        };
-        PurchaseItemsDataGrid.Columns.Add(cantidadColumn);
-    
-        var precioColumn = new DataGridTextColumn
-        {
-            Header = "Precio",
-            Binding = new Binding("Precio")
-        };
-        PurchaseItemsDataGrid.Columns.Add(precioColumn);
-    
-        var descuentoColumn = new DataGridTextColumn
-        {
-            Header = "Descuento",
-            Binding = new Binding("Descuento")
-        };
-        PurchaseItemsDataGrid.Columns.Add(descuentoColumn);
-    
-        var impuestoColumn = new DataGridTextColumn
-        {
-            Header = "Impuesto",
-            Binding = new Binding("Impuesto")
-        };
-        PurchaseItemsDataGrid.Columns.Add(impuestoColumn);
-    }
-
-    private void CreatePurchase()
-    {
-        if (SupplierComboBox.SelectedItem is not Provider selectedProvider)
-        {
-            return;
+            // Add logic to add item to grid with default values
+            // _purchaseItems.Add(new PurchaseItem
+            // {
+            //     ArticuloId = selectedArticle.ArticuloId,
+            //     ArticuloNombre = selectedArticle.Nombre,
+            //     Cantidad = 1,
+            //     PrecioUnitario = 0,
+            //     Descuento = 0,
+            //     Impuesto = 0
+            // });
         }
-        
-        var detailsTable = new DataTable();
-        
-        detailsTable.Columns.Add("ArticuloID", typeof(int));
-        detailsTable.Columns.Add("NombreArticulo", typeof(string));
-        detailsTable.Columns.Add("Cantidad", typeof(int));
-        detailsTable.Columns.Add("Precio", typeof(decimal));
-        detailsTable.Columns.Add("Descuento", typeof(decimal));
-        detailsTable.Columns.Add("Impuesto", typeof(decimal));
-        
-        foreach (var item in _purchaseItems!)
-        {
-            var row = detailsTable.NewRow();
-            row["ArticuloID"] = item.ArticuloId;
-            row["NombreArticulo"] = item.NombreArticulo;
-            row["Cantidad"] = item.Cantidad;
-            row["Precio"] = item.Precio;
-            row["Descuento"] = item.Descuento;
-            row["Impuesto"] = item.Impuesto;
-            detailsTable.Rows.Add(row);
-        }
-
-        if (PurchaseDatePicker.SelectedDate == null) return;
-        var data = DataServices.CreatePurchase(selectedProvider.ProveedorId,
-            PurchaseDatePicker.SelectedDate, detailsTable);
-        Console.Write(data);
     }
 }

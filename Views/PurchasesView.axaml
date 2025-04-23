@@ -42,8 +42,6 @@
                                 Width="150"
                                 Height="40"
                                 IsEnabled="{Binding ElementName=PurchasesHistoryDataGrid, Path=SelectedItem, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                HorizontalContentAlignment="Center"
-                                VerticalContentAlignment="Center"
                                 Background="#0078D4"
                                 Foreground="White" />
                         <Button x:Name="DeletePurchaseButton"
@@ -51,8 +49,6 @@
                                 Width="150"
                                 Height="40"
                                 IsEnabled="{Binding ElementName=PurchasesHistoryDataGrid, Path=SelectedItem, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                HorizontalContentAlignment="Center"
-                                VerticalContentAlignment="Center"
                                 Background="#DC3545"
                                 Foreground="White" />
                     </StackPanel>
@@ -65,15 +61,12 @@
 
                     <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="10" Margin="0,0,0,15">
                         <ComboBox x:Name="SupplierComboBox" PlaceholderText="Seleccionar proveedor" />
-                        <DatePicker x:Name="PurchaseDatePicker"/>
-                        <ComboBox x:Name="StatusComboBox"/>
+                        <DatePicker x:Name="PurchaseDatePicker" IsEnabled="False" />
+                        <ComboBox x:Name="StatusComboBox" PlaceholderText="Seleccionar estado" IsVisible="False" />
                     </StackPanel>
 
                     <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Margin="0,0,0,10">
-                        <AutoCompleteBox Grid.Column="0"
-                                         x:Name="ArticleAutoCompleteBox"
-                                         Watermark="Buscar artículo..."
-                                         FilterMode="Contains" />
+                        <ComboBox Grid.Column="0" x:Name="ArticleComboBox" PlaceholderText="Seleccionar artículo" />
 
                         <Button Grid.Column="1" x:Name="AddArticleButton"
                                 Content="Agregar Artículo"
@@ -87,8 +80,7 @@
                           AutoGenerateColumns="False"
                           BorderThickness="1"
                           BorderBrush="Gray"
-                          Margin="0,10,0,10">
-                </DataGrid>
+                          Margin="0,10,0,10" />
 
                 <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="10" Margin="0,10,0,0"
                             VerticalAlignment="Center" HorizontalAlignment="Center">
