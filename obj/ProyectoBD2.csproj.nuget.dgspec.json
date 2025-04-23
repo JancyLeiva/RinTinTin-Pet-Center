@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Robertos\\RiderProjects\\RinTinTin-Pet-Center\\ProyectoBD2.csproj": {}
+    "C:\\Users\\dandresrp\\dev\\personal\\RinTinTin-Pet-Center\\ProyectoBD2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Robertos\\RiderProjects\\RinTinTin-Pet-Center\\ProyectoBD2.csproj": {
+    "C:\\Users\\dandresrp\\dev\\personal\\RinTinTin-Pet-Center\\ProyectoBD2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Robertos\\RiderProjects\\RinTinTin-Pet-Center\\ProyectoBD2.csproj",
+        "projectUniqueName": "C:\\Users\\dandresrp\\dev\\personal\\RinTinTin-Pet-Center\\ProyectoBD2.csproj",
         "projectName": "ProyectoBD2",
-        "projectPath": "C:\\Users\\Robertos\\RiderProjects\\RinTinTin-Pet-Center\\ProyectoBD2.csproj",
-        "packagesPath": "C:\\Users\\Robertos\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Robertos\\RiderProjects\\RinTinTin-Pet-Center\\obj\\",
+        "projectPath": "C:\\Users\\dandresrp\\dev\\personal\\RinTinTin-Pet-Center\\ProyectoBD2.csproj",
+        "packagesPath": "C:\\Users\\dandresrp\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\dandresrp\\dev\\personal\\RinTinTin-Pet-Center\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Robertos\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\dandresrp\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
