@@ -53,4 +53,51 @@ public static class OtrosServicios
     
         return DbAccess.ExecuteStoredProcedure("dbPrj.sp_EditarEmpleado", parameters);
     }
+    
+    
+    public static DataTable AllProveedores()
+    {
+        return DbAccess.ExecuteStoredProcedure("dbPrj.sp_MostrarProveedoresActivos", EmptyParams);
+    }
+
+    public static DataTable CrearProveedor(string? nombre, string? contacto, string? numero, string? direccion, string? rtn)
+    {
+        var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+        {
+            { "Nombre", (nombre != null ? nombre : DBNull.Value, null) },
+            { "Contacto", (contacto != null ? contacto : DBNull.Value, null) },
+            { "Numero", (numero != null ? numero : DBNull.Value, null) },
+            { "Direccion", (direccion != null ? direccion : DBNull.Value, null) },
+            { "RTN", (rtn != null ? rtn : DBNull.Value, null) }
+        };
+    
+        return DbAccess.ExecuteStoredProcedure("dbPrj.spProveedorInsert", parameters);
+    }
+
+    public static DataTable EliminarProveedor(string? codigoProveedor)
+    {
+        var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+        {
+            { "CodigoProveedor", (codigoProveedor != null ? codigoProveedor : DBNull.Value, null) }
+        };
+    
+        return DbAccess.ExecuteStoredProcedure("dbPrj.spProveedorInactivar", parameters);
+    }
+
+    public static DataTable EditarProveedor(string? codigoProveedor, string? nombre, string? contacto, string? numero, string? direccion, string? rtn)
+    {
+        var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+        {
+            { "CodigoProveedor", (codigoProveedor != null ? codigoProveedor : DBNull.Value, null) },
+            { "Nombre", (nombre != null ? nombre : DBNull.Value, null) },
+            { "Contacto", (contacto != null ? contacto : DBNull.Value, null) },
+            { "Numero", (numero != null ? numero : DBNull.Value, null) },
+            { "Direccion", (direccion != null ? direccion : DBNull.Value, null) },
+            { "RTN", (rtn != null ? rtn : DBNull.Value, null) }
+        };
+
+        return DbAccess.ExecuteStoredProcedure("dbPrj.spProveedorUpdate", parameters);
+    }
+    
+    
 }

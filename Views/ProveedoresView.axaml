@@ -2,7 +2,46 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
              x:Class="ProyectoBD2.Views.ProveedoresView">
-    Welcome to Avalonia!
+
+    <Grid RowDefinitions="Auto,*" Margin="15">
+        <!-- Encabezado con título y botón de nuevo proveedor -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,10">
+            <TextBlock Grid.Column="0"
+                       Text="Proveedores"
+                       FontSize="24"
+                       FontWeight="SemiBold"
+                       VerticalAlignment="Center" />
+
+            <Button Grid.Column="1"
+                    x:Name="NuevoProveedorButton"
+                    Content="Nuevo Proveedor"
+                    Padding="12,8"
+                    Background="#28a745"
+                    Foreground="White" />
+        </Grid>
+
+        <!-- DataGrid de Proveedores -->
+        <DataGrid Grid.Row="1"
+                  Name="ProveedoresDataGrid"
+                  AutoGenerateColumns="True"
+                  BorderThickness="1"
+                  BorderBrush="#dee2e6"
+                  VerticalScrollBarVisibility="Auto"
+                  IsReadOnly="True">
+            <DataGrid.Styles>
+                <Style Selector="DataGridRow">
+                    <Setter Property="Height" Value="40" />
+                </Style>
+                <Style Selector="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#f8f9fa" />
+                    <Setter Property="FontWeight" Value="SemiBold" />
+                    <Setter Property="Height" Value="40" />
+                </Style>
+            </DataGrid.Styles>
+            
+            <!-- Las columnas se generarán automáticamente y la columna de acciones se añadirá en el código C# -->
+        </DataGrid>
+    </Grid>
 </UserControl>
