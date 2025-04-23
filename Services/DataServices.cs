@@ -73,7 +73,7 @@ namespace ProyectoBD2.Services
 
             return DbAccess.ExecuteStoredProcedure("dbPrj.spAutocompletarCliente", parameters);
         }
-        
+
         public static DataTable FindAllClients()
         {
             return DbAccess.ExecuteStoredProcedure("dbPrj.spListaClientes", EmptyParams);
@@ -105,11 +105,12 @@ namespace ProyectoBD2.Services
             {
                 { "ClienteID", (clienteId != null ? clienteId : DBNull.Value, null) }
             };
-            
+
             return DbAccess.ExecuteStoredProcedure("dbPrj.spListaDeMascotasDeUnCliente", parameters);
         }
 
-        public static DataTable CreateClient(string? nombre, string? identidad, string? telefono, string? correo, string? direccion, string? telefonoAdicional)
+        public static DataTable CreateClient(string? nombre, string? identidad, string? telefono, string? correo,
+            string? direccion, string? telefonoAdicional)
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
@@ -122,8 +123,9 @@ namespace ProyectoBD2.Services
             };
             return DbAccess.ExecuteStoredProcedure("dbPrj.spClienteInsert", parameters);
         }
-        
-        public static DataTable UpdateClient(int? clienteId, string? nombre, string? identidad, string? telefono, string? correo, string? direccion, string? telefonoAdicional)
+
+        public static DataTable UpdateClient(int? clienteId, string? nombre, string? identidad, string? telefono,
+            string? correo, string? direccion, string? telefonoAdicional)
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
@@ -137,7 +139,7 @@ namespace ProyectoBD2.Services
             };
             return DbAccess.ExecuteStoredProcedure("dbPrj.spClienteUpdate", parameters);
         }
-        
+
         public static DataTable DeleteClient(int? clienteId)
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
@@ -146,7 +148,7 @@ namespace ProyectoBD2.Services
             };
             return DbAccess.ExecuteStoredProcedure("dbPrj.spClienteDesactivar", parameters);
         }
-        
+
         public static DataTable FindPetsByClientId(int? clienteId)
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
@@ -156,7 +158,8 @@ namespace ProyectoBD2.Services
             return DbAccess.ExecuteStoredProcedure("dbPrj.spListaDeMascotasDeUnCliente", parameters);
         }
 
-        public static DataTable CreatePet(string? nombre, string? especie, string? raza, decimal? peso, int? edad, string? color, string? descripcion, int? clienteId)
+        public static DataTable CreatePet(string? nombre, string? especie, string? raza, decimal? peso, int? edad,
+            string? color, string? descripcion, int? clienteId)
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
@@ -171,8 +174,9 @@ namespace ProyectoBD2.Services
             };
             return DbAccess.ExecuteStoredProcedure("dbPrj.spMascotaInsert", parameters);
         }
-        
-        public static DataTable UpdatePet(int? mascotaId, string? nombre, string? especie, string? raza, decimal? peso, int? edad, string? color, string? descripcion)
+
+        public static DataTable UpdatePet(int? mascotaId, string? nombre, string? especie, string? raza, decimal? peso,
+            int? edad, string? color, string? descripcion)
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
@@ -187,7 +191,7 @@ namespace ProyectoBD2.Services
             };
             return DbAccess.ExecuteStoredProcedure("dbPrj.spMascotaUpdate", parameters);
         }
-        
+
         public static DataTable DeletePet(int? mascotaId)
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
@@ -206,7 +210,7 @@ namespace ProyectoBD2.Services
 
             return DbAccess.ExecuteStoredProcedure("dbPrj.sp_MostrarReservasPorFecha", parameters);
         }
-        
+
         public static DataTable FindRoomsAvailableByDate(string? fechaInicio, string? fechaFin)
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
@@ -217,8 +221,10 @@ namespace ProyectoBD2.Services
 
             return DbAccess.ExecuteStoredProcedure("dbPrj.sp_BuscarHabitacionesDisponibles ", parameters);
         }
-        
-        public static DataTable CreateReservation(int? mascotaId, int? habitacionId, string? fechaIngreso, string? fechaSalida, int? servicioAlimentacion, int? servicioPaseo, int? servicioBano, int? servicioMedicamento, string? observaciones)
+
+        public static DataTable CreateReservation(int? mascotaId, int? habitacionId, string? fechaIngreso,
+            string? fechaSalida, int? servicioAlimentacion, int? servicioPaseo, int? servicioBano,
+            int? servicioMedicamento, string? observaciones)
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
@@ -227,7 +233,10 @@ namespace ProyectoBD2.Services
                 { "p_FechaIngreso", (fechaIngreso != null ? fechaIngreso : DBNull.Value, null) },
                 { "p_FechaSalida", (fechaSalida != null ? fechaSalida : DBNull.Value, null) },
                 { "p_Observaciones", (observaciones != null ? observaciones : DBNull.Value, null) },
-                { "p_ServicioAlimentacionEspecial", (servicioAlimentacion != null ? servicioAlimentacion : DBNull.Value, null) },
+                {
+                    "p_ServicioAlimentacionEspecial",
+                    (servicioAlimentacion != null ? servicioAlimentacion : DBNull.Value, null)
+                },
                 { "p_ServicioPaseoDiario", (servicioPaseo != null ? servicioPaseo : DBNull.Value, null) },
                 { "p_ServicioBanoCepillado", (servicioBano != null ? servicioBano : DBNull.Value, null) },
                 { "p_ServicioMedicamento", (servicioMedicamento != null ? servicioMedicamento : DBNull.Value, null) },
@@ -236,18 +245,23 @@ namespace ProyectoBD2.Services
             };
             return DbAccess.ExecuteStoredProcedure("dbPrj.sp_CrearEstadia", parameters);
         }
-        public static DataTable UpdateReservation(int? estadiaId, int? mascotaId, int? habitacionId, string? fechaIngreso, string? fechaSalida, int? servicioAlimentacion, int? servicioPaseo, int? servicioBano, int? servicioMedicamento, string? observaciones)
+
+        public static DataTable UpdateReservation(int? estadiaId, int? mascotaId, int? habitacionId,
+            string? fechaIngreso, string? fechaSalida, int? servicioAlimentacion, int? servicioPaseo, int? servicioBano,
+            int? servicioMedicamento, string? observaciones)
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
-                
                 { "p_EstadiaID", (estadiaId != null ? estadiaId : DBNull.Value, null) },
                 { "p_MascotaID", (mascotaId != null ? mascotaId : DBNull.Value, null) },
                 { "p_HabitacionID", (habitacionId != null ? habitacionId : DBNull.Value, null) },
                 { "p_FechaIngreso", (fechaIngreso != null ? fechaIngreso : DBNull.Value, null) },
                 { "p_FechaSalida", (fechaSalida != null ? fechaSalida : DBNull.Value, null) },
                 { "p_Observaciones", (observaciones != null ? observaciones : DBNull.Value, null) },
-                { "p_ServicioAlimentacionEspecial", (servicioAlimentacion != null ? servicioAlimentacion : DBNull.Value, null) },
+                {
+                    "p_ServicioAlimentacionEspecial",
+                    (servicioAlimentacion != null ? servicioAlimentacion : DBNull.Value, null)
+                },
                 { "p_ServicioPaseoDiario", (servicioPaseo != null ? servicioPaseo : DBNull.Value, null) },
                 { "p_ServicioBanoCepillado", (servicioBano != null ? servicioBano : DBNull.Value, null) },
                 { "p_ServicioMedicamento", (servicioMedicamento != null ? servicioMedicamento : DBNull.Value, null) },
@@ -255,8 +269,8 @@ namespace ProyectoBD2.Services
             };
             return DbAccess.ExecuteStoredProcedure("dbPrj.sp_EditarEstadia", parameters);
         }
-        
-        public static DataTable DeleteReservation(int? estadiaId) 
+
+        public static DataTable DeleteReservation(int? estadiaId)
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
             {
@@ -275,12 +289,12 @@ namespace ProyectoBD2.Services
         {
             return DbAccess.ExecuteStoredProcedure("dbPrj.spListaArticulos", EmptyParams);
         }
-        
+
         public static DataTable FindPurchasesHistory()
         {
             return DbAccess.ExecuteSqlRawQuery("Select * from dbPrj.vListaCompras");
         }
-        
+
         public static DataTable CreatePurchase(int? proveedorId, DateTimeOffset? fecha, DataTable? detalles)
         {
             var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
@@ -291,6 +305,29 @@ namespace ProyectoBD2.Services
                 { "Detalles", (detalles != null ? detalles : DBNull.Value, null) }
             };
             return DbAccess.ExecuteStoredProcedure("dbPrj.spCompraCompletaInsert", parameters);
+        }
+
+        public static DataTable UpdatePurchase(int? compraId, int? proveedorId, DateTimeOffset? fecha, string? estado,
+            DataTable? detalles)
+        {
+            var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+            {
+                { "CompraID", (compraId != null ? compraId : DBNull.Value, null) },
+                { "ProveedorID", (proveedorId != null ? proveedorId : DBNull.Value, null) },
+                { "Fecha", (fecha != null ? fecha : DBNull.Value, null) },
+                { "Estado", (estado != null ? estado : DBNull.Value, null) },
+                { "Detalles", (detalles != null ? detalles : DBNull.Value, null) }
+            };
+            return DbAccess.ExecuteStoredProcedure("dbPrj.spCompraCompletaUpdate", parameters);
+        }
+        
+        public static DataTable FindPurchaseDetails(int? compraId)
+        {
+            var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+            {
+                { "CompraID", (compraId != null ? compraId : DBNull.Value, null) }
+            };
+            return DbAccess.ExecuteStoredProcedure("dbPrj.spCompraDetallesGet", parameters);
         }
     }
 }

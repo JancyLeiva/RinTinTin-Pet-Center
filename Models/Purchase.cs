@@ -9,4 +9,5 @@ public class Purchase
     public string? Proveedor { get; set; }
     public DateTime? Fecha { get; set; }
     public decimal? Total { get; set; }
+    public string? Estado { get; set; }
 }
