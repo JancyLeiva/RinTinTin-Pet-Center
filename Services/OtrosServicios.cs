@@ -38,4 +38,19 @@ public static class OtrosServicios
         
         return DbAccess.ExecuteStoredProcedure("dbPrj.sp_EliminarEmpleado", parameters);
     }
+    
+    public static DataTable EditarEmpleado(int? empleadoID, string? nombre, string? identificacion, string? puesto, int? departamentoID, string? telefono)
+    {
+        var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+        {
+            { "EmpleadoID", (empleadoID != null ? empleadoID : DBNull.Value, null) },
+            { "Nombre", (nombre != null ? nombre : DBNull.Value, null) },
+            { "Identificacion", (identificacion != null ? identificacion : DBNull.Value, null) },
+            { "Puesto", (puesto != null ? puesto : DBNull.Value, null) },
+            { "DepartamentoID", (departamentoID != null ? departamentoID : DBNull.Value, null) },
+            { "Telefono", (telefono != null ? telefono : DBNull.Value, null) }
+        };
+    
+        return DbAccess.ExecuteStoredProcedure("dbPrj.sp_EditarEmpleado", parameters);
+    }
 }

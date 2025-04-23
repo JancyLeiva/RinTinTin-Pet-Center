@@ -390,29 +390,201 @@ private async Task MostrarMensaje(string titulo, string mensaje)
     }
 }
 
-    private void EditEmpleado_Click(object? sender, RoutedEventArgs e)
+    private async void EditEmpleado_Click(object? sender, RoutedEventArgs e)
+{
+    if (sender is Button button && button.CommandParameter is Empleado empleado)
     {
-        if (sender is Button button && button.CommandParameter is Empleado empleado)
+        // Verificar que el ID no sea nulo
+        if (empleado.EmpleadoID == null)
         {
-            Console.WriteLine($"Editar empleado: {empleado.EmpleadoID}");
+            return;
+        }
 
-            // Guardar datos originales para posible cancelación
-            _originalEmpleadoData = new Empleado
+        // Guardar datos originales para referencia
+        _originalEmpleadoData = new Empleado
+        {
+            EmpleadoID = empleado.EmpleadoID,
+            CodigoEmpleado = empleado.CodigoEmpleado,
+            Nombre = empleado.Nombre,
+            Identificacion = empleado.Identificacion,
+            Puesto = empleado.Puesto,
+            DepartamentoID = empleado.DepartamentoID,
+            Telefono = empleado.Telefono
+        };
+
+        // Crear formulario para editar empleado
+        var formPanel = new StackPanel
+        {
+            Spacing = 10,
+            Width = 400,
+            Margin = new Thickness(20)
+        };
+
+        // Nombre
+        var nombrePanel = new StackPanel();
+        nombrePanel.Children.Add(new TextBlock { Text = "Nombre:" });
+        var nombreTextBox = new TextBox { Text = empleado.Nombre ?? string.Empty };
+        nombrePanel.Children.Add(nombreTextBox);
+        formPanel.Children.Add(nombrePanel);
+
+        // Identificación
+        var identificacionPanel = new StackPanel();
+        identificacionPanel.Children.Add(new TextBlock { Text = "Identificación:" });
+        var identificacionTextBox = new TextBox { Text = empleado.Identificacion ?? string.Empty };
+        identificacionPanel.Children.Add(identificacionTextBox);
+        formPanel.Children.Add(identificacionPanel);
+
+        // Puesto
+        var puestoPanel = new StackPanel();
+        puestoPanel.Children.Add(new TextBlock { Text = "Puesto:" });
+        var puestoTextBox = new TextBox { Text = empleado.Puesto ?? string.Empty };
+        puestoPanel.Children.Add(puestoTextBox);
+        formPanel.Children.Add(puestoPanel);
+
+        // Departamento
+        var departamentoPanel = new StackPanel();
+        departamentoPanel.Children.Add(new TextBlock { Text = "Departamento ID:" });
+        var departamentoTextBox = new TextBox { Text = empleado.DepartamentoID?.ToString() ?? "1" };
+        departamentoPanel.Children.Add(departamentoTextBox);
+        formPanel.Children.Add(departamentoPanel);
+
+        // Teléfono
+        var telefonoPanel = new StackPanel();
+        telefonoPanel.Children.Add(new TextBlock { Text = "Teléfono:" });
+        var telefonoTextBox = new TextBox { Text = empleado.Telefono ?? string.Empty };
+        telefonoPanel.Children.Add(telefonoTextBox);
+        formPanel.Children.Add(telefonoPanel);
+
+        // Botones
+        var buttonPanel = new StackPanel
+        {
+            Orientation = Orientation.Horizontal,
+            Spacing = 10,
+            HorizontalAlignment = HorizontalAlignment.Right,
+            Margin = new Thickness(0, 20, 0, 0)
+        };
+
+        var guardarButton = new Button
+        {
+            Content = "Guardar",
+            Background = new SolidColorBrush(Color.Parse("#28a745")),
+            Foreground = Brushes.White
+        };
+
+        var cancelarButton = new Button
+        {
+            Content = "Cancelar"
+        };
+
+        buttonPanel.Children.Add(guardarButton);
+        buttonPanel.Children.Add(cancelarButton);
+        formPanel.Children.Add(buttonPanel);
+
+        // Crear ventana de diálogo
+        var dialogWindow = new Window
+        {
+            Title = "Editar Empleado",
+            Width = 450,
+            Height = 400,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            Content = formPanel,
+            SizeToContent = SizeToContent.Height
+        };
+
+        // Usar TaskCompletionSource para esperar la respuesta
+        var tcs = new TaskCompletionSource<bool>();
+
+        guardarButton.Click += (_, _) =>
+        {
+            tcs.SetResult(true);
+            dialogWindow.Close();
+        };
+
+        cancelarButton.Click += (_, _) =>
+        {
+            tcs.SetResult(false);
+            dialogWindow.Close();
+        };
+
+        // También manejar el cierre de la ventana (X)
+        dialogWindow.Closed += (_, _) =>
+        {
+            if (!tcs.Task.IsCompleted)
+                tcs.SetResult(false);
+        };
+
+        // Mostrar ventana modal
+        var topLevel = TopLevel.GetTopLevel(this);
+        if (topLevel != null)
+        {
+            dialogWindow.ShowDialog(topLevel as Window);
+        }
+        else
+        {
+            await dialogWindow.ShowDialog(null);
+        }
+
+        // Esperar el resultado
+        bool resultOk = await tcs.Task;
+
+        if (resultOk)
+        {
+            try
             {
-                EmpleadoID = empleado.EmpleadoID,
-                CodigoEmpleado = empleado.CodigoEmpleado,
-                Nombre = empleado.Nombre,
-                Identificacion = empleado.Identificacion,
-                Puesto = empleado.Puesto,
-                DepartamentoID = empleado.DepartamentoID,
-                Telefono = empleado.Telefono
-            };
+                // Obtener valores del formulario
+                string nombre = nombreTextBox.Text?.Trim() ?? string.Empty;
+                string identificacion = identificacionTextBox.Text?.Trim() ?? string.Empty;
+                string puesto = puestoTextBox.Text?.Trim() ?? string.Empty;
 
-            _currentState = ViewState.EditingEmpleado;
+                // Para el departamentoID, usamos un valor por defecto si no se puede convertir
+                int departamentoID = 1;
+                int.TryParse(departamentoTextBox.Text, out departamentoID);
 
-            // Aquí se implementaría la lógica para mostrar un formulario de edición
+                string telefono = telefonoTextBox.Text?.Trim() ?? string.Empty;
+
+                // Validar campos obligatorios
+                if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(identificacion))
+                {
+                    await MostrarMensajeError("El nombre y la identificación son obligatorios.");
+                    return;
+                }
+
+                Console.WriteLine($"Editando empleado: ID={empleado.EmpleadoID}, {nombre}, {identificacion}, {puesto}, {departamentoID}, {telefono}");
+
+                // Editar empleado y obtener resultado
+                var resultado = OtrosServicios.EditarEmpleado(
+                    empleado.EmpleadoID, 
+                    nombre, 
+                    identificacion, 
+                    puesto, 
+                    departamentoID, 
+                    telefono
+                );
+
+                // Verificar si se obtuvo algún resultado
+                if (resultado != null && resultado.Rows.Count > 0)
+                {
+                    Console.WriteLine("Empleado editado con éxito");
+                    // Mostrar mensaje de éxito
+                    await MostrarMensaje("Éxito", "Empleado actualizado correctamente.");
+                }
+                else
+                {
+                    Console.WriteLine("No se obtuvo respuesta al editar el empleado");
+                    await MostrarMensajeError("No se obtuvo respuesta al editar el empleado");
+                }
+
+                // Actualizar lista de empleados
+                CargarEmpleados();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al editar empleado: {ex.Message}");
+                await MostrarMensajeError($"No se pudo editar el empleado: {ex.Message}");
+            }
         }
     }
+}
 
   private async void DeleteEmpleado_Click(object? sender, RoutedEventArgs e)
 {
