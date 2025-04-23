@@ -15,35 +15,38 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ProyectoBD2
-build_property.ProjectDir = C:\Users\Robertos\RiderProjects\RinTinTin-Pet-Center\
+build_property.ProjectDir = C:\Users\dandresrp\dev\personal\RinTinTin-Pet-Center\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.EffectiveAnalysisLevelStyle = 9.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/Robertos/RiderProjects/RinTinTin-Pet-Center/App.axaml]
+[C:/Users/dandresrp/dev/personal/RinTinTin-Pet-Center/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/Robertos/RiderProjects/RinTinTin-Pet-Center/MainWindow.axaml]
+[C:/Users/dandresrp/dev/personal/RinTinTin-Pet-Center/MainWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/Robertos/RiderProjects/RinTinTin-Pet-Center/Views/AppointmentsView.axaml]
+[C:/Users/dandresrp/dev/personal/RinTinTin-Pet-Center/Views/AppointmentsView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/Robertos/RiderProjects/RinTinTin-Pet-Center/Views/ClientsView.axaml]
+[C:/Users/dandresrp/dev/personal/RinTinTin-Pet-Center/Views/ClientsView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/Robertos/RiderProjects/RinTinTin-Pet-Center/Views/Dialogs/AppointmentDialog.axaml]
+[C:/Users/dandresrp/dev/personal/RinTinTin-Pet-Center/Views/Dialogs/AppointmentDialog.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/Robertos/RiderProjects/RinTinTin-Pet-Center/Views/EmpleadoView.axaml]
+[C:/Users/dandresrp/dev/personal/RinTinTin-Pet-Center/Views/EmpleadoView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/Robertos/RiderProjects/RinTinTin-Pet-Center/Views/HostingView.axaml]
+[C:/Users/dandresrp/dev/personal/RinTinTin-Pet-Center/Views/HostingView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/Robertos/RiderProjects/RinTinTin-Pet-Center/Views/LoginView.axaml]
+[C:/Users/dandresrp/dev/personal/RinTinTin-Pet-Center/Views/LoginView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/Robertos/RiderProjects/RinTinTin-Pet-Center/Views/PurchasesView.axaml]
+[C:/Users/dandresrp/dev/personal/RinTinTin-Pet-Center/Views/ProveedoresView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/dandresrp/dev/personal/RinTinTin-Pet-Center/Views/PurchasesView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
