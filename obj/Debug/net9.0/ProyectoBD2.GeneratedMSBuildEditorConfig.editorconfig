@@ -30,7 +30,13 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 [C:/Users/dandresrp/dev/personal/RinTinTin-Pet-Center/Views/AppointmentsView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[C:/Users/dandresrp/dev/personal/RinTinTin-Pet-Center/Views/ArticulosView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/dandresrp/dev/personal/RinTinTin-Pet-Center/Views/ClientsView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/dandresrp/dev/personal/RinTinTin-Pet-Center/Views/CuentasBancariasView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/dandresrp/dev/personal/RinTinTin-Pet-Center/Views/Dialogs/AppointmentDialog.axaml]
