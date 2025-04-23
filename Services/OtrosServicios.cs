@@ -99,5 +99,45 @@ public static class OtrosServicios
         return DbAccess.ExecuteStoredProcedure("dbPrj.spProveedorUpdate", parameters);
     }
     
+    public static DataTable AllArticulos()
+    {
+        return DbAccess.ExecuteStoredProcedure("dbPrj.spListaArticulos", EmptyParams);
+    }
+
+    public static DataTable CrearArticulo(string? nombre, int? existenciaMinima, string? clasificacionNombre)
+    {
+        var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+        {
+            { "Nombre", (nombre != null ? nombre : DBNull.Value, null) },
+            { "ExistenciaMinima", (existenciaMinima != null ? existenciaMinima : DBNull.Value, null) },
+            { "ClasificacionNombre", (clasificacionNombre != null ? clasificacionNombre : DBNull.Value, null) }
+        };
+
+        return DbAccess.ExecuteStoredProcedure("dbPrj.spArticuloInsert", parameters);
+    }
+
+    public static DataTable EliminarArticulo(int? articuloID)
+    {
+        var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+        {
+            { "ArticuloID", (articuloID != null ? articuloID : DBNull.Value, null) }
+        };
+
+        return DbAccess.ExecuteStoredProcedure("dbPrj.spArticuloDesactivar", parameters);
+    }
+
+    public static DataTable EditarArticulo(int? articuloID, string? nombre, int? existenciaMinima, string? clasificacionNombre)
+    {
+        var parameters = new Dictionary<string, (object valor, ParameterDirection? direccion)>
+        {
+            { "ArticuloID", (articuloID != null ? articuloID : DBNull.Value, null) },
+            { "Nombre", (nombre != null ? nombre : DBNull.Value, null) },
+            { "ExistenciaMinima", (existenciaMinima != null ? existenciaMinima : DBNull.Value, null) },
+            { "ClasificacionNombre", (clasificacionNombre != null ? clasificacionNombre : DBNull.Value, null) }
+        };
+
+        return DbAccess.ExecuteStoredProcedure("dbPrj.spArticuloUpdate", parameters);
+    }
+    
     
 }
